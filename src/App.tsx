@@ -1,6 +1,8 @@
 function App() {
     return (
-        <h1>Hello World</h1>
+        <div className='wrapper'>
+            <h1>Hello <b>FE Booking</b>!</h1>
+        </div>
     )
 }
 
