@@ -1,9 +1,7 @@
+import Routes from './routes.tsx'
+
 function App() {
-    return (
-        <div className='wrapper'>
-            <h1>Hello <b>FE Booking</b>!</h1>
-        </div>
-    )
+  return <Routes />
 }
 
 export default App
