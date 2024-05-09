@@ -14,4 +14,7 @@ export default defineConfig({
       applyFixes: true,
     }),
   ],
+  esbuild: {
+    legalComments: 'none',
+  },
 })
