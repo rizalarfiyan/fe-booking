@@ -1,9 +1,9 @@
 import type React from 'react'
-import { lazy, Suspense } from 'react'
+import { Suspense, lazy } from 'react'
 import { Route, Switch } from 'wouter'
 
-const Home = lazy(() => import('./pages/Home.tsx'))
-const NotFound = lazy(() => import('./pages/NotFound.tsx'))
+const Home = lazy(() => import('@pages/Home.tsx'))
+const NotFound = lazy(() => import('@pages/NotFound.tsx'))
 
 const Routes: React.FC = () => {
   return (
