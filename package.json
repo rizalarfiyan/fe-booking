@@ -45,7 +45,6 @@
     "lint-staged": "^15.2.2",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
-    "vite-plugin-biome": "^1.0.9",
     "vite-plugin-minify": "^1.5.2",
     "vite-plugin-svgr": "^4.2.0",
     "vite-tsconfig-paths": "^4.3.2"

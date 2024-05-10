@@ -2752,11 +2752,6 @@ util-deprecate@^1.0.2:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
-vite-plugin-biome@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/vite-plugin-biome/-/vite-plugin-biome-1.0.9.tgz#01588061c337d28e7b15d373fb699949f01373f1"
-  integrity sha512-poI+b5cZQPkJxgy1cUd89NuWLeFCFMp5SdZ8f4EP9DFqpdrivk7GKROO8vlc3jmb/7xSN+2kEAZPlQ3DJWBHxA==
-
 vite-plugin-minify@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/vite-plugin-minify/-/vite-plugin-minify-1.5.2.tgz#4a331686361cd71b54c28dc149c0a952f354e830"
