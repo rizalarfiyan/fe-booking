@@ -1,5 +1,5 @@
-import { Button } from '@components/Button.tsx'
-import GraphicNotFound from '@components/graphic/NotFound.tsx'
+import { Button } from '@components/Button'
+import GraphicNotFound from '@components/graphic/NotFound'
 import { ChevronLeft } from 'lucide-react'
 import type React from 'react'
 import { Link } from 'react-router-dom'
@@ -13,7 +13,7 @@ const NotFound: React.FC = () => {
           <h1 className='scroll-m-20 text-3xl font-semibold tracking-tight'>
             This Page Does Not Exist
           </h1>
-          <p className='text-secondary-600'>
+          <p className='text-secondary-600 dark:text-secondary-300'>
             We&#x27;re sorry, but it appears the website address you entered was
             incorrect.
           </p>
