@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Button } from '@components/Button'
+import { Typography } from '@components/Typograpy'
 import AuthGraphic from '@images/graphics/auth.svg?react'
 import { ArrowLeft } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -19,8 +20,8 @@ const Layout: React.FC<IAuthLayoutProps> = ({
   hasBack,
 }) => {
   return (
-    <div className='flex justify-center bg-white'>
-      <div className='hidden h-full min-h-screen flex-1 bg-slate-100 md:flex md:items-center'>
+    <div className='flex justify-center bg-background'>
+      <div className='hidden h-full min-h-screen flex-1 bg-slate-100 dark:bg-slate-700 md:flex md:items-center'>
         <AuthGraphic className='mx-auto hidden w-full h-auto max-w-3xl lg:block' />
       </div>
       <main className='relative h-full min-h-screen w-full max-w-xl md:max-w-3xl lg:max-w-2xl'>
@@ -39,10 +40,12 @@ const Layout: React.FC<IAuthLayoutProps> = ({
               </Button>
             )}
             <div className='space-y-2 text-center'>
-              <h1 className='scroll-m-20 text-3xl font-extrabold tracking-tight lg:text-4xl uppercase'>
+              <Typography as='h1' type='secondary' className='uppercase'>
                 {title}
-              </h1>
-              <p className='leading-snug text-slate-500'>{description}</p>
+              </Typography>
+              <Typography as='p' type='description'>
+                {description}
+              </Typography>
             </div>
             {children}
           </div>

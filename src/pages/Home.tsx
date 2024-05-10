@@ -1,3 +1,4 @@
+import { Typography } from '@components/Typograpy'
 import React, { Suspense } from 'react'
 import { Await, Link, defer, useLoaderData } from 'react-router-dom'
 
@@ -16,13 +17,13 @@ const Component: React.FC = () => {
       <div className='mt-5'>
         <Suspense fallback='loading....'>
           <Await resolve={data} errorElement={<div>Error</div>}>
-            <p className='text-lg'>
+            <Typography as='p'>
               Welcome the FE Booking! Please{' '}
               <Link to='/login' className='underline'>
                 Login
               </Link>{' '}
               to continue.
-            </p>
+            </Typography>
           </Await>
         </Suspense>
       </div>

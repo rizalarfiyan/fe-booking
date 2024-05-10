@@ -16,6 +16,7 @@ import {
 import { Input } from '@/components/Input'
 import { Button } from '@components/Button'
 import { Checkbox } from '@components/Checkbox'
+import { Typography } from '@components/Typograpy.tsx'
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -92,29 +93,27 @@ const Component: React.FC = () => {
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <div className='space-y-1 leading-none cursor-pointer'>
-                  <FormLabel className='cursor-pointer'>
-                    Stay Logged In?
-                  </FormLabel>
-                </div>
+                <FormLabel className='space-y-1 leading-none cursor-pointer'>
+                  Stay Logged In?
+                </FormLabel>
               </FormItem>
             )}
           />
           <div className='space-y-2'>
-            <Button type='submit' className='w-full rounded-md'>
+            <Button type='submit' className='w-full'>
               Submit
             </Button>
-            <p className='text-slate-500'>
+            <Typography as='p' type='description'>
               <span>Haven’t an account? </span>
-              <Link to='/register' className='underline'>
-                Register
-              </Link>
+              <Typography type='underline' asChild>
+                <Link to='/register'>Register</Link>
+              </Typography>
               <span>. or </span>
-              <Link to='/forgot-password' className='underline'>
-                Forgot your Password
-              </Link>
+              <Typography type='underline' asChild>
+                <Link to='/forgot-password'>Forgot your Password</Link>
+              </Typography>
               <span>.</span>
-            </p>
+            </Typography>
           </div>
         </form>
       </Form>

@@ -1,4 +1,5 @@
 import { Button } from '@components/Button'
+import { Typography } from '@components/Typograpy'
 import GraphicNotFound from '@components/graphic/NotFound'
 import { ChevronLeft } from 'lucide-react'
 import type React from 'react'
@@ -10,13 +11,13 @@ const NotFound: React.FC = () => {
       <GraphicNotFound className='h-auto w-full max-w-md' />
       <div className='mx-auto max-w-sm space-y-6'>
         <div className='space-y-2'>
-          <h1 className='scroll-m-20 text-3xl font-semibold tracking-tight'>
+          <Typography as='h1' variant='h2'>
             This Page Does Not Exist
-          </h1>
-          <p className='text-secondary-600 dark:text-secondary-300'>
+          </Typography>
+          <Typography as='p' type='description'>
             We&#x27;re sorry, but it appears the website address you entered was
             incorrect.
-          </p>
+          </Typography>
         </div>
         <Button asChild variant='secondary' className='border-secondary-300'>
           <Link to='/'>
