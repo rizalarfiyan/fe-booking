@@ -19,7 +19,7 @@ import { Checkbox } from '@components/Checkbox'
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string(),
+  password: z.string().min(5, 'Password is required'),
   isRemember: z.boolean().default(false).optional(),
 })
 
