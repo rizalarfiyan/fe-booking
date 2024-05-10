@@ -16,12 +16,23 @@
     "prepare": "husky install && chmod +x ./node_modules/.bin/biome"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
+    "@radix-ui/react-checkbox": "^1.0.4",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-slot": "^1.0.2",
     "autoprefixer": "^10.4.19",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.378.0",
     "postcss": "^8.4.38",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.4",
+    "react-router-dom": "^6.23.0",
+    "tailwind-merge": "^2.3.0",
     "tailwindcss": "^3.4.3",
-    "wouter": "^3.1.2"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.3",
@@ -35,9 +46,13 @@
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "vite-plugin-biome": "^1.0.9",
+    "vite-plugin-svgr": "^4.2.0",
     "vite-tsconfig-paths": "^4.3.2"
   },
   "lint-staged": {
-    "./src/**/*.{js,jsx,ts,tsx}": ["npm run fix", "git update-index --again"]
+    "./src/**/*.{js,jsx,ts,tsx}": [
+      "npm run fix",
+      "git update-index --again"
+    ]
   }
 }

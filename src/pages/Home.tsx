@@ -1,17 +1,45 @@
-import type React from 'react'
+import React, { Suspense } from 'react'
+import { Await, Link, defer, useLoaderData } from 'react-router-dom'
 
-const Home: React.FC = () => {
+const Component: React.FC = () => {
+  const { data } = useLoaderData() as { data: boolean }
+
   return (
-    <div className='min-h-dvh min-w-full w-full h-full flex items-center justify-center'>
+    <div className='flex items-center justify-center flex-col'>
       <h1 className='font-semibold text-4xl space-x-3'>
         <span>Hello</span>
-        <span className='py-2 px-4 rounded-md bg-amber-700 text-white'>
-          FE Booking
+        <span className='py-2 px-4 rounded-md bg-primary-600 text-white'>
+          Booking
         </span>
         <span>!</span>
       </h1>
+      <div className='mt-5'>
+        <Suspense fallback='loading....'>
+          <Await resolve={data} errorElement={<div>Error</div>}>
+            <p className='text-lg'>
+              Welcome the FE Booking! Please{' '}
+              <Link to='/login' className='underline'>
+                Login
+              </Link>{' '}
+              to continue.
+            </p>
+          </Await>
+        </Suspense>
+      </div>
     </div>
   )
 }
 
-export default Home
+const loader = async () => {
+  const data = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true)
+    }, 1000)
+  })
+
+  return defer({
+    data,
+  })
+}
+
+export { Component as default, loader }
