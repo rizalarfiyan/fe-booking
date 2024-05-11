@@ -3,38 +3,43 @@ import { createBrowserRouter } from 'react-router-dom'
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    lazy: lazyWrap(() => import('@layouts/Public'), true),
+    lazy: lazyWrap(() => import('@layouts/App'), true),
     children: [
       {
-        index: true,
-        lazy: lazyWrap(() => import('@pages/Home')),
+        path: '/',
+        lazy: lazyWrap(() => import('@layouts/Public'), true),
+        children: [
+          {
+            index: true,
+            lazy: lazyWrap(() => import('@pages/Home')),
+          },
+        ],
+      },
+      {
+        path: 'login',
+        lazy: lazyWrap(() => import('@pages/auth/Login')),
+      },
+      {
+        path: 'register',
+        lazy: lazyWrap(() => import('@pages/auth/Register')),
+      },
+      {
+        path: 'forgot-password',
+        lazy: lazyWrap(() => import('@pages/auth/ForgotPassword')),
+      },
+      {
+        path: 'change-password',
+        lazy: lazyWrap(() => import('@pages/auth/ChangePassword')),
+      },
+      {
+        path: 'activation',
+        lazy: lazyWrap(() => import('@pages/auth/Activation')),
+      },
+      {
+        path: '*',
+        lazy: lazyWrap(() => import('@pages/NotFound')),
       },
     ],
-  },
-  {
-    path: 'login',
-    lazy: lazyWrap(() => import('@pages/auth/Login')),
-  },
-  {
-    path: 'register',
-    lazy: lazyWrap(() => import('@pages/auth/Register')),
-  },
-  {
-    path: 'forgot-password',
-    lazy: lazyWrap(() => import('@pages/auth/ForgotPassword')),
-  },
-  {
-    path: 'change-password',
-    lazy: lazyWrap(() => import('@pages/auth/ChangePassword')),
-  },
-  {
-    path: 'activation',
-    lazy: lazyWrap(() => import('@pages/auth/Activation')),
-  },
-  {
-    path: '*',
-    lazy: lazyWrap(() => import('@pages/NotFound')),
   },
 ])
 
