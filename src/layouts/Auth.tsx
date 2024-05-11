@@ -40,7 +40,12 @@ const Layout: React.FC<IAuthLayoutProps> = ({
               </Button>
             )}
             <div className='space-y-2 text-center'>
-              <Typography as='h1' type='secondary' className='uppercase'>
+              <Typography
+                as='h1'
+                variant='h2'
+                type='secondary'
+                className='uppercase text-4xl'
+              >
                 {title}
               </Typography>
               <Typography as='p' type='description'>
