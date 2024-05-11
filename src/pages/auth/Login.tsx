@@ -79,25 +79,26 @@ const Component: React.FC = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <div className='relative'>
-                      <Input
-                        placeholder='************'
-                        type={showPassword ? 'text' : 'password'}
-                        {...field}
-                      />
-                      <Button
-                        type='button'
-                        size='icon'
-                        className='size-7 absolute right-1.5 top-1.5'
-                        onClick={onTogglePassword}
-                      >
-                        {showPassword ? (
-                          <EyeOff className='size-4' />
-                        ) : (
-                          <Eye className='size-4' />
-                        )}
-                      </Button>
-                    </div>
+                    <Input
+                      placeholder='************'
+                      type={showPassword ? 'text' : 'password'}
+                      className='pr-10'
+                      action={
+                        <Button
+                          type='button'
+                          size='icon'
+                          className='size-7 absolute right-1.5 top-1.5'
+                          onClick={onTogglePassword}
+                        >
+                          {showPassword ? (
+                            <EyeOff className='size-4' />
+                          ) : (
+                            <Eye className='size-4' />
+                          )}
+                        </Button>
+                      }
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
