@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import Layout from '@layouts/Auth'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
@@ -17,6 +17,7 @@ import { Input } from '@/components/Input'
 import { Button } from '@components/Button'
 import { Checkbox } from '@components/Checkbox'
 import { Typography } from '@components/Typograpy.tsx'
+import { Eye } from 'lucide-react'
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -25,6 +26,8 @@ const formSchema = z.object({
 })
 
 const Component: React.FC = () => {
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,6 +39,11 @@ const Component: React.FC = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
+  }
+
+  const onTogglePassword = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    setShowPassword((prev) => !prev)
   }
 
   return (
@@ -71,11 +79,21 @@ const Component: React.FC = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder='************'
-                      type='password'
-                      {...field}
-                    />
+                    <div className='relative'>
+                      <Input
+                        placeholder='************'
+                        type={showPassword ? 'text' : 'password'}
+                        {...field}
+                      />
+                      <Button
+                        type='button'
+                        size='icon'
+                        className='size-7 absolute right-1.5 top-1.5'
+                        onClick={onTogglePassword}
+                      >
+                        <Eye className='size-4' />
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
