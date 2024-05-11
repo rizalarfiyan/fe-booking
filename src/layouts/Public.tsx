@@ -7,7 +7,7 @@ const Layout: React.FC = () => {
   return (
     <div>
       <Header />
-      <main className='flex items-center min-h-[calc(100dvh_-_306px)] justify-center'>
+      <main className='min-h-[calc(100dvh_-_306px)] container mt-28'>
         <Outlet />
       </main>
       <Footer />
