@@ -16,7 +16,7 @@ import {
 import { Input } from '@/components/Input'
 import { Button } from '@components/Button'
 import { Checkbox } from '@components/Checkbox'
-import { Typography } from '@components/Typograpy.tsx'
+import { Typography } from '@components/Typograpy'
 import { Eye, EyeOff } from 'lucide-react'
 
 const formSchema = z.object({

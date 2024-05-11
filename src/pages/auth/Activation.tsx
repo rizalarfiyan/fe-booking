@@ -2,7 +2,7 @@ import Layout from '@layouts/Auth'
 import React from 'react'
 import { Button } from '@components/Button'
 import { Link } from 'react-router-dom'
-import { Typography } from '@components/Typograpy.tsx'
+import { Typography } from '@components/Typograpy'
 import { BadgeCheck } from 'lucide-react'
 
 const Component: React.FC = () => {
