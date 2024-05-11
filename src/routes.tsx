@@ -13,6 +13,10 @@ const router = createBrowserRouter([
             index: true,
             lazy: lazyWrap(() => import('@pages/Home')),
           },
+          {
+            path: 'contact',
+            lazy: lazyWrap(() => import('@pages/Contact')),
+          },
         ],
       },
       {
