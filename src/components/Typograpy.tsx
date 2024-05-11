@@ -23,6 +23,7 @@ const typographyVariants = cva('', {
       title: 'text-primary-600 dark:text-primary-500',
       secondary: 'text-secondary-800 dark:text-secondary-100',
       default: 'text-slate-900 dark:text-slate-50',
+      detail: 'text-slate-500 dark:text-slate-400',
       underline:
         'underline decoration-current decoration-2 cursor-pointer underline-offset-2',
     },

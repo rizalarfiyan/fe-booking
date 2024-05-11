@@ -2,7 +2,7 @@ import { Outlet, useNavigation } from 'react-router-dom'
 import TopBarProgress from 'react-topbar-progress-indicator'
 
 TopBarProgress.config({
-  barThickness: 5,
+  barThickness: 4,
   barColors: {
     '0': '#ff9800',
     '1.0': '#ff9800',
