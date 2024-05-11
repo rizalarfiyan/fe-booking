@@ -15,7 +15,7 @@ import {
 } from '@/components/Form'
 import { Input } from '@/components/Input'
 import { Button } from '@components/Button'
-import { Typography } from '@components/Typograpy.tsx'
+import { Typography } from '@components/Typograpy'
 
 const formSchema = z.object({
   email: z.string().email(),
