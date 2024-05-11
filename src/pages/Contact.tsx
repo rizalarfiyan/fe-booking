@@ -68,7 +68,7 @@ const Component: React.FC = () => {
       first_name: '',
       last_name: '',
       email: '',
-      phone: '',
+      phone: 0,
       message: '',
     },
   })
@@ -87,9 +87,12 @@ const Component: React.FC = () => {
             and send us a message.
           </Typography>
         </div>
-        <div className='flex gap-4 justify-center'>
+        <div className='flex gap-4 justify-center flex-wrap mx-auto'>
           {contacts.map(({ title, description, icon: Icon }, idx) => (
-            <div key={idx} className='border rounded-md p-6 max-w-64 space-y-3'>
+            <div
+              key={idx}
+              className='border rounded-md p-6 w-full max-w-64 space-y-3'
+            >
               <Button variant='secondary' size='icon' className='size-10'>
                 <Icon className='size-6' />
               </Button>
@@ -113,9 +116,9 @@ const Component: React.FC = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-6 max-w-md mx-auto'
+            className='space-y-4 max-w-md mx-auto'
           >
-            <div className='flex gap-6'>
+            <div className='flex gap-4 flex-col md:flex-row'>
               <FormField
                 control={form.control}
                 name='first_name'
