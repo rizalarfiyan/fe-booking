@@ -12,6 +12,7 @@
 - [ ] Integration
 - [ ] Use global component
 - [ ] Slicing
+- [ ] Dark Mode Support
 - [ ] Responsive
 - [ ] Code linter and format
 - [ ] Reusable code

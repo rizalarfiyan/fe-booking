@@ -1,25 +1,41 @@
-import type React from 'react'
-import { Suspense, lazy } from 'react'
-import { Route, Switch } from 'wouter'
+import { lazyWrap } from '@utils/routes'
+import { createBrowserRouter } from 'react-router-dom'
 
-const Home = lazy(() => import('@pages/Home.tsx'))
-const NotFound = lazy(() => import('@pages/NotFound.tsx'))
+const router = createBrowserRouter([
+  {
+    path: '/',
+    lazy: lazyWrap(() => import('@layouts/Public'), true),
+    children: [
+      {
+        index: true,
+        lazy: lazyWrap(() => import('@pages/Home')),
+      },
+    ],
+  },
+  {
+    path: 'login',
+    lazy: lazyWrap(() => import('@pages/auth/Login')),
+  },
+  {
+    path: 'register',
+    lazy: lazyWrap(() => import('@pages/auth/Register')),
+  },
+  {
+    path: 'forgot-password',
+    lazy: lazyWrap(() => import('@pages/auth/ForgotPassword')),
+  },
+  {
+    path: 'change-password',
+    lazy: lazyWrap(() => import('@pages/auth/ChangePassword')),
+  },
+  {
+    path: 'activation',
+    lazy: lazyWrap(() => import('@pages/auth/Activation')),
+  },
+  {
+    path: '*',
+    lazy: lazyWrap(() => import('@pages/NotFound')),
+  },
+])
 
-const Routes: React.FC = () => {
-  return (
-    <Switch>
-      <Route path='/'>
-        <Suspense fallback='Loading...'>
-          <Home />
-        </Suspense>
-      </Route>
-      <Route>
-        <Suspense fallback='Loading...'>
-          <NotFound />
-        </Suspense>
-      </Route>
-    </Switch>
-  )
-}
-
-export default Routes
+export default router
