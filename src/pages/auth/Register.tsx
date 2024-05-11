@@ -15,15 +15,21 @@ import {
 } from '@/components/Form'
 import { Input } from '@/components/Input'
 import { Button } from '@components/Button'
-import { Checkbox } from '@components/Checkbox'
 import { Typography } from '@components/Typograpy.tsx'
 import { Eye } from 'lucide-react'
 
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(5, 'Password is required'),
-  isRemember: z.boolean().default(false).optional(),
-})
+const formSchema = z
+  .object({
+    first_name: z.string().min(3),
+    last_name: z.string().optional(),
+    email: z.string().email(),
+    password: z.string().min(5, 'Password is required'),
+    password_confirmation: z.string(),
+  })
+  .refine((data) => data.password === data.password_confirmation, {
+    message: "Password don't match",
+    path: ['password_confirmation'],
+  })
 
 const Component: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -31,9 +37,11 @@ const Component: React.FC = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      first_name: '',
+      last_name: '',
       email: '',
       password: '',
-      isRemember: false,
+      password_confirmation: '',
     },
   })
 
@@ -48,13 +56,42 @@ const Component: React.FC = () => {
 
   return (
     <Layout
-      title='Login'
+      title='Register'
       description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis ea fugit nam nisi, officia.'
       hasBack
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <div className='space-y-4'>
+            <div className='flex flex-col md:flex-row gap-6'>
+              <FormField
+                control={form.control}
+                name='first_name'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder='Paijo' type='text' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='last_name'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder='Joyo' type='text' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <FormField
               control={form.control}
               name='email'
@@ -102,33 +139,29 @@ const Component: React.FC = () => {
           </div>
           <FormField
             control={form.control}
-            name='isRemember'
+            name='password_confirmation'
             render={({ field }) => (
-              <FormItem className='flex flex-row items-center space-x-2 space-y-0'>
+              <FormItem>
+                <FormLabel>Password Confirmation</FormLabel>
                 <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
+                  <Input
+                    placeholder='************'
+                    type={showPassword ? 'text' : 'password'}
+                    {...field}
                   />
                 </FormControl>
-                <FormLabel className='space-y-1 leading-none cursor-pointer'>
-                  Stay Logged In?
-                </FormLabel>
+                <FormMessage />
               </FormItem>
             )}
           />
           <div className='space-y-2'>
             <Button type='submit' className='w-full'>
-              Login
+              Register
             </Button>
             <Typography as='p' type='description'>
-              <span>Haven’t an account? </span>
+              <span>Have an account? </span>
               <Typography type='underline' asChild>
-                <Link to='/register'>Register</Link>
-              </Typography>
-              <span>. or </span>
-              <Typography type='underline' asChild>
-                <Link to='/forgot-password'>Forgot your Password</Link>
+                <Link to='/login'>Login</Link>
               </Typography>
               <span>.</span>
             </Typography>
