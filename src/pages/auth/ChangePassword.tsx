@@ -20,9 +20,6 @@ import { Eye, EyeOff } from 'lucide-react'
 
 const formSchema = z
   .object({
-    first_name: z.string().min(3),
-    last_name: z.string().optional(),
-    email: z.string().email(),
     password: z.string().min(5, 'Password is required'),
     password_confirmation: z.string(),
   })
@@ -37,9 +34,6 @@ const Component: React.FC = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      first_name: '',
-      last_name: '',
-      email: '',
       password: '',
       password_confirmation: '',
     },
@@ -56,59 +50,13 @@ const Component: React.FC = () => {
 
   return (
     <Layout
-      title='Register'
+      title='Change Password'
       description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis ea fugit nam nisi, officia.'
       hasBack
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <div className='space-y-4'>
-            <div className='flex flex-col md:flex-row gap-4'>
-              <FormField
-                control={form.control}
-                name='first_name'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>First Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Paijo' type='text' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='last_name'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Last Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Joyo' type='text' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name='email'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='email@domain.com'
-                      type='email'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name='password'
@@ -160,10 +108,10 @@ const Component: React.FC = () => {
           </div>
           <div className='space-y-2'>
             <Button type='submit' className='w-full'>
-              Register
+              Change Password
             </Button>
             <Typography as='p' type='description'>
-              <span>Have an account? </span>
+              <span>Not sure? Back to </span>
               <Typography type='underline' asChild>
                 <Link to='/login'>Login</Link>
               </Typography>

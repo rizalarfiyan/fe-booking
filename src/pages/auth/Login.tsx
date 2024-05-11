@@ -103,24 +103,24 @@ const Component: React.FC = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name='isRemember'
+              render={({ field }) => (
+                <FormItem className='flex flex-row items-center space-x-2 space-y-0'>
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel className='space-y-1 leading-none cursor-pointer'>
+                    Stay Logged In?
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
           </div>
-          <FormField
-            control={form.control}
-            name='isRemember'
-            render={({ field }) => (
-              <FormItem className='flex flex-row items-center space-x-2 space-y-0'>
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-                <FormLabel className='space-y-1 leading-none cursor-pointer'>
-                  Stay Logged In?
-                </FormLabel>
-              </FormItem>
-            )}
-          />
           <div className='space-y-2'>
             <Button type='submit' className='w-full'>
               Login

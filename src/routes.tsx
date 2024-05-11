@@ -25,6 +25,10 @@ const router = createBrowserRouter([
     lazy: lazyWrap(() => import('@pages/auth/ForgotPassword')),
   },
   {
+    path: 'change-password',
+    lazy: lazyWrap(() => import('@pages/auth/ChangePassword')),
+  },
+  {
     path: '*',
     lazy: lazyWrap(() => import('@pages/NotFound')),
   },
