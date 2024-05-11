@@ -53,6 +53,7 @@ const Component: React.FC = () => {
       title='Change Password'
       description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis ea fugit nam nisi, officia.'
       hasBack
+      replaceBack
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
@@ -113,7 +114,9 @@ const Component: React.FC = () => {
             <Typography as='p' type='description'>
               <span>Not sure? Back to </span>
               <Typography type='underline' asChild>
-                <Link to='/login'>Login</Link>
+                <Link to='/login' replace>
+                  Login
+                </Link>
               </Typography>
               <span>.</span>
             </Typography>

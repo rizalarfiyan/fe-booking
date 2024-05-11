@@ -29,6 +29,10 @@ const router = createBrowserRouter([
     lazy: lazyWrap(() => import('@pages/auth/ChangePassword')),
   },
   {
+    path: 'activation',
+    lazy: lazyWrap(() => import('@pages/auth/Activation')),
+  },
+  {
     path: '*',
     lazy: lazyWrap(() => import('@pages/NotFound')),
   },

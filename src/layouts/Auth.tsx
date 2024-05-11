@@ -10,6 +10,7 @@ export interface IAuthLayoutProps {
   title: string
   description: string
   hasBack?: boolean
+  replaceBack?: boolean
   children?: React.ReactNode
 }
 
@@ -18,6 +19,7 @@ const Layout: React.FC<IAuthLayoutProps> = ({
   title,
   description,
   hasBack,
+  replaceBack,
 }) => {
   return (
     <div className='flex justify-center bg-background'>
@@ -34,7 +36,7 @@ const Layout: React.FC<IAuthLayoutProps> = ({
                 className='absolute left-5 top-5'
                 asChild
               >
-                <Link to='/'>
+                <Link to='/' replace={replaceBack}>
                   <ArrowLeft />
                 </Link>
               </Button>
