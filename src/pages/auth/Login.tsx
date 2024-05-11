@@ -17,7 +17,7 @@ import { Input } from '@/components/Input'
 import { Button } from '@components/Button'
 import { Checkbox } from '@components/Checkbox'
 import { Typography } from '@components/Typograpy.tsx'
-import { Eye } from 'lucide-react'
+import { Eye, EyeOff } from 'lucide-react'
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -91,7 +91,11 @@ const Component: React.FC = () => {
                         className='size-7 absolute right-1.5 top-1.5'
                         onClick={onTogglePassword}
                       >
-                        <Eye className='size-4' />
+                        {showPassword ? (
+                          <EyeOff className='size-4' />
+                        ) : (
+                          <Eye className='size-4' />
+                        )}
                       </Button>
                     </div>
                   </FormControl>
