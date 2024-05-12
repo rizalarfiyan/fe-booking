@@ -1,27 +1,15 @@
-import React, { Suspense, useEffect } from 'react'
+import React from 'react'
 import { Typography } from '@components/Typograpy'
-import { Input } from '@components/Input'
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from '@components/Accordion'
-import { LayoutGrid, LayoutList, Search } from 'lucide-react'
-import { RadioGroup, RadioGroupItem } from '@components/RadioGroup'
-import { Label } from '@components/Label'
-import { ScrollArea } from '@components/ScrollArea'
-import { Await, defer, useLoaderData, useSearchParams } from 'react-router-dom'
+import { Accordion } from '@components/Accordion'
+import { LayoutGrid, LayoutList } from 'lucide-react'
+import { defer, useLoaderData } from 'react-router-dom'
 import type { ISlugTitle } from '@/types/base'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@components/Select'
-import { BOOK_ORDER_BY, DEFAULT_BOOK_ORDER_BY } from '@/constants'
 import { ToggleGroup, ToggleGroupItem } from '@components/ToggleGroup'
+import FilterCategory from '@components/Filter/Category'
+import FilterYear from '@components/Filter/Year'
+import FilterSearch from '@components/Filter/Search'
+import FilterRating from '@components/Filter/Rating'
+import FilterSorting from '@components/Filter/Sorting'
 
 interface IPromiseFilter {
   years: Promise<number[]>
@@ -62,11 +50,6 @@ const categories: ISlugTitle[] = [
 
 const Component: React.FC = () => {
   const { years, categories } = useLoaderData() as IPromiseFilter
-  const [searchParams, setSearchParams] = useSearchParams()
-
-  useEffect(() => {
-    console.log('params: ', searchParams)
-  }, [searchParams])
 
   return (
     <div className='w-full space-y-4'>
@@ -75,132 +58,16 @@ const Component: React.FC = () => {
       </Typography>
       <div className='flex gap-6'>
         <div className='w-80 space-y-4'>
-          <Input type='text' placeholder='Title, Author, ISBN' icon={Search} />
+          <FilterSearch />
           <Accordion type='multiple' className='w-full'>
-            <AccordionItem value='rating'>
-              <AccordionTrigger>Rating</AccordionTrigger>
-              <AccordionContent>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Commodi, omnis?
-              </AccordionContent>
-            </AccordionItem>
-            <Suspense fallback='loading....'>
-              <Await resolve={years} errorElement={<div>Error</div>}>
-                {(years) => (
-                  <AccordionItem value='year'>
-                    <AccordionTrigger>Tahun</AccordionTrigger>
-                    <AccordionContent>
-                      <ScrollArea className='h-80 rounded-md' type='always'>
-                        <RadioGroup
-                          className='flex flex-wrap items-center justify-center bg-slate-50 p-3 pr-5 dark:bg-slate-900'
-                          defaultValue={searchParams.get('year') ?? undefined}
-                          onValueChange={(val) => {
-                            setSearchParams((prev) => {
-                              prev.set('year', val)
-                              return prev
-                            })
-                            console.log('year change: ', val)
-                          }}
-                        >
-                          {(years ?? []).map((year: number) => {
-                            const key = `year-${year}`
-                            return (
-                              <div key={year} className='relative'>
-                                <RadioGroupItem
-                                  value={year.toString()}
-                                  id={key}
-                                  className='peer sr-only'
-                                />
-                                <Label
-                                  htmlFor={key}
-                                  className='flex cursor-pointer flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-3 [&:has([data-state=checked])]:border-primary peer-data-[state=checked]:border-primary hover:bg-accent hover:text-accent-foreground'
-                                >
-                                  {year}
-                                </Label>
-                              </div>
-                            )
-                          })}
-                        </RadioGroup>
-                      </ScrollArea>
-                    </AccordionContent>
-                  </AccordionItem>
-                )}
-              </Await>
-            </Suspense>
-            <Suspense fallback='loading....'>
-              <Await resolve={categories} errorElement={<div>Error</div>}>
-                {(categories) => (
-                  <AccordionItem value='category' className='border-none'>
-                    <AccordionTrigger>Category</AccordionTrigger>
-                    <AccordionContent>
-                      <ScrollArea className='h-96 rounded-md' type='always'>
-                        <RadioGroup
-                          defaultValue={
-                            searchParams.get('category') ?? undefined
-                          }
-                          className='flex flex-col bg-slate-50 p-3 pr-5 dark:bg-slate-900'
-                          onValueChange={(val) => {
-                            setSearchParams((prev) => {
-                              prev.set('category', val)
-                              return prev
-                            })
-                            console.log('category change: ', val)
-                          }}
-                        >
-                          {(categories ?? []).map(
-                            ({ slug, title }: ISlugTitle) => {
-                              const key = `category-${slug}`
-                              return (
-                                <div key={key} className='relative'>
-                                  <RadioGroupItem
-                                    value={slug}
-                                    id={key}
-                                    className='peer sr-only'
-                                  />
-                                  <Label
-                                    htmlFor={key}
-                                    className='flex cursor-pointer flex-col justify-between rounded-md border-2 border-muted bg-popover p-3 [&:has([data-state=checked])]:border-primary peer-data-[state=checked]:border-primary hover:bg-accent hover:text-accent-foreground'
-                                  >
-                                    {title}
-                                  </Label>
-                                </div>
-                              )
-                            },
-                          )}
-                        </RadioGroup>
-                      </ScrollArea>
-                    </AccordionContent>
-                  </AccordionItem>
-                )}
-              </Await>
-            </Suspense>
+            <FilterRating />
+            <FilterYear years={years} />
+            <FilterCategory categories={categories} />
           </Accordion>
         </div>
         <div className='w-full space-y-4'>
           <div className='flex items-center justify-between'>
-            <Select
-              defaultValue={
-                searchParams.get('orderBy') ?? DEFAULT_BOOK_ORDER_BY
-              }
-              onValueChange={(val) => {
-                setSearchParams((prev) => {
-                  prev.set('orderBy', val)
-                  return prev
-                })
-                console.log('order by: ', val)
-              }}
-            >
-              <SelectTrigger className='w-[180px]'>
-                <SelectValue placeholder='Order By' />
-              </SelectTrigger>
-              <SelectContent>
-                {BOOK_ORDER_BY.map(({ slug, title }) => (
-                  <SelectItem key={slug} value={slug}>
-                    {title}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <FilterSorting />
             <ToggleGroup
               type='single'
               variant='outline'
@@ -253,7 +120,7 @@ const fakeCategories = async () => {
   })
 }
 
-const loader = async () => {
+export const loader = async () => {
   return defer({
     years: fakeYears(),
     categories: fakeCategories(),
