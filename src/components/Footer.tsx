@@ -114,9 +114,9 @@ const content: FooterContent[] = [
 
 const Footer: React.FC = () => {
   return (
-    <footer className='bg-background border-t'>
+    <footer className='border-t bg-background'>
       <div className='container mx-auto'>
-        <div className='lg:flex py-8'>
+        <div className='py-8 lg:flex'>
           <div className='w-full -mx-6 lg:w-2/5'>
             <div className='px-6'>
               <Link to='/'>
@@ -134,7 +134,7 @@ const Footer: React.FC = () => {
                 Asperiores consequatur corporis eum expedita explicabo nulla
                 quia ratione rerum, sunt totam!
               </Typography>
-              <div className='flex mt-6 gap-2 text-slate-500 dark:text-slate-400'>
+              <div className='flex gap-2 mt-6 text-slate-500 dark:text-slate-400'>
                 <Button variant='outline' size='icon'>
                   <Facebook className='size-5' />
                 </Button>
@@ -164,16 +164,16 @@ const Footer: React.FC = () => {
                         <li key={idxItem} className='flex items-center gap-2'>
                           {Icon && (
                             <Typography type='detail' asChild>
-                              <Icon className='size-5' />
+                              <Icon className='flex-shrink-0 size-5' />
                             </Typography>
                           )}
                           <Typography type='detail' asChild>
                             <Link
                               to={link}
-                              className='block text-sm hover:underline'
+                              className='flex-1 block text-sm break-words hover:underline'
                               target={isExternal ? '_blank' : undefined}
                             >
-                              <span>{title}</span>
+                              {title}
                             </Link>
                           </Typography>
                         </li>
@@ -185,7 +185,7 @@ const Footer: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className='text-center py-6 border-t'>
+        <div className='py-6 text-center border-t'>
           <Typography as='p'>
             Copyright &copy; {new Date().getFullYear()} Booking - All Rights
             Reserved
