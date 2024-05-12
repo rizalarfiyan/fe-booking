@@ -69,12 +69,12 @@ const Component: React.FC = () => {
   }, [searchParams])
 
   return (
-    <div className='space-y-4 w-full'>
+    <div className='w-full space-y-4'>
       <Typography as='h1' variant='h2'>
         All Books
       </Typography>
       <div className='flex gap-6'>
-        <div className='space-y-4 w-80'>
+        <div className='w-80 space-y-4'>
           <Input type='text' placeholder='Title, Author, ISBN' icon={Search} />
           <Accordion type='multiple' className='w-full'>
             <AccordionItem value='rating'>
@@ -92,7 +92,7 @@ const Component: React.FC = () => {
                     <AccordionContent>
                       <ScrollArea className='h-80 rounded-md' type='always'>
                         <RadioGroup
-                          className='flex flex-wrap bg-slate-50 dark:bg-slate-900 pr-5 p-3 items-center justify-center'
+                          className='flex flex-wrap items-center justify-center bg-slate-50 p-3 pr-5 dark:bg-slate-900'
                           defaultValue={searchParams.get('year') ?? undefined}
                           onValueChange={(val) => {
                             setSearchParams((prev) => {
@@ -113,7 +113,7 @@ const Component: React.FC = () => {
                                 />
                                 <Label
                                   htmlFor={key}
-                                  className='flex flex-col items-center cursor-pointer justify-between rounded-md border-2 border-muted bg-popover p-3 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary'
+                                  className='flex cursor-pointer flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-3 [&:has([data-state=checked])]:border-primary peer-data-[state=checked]:border-primary hover:bg-accent hover:text-accent-foreground'
                                 >
                                   {year}
                                 </Label>
@@ -138,7 +138,7 @@ const Component: React.FC = () => {
                           defaultValue={
                             searchParams.get('category') ?? undefined
                           }
-                          className='flex flex-col p-3 bg-slate-50 dark:bg-slate-900 pr-5'
+                          className='flex flex-col bg-slate-50 p-3 pr-5 dark:bg-slate-900'
                           onValueChange={(val) => {
                             setSearchParams((prev) => {
                               prev.set('category', val)
@@ -159,7 +159,7 @@ const Component: React.FC = () => {
                                   />
                                   <Label
                                     htmlFor={key}
-                                    className='flex flex-col cursor-pointer justify-between rounded-md border-2 border-muted bg-popover p-3 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary'
+                                    className='flex cursor-pointer flex-col justify-between rounded-md border-2 border-muted bg-popover p-3 [&:has([data-state=checked])]:border-primary peer-data-[state=checked]:border-primary hover:bg-accent hover:text-accent-foreground'
                                   >
                                     {title}
                                   </Label>

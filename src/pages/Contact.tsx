@@ -80,18 +80,18 @@ const Component: React.FC = () => {
   return (
     <div className='space-y-20 pb-20'>
       <div className='space-y-10'>
-        <div className='text-center max-w-md mx-auto space-y-2'>
+        <div className='mx-auto max-w-md space-y-2 text-center'>
           <Typography as='h2'>Get in Touch</Typography>
           <Typography as='p'>
             We love hearing from you! Please select the appropriate option below
             and send us a message.
           </Typography>
         </div>
-        <div className='flex gap-4 justify-center flex-wrap mx-auto'>
+        <div className='mx-auto flex flex-wrap justify-center gap-4'>
           {contacts.map(({ title, description, icon: Icon }, idx) => (
             <div
               key={idx}
-              className='border rounded-md p-6 w-full max-w-64 space-y-3'
+              className='w-full max-w-64 space-y-3 rounded-md border p-6'
             >
               <Button variant='secondary' size='icon' className='size-10'>
                 <Icon className='size-6' />
@@ -109,16 +109,16 @@ const Component: React.FC = () => {
         </div>
       </div>
       <div className='space-y-10'>
-        <div className='text-center max-w-md mx-auto space-y-2'>
+        <div className='mx-auto max-w-md space-y-2 text-center'>
           <Typography as='h2'>Message Us</Typography>
           <Typography as='p'>We'll get back to you within 24 hours.</Typography>
         </div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-4 max-w-md mx-auto'
+            className='mx-auto max-w-md space-y-4'
           >
-            <div className='flex gap-4 flex-col md:flex-row'>
+            <div className='flex flex-col gap-4 md:flex-row'>
               <FormField
                 control={form.control}
                 name='first_name'

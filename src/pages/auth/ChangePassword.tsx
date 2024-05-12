@@ -73,7 +73,7 @@ const Component: React.FC = () => {
                         <Button
                           type='button'
                           size='icon'
-                          className='size-7 absolute right-1.5 top-1.5'
+                          className='absolute top-1.5 right-1.5 size-7'
                           onClick={onTogglePassword}
                         >
                           {showPassword ? (

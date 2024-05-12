@@ -13,8 +13,8 @@ const Component: React.FC = () => {
       hasBack
       replaceBack
     >
-      <div className='py-8 max-w-sm mx-auto text-center space-y-4'>
-        <BadgeCheck className='size-20 text-emerald-500 dark:text-emerald-400 mx-auto' />
+      <div className='mx-auto max-w-sm space-y-4 py-8 text-center'>
+        <BadgeCheck className='mx-auto size-20 text-emerald-500 dark:text-emerald-400' />
         {/*<BadgeX className='size-20 text-red-500 dark:text-red-400 mx-auto' />*/}
         <Typography
           className='font-semibold dark:text-slate-200'

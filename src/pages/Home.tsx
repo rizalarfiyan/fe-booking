@@ -6,10 +6,10 @@ const Component: React.FC = () => {
   const { data } = useLoaderData() as { data: boolean }
 
   return (
-    <div className='flex items-center justify-center flex-col'>
-      <h1 className='font-semibold text-4xl space-x-3'>
+    <div className='flex flex-col items-center justify-center'>
+      <h1 className='space-x-3 font-semibold text-4xl'>
         <span>Hello</span>
-        <span className='py-2 px-4 rounded-md bg-primary-600 text-white'>
+        <span className='rounded-md bg-primary-600 px-4 py-2 text-white'>
           Booking
         </span>
         <span>!</span>

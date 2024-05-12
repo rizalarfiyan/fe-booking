@@ -14,7 +14,7 @@ const Header: React.FC = () => {
   }
 
   return (
-    <header className='w-full py-3 border-b bg-background fixed top-0 right-0 z-[99]'>
+    <header className='fixed top-0 right-0 z-[99] w-full border-b bg-background py-3'>
       <div className='container flex justify-between'>
         <Link to='/' className='flex items-center gap-2'>
           <Typography type='title' asChild>

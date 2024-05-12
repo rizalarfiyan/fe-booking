@@ -63,7 +63,7 @@ const Component: React.FC = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <div className='space-y-4'>
-            <div className='flex flex-col md:flex-row gap-4'>
+            <div className='flex flex-col gap-4 md:flex-row'>
               <FormField
                 control={form.control}
                 name='first_name'
@@ -124,7 +124,7 @@ const Component: React.FC = () => {
                         <Button
                           type='button'
                           size='icon'
-                          className='size-7 absolute right-1.5 top-1.5'
+                          className='absolute top-1.5 right-1.5 size-7'
                           onClick={onTogglePassword}
                         >
                           {showPassword ? (
