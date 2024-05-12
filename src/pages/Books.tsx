@@ -16,38 +16,6 @@ interface IPromiseFilter {
   categories: Promise<ISlugTitle[]>
 }
 
-const categories: ISlugTitle[] = [
-  { slug: 'adventure', title: 'Adventure' },
-  { slug: 'art', title: 'Art/Photography' },
-  { slug: 'autobiography', title: 'Autobiography' },
-  { slug: 'biography', title: 'Biography' },
-  { slug: 'business', title: 'Business' },
-  { slug: 'children', title: "Children's" },
-  { slug: 'comedy', title: 'Comedy' },
-  { slug: 'comics', title: 'Graphic Novels/Comics' },
-  { slug: 'cookbooks', title: 'Cookbooks' },
-  { slug: 'crime', title: 'Crime' },
-  { slug: 'drama', title: 'Drama' },
-  { slug: 'fantasy', title: 'Fantasy' },
-  { slug: 'fiction', title: 'Fiction' },
-  { slug: 'historical-fiction', title: 'Historical Fiction' },
-  { slug: 'horror', title: 'Horror' },
-  { slug: 'memoir', title: 'Memoir' },
-  { slug: 'mystery', title: 'Mystery' },
-  { slug: 'non-fiction', title: 'Non-fiction' },
-  { slug: 'philosophy', title: 'Philosophy' },
-  { slug: 'poetry', title: 'Poetry' },
-  { slug: 'psychology', title: 'Psychology' },
-  { slug: 'religion', title: 'Religion/Spirituality' },
-  { slug: 'romance', title: 'Romance' },
-  { slug: 'science', title: 'Science' },
-  { slug: 'science-fiction', title: 'Science Fiction (Sci-Fi)' },
-  { slug: 'self-help', title: 'Self-help' },
-  { slug: 'suspense', title: 'Suspense' },
-  { slug: 'thriller', title: 'Thriller' },
-  { slug: 'travel', title: 'Travel' },
-]
-
 const Component: React.FC = () => {
   const { years, categories } = useLoaderData() as IPromiseFilter
 
@@ -89,6 +57,39 @@ const Component: React.FC = () => {
   )
 }
 
+// Fake data
+const categories: ISlugTitle[] = [
+  { slug: 'adventure', title: 'Adventure' },
+  { slug: 'art', title: 'Art/Photography' },
+  { slug: 'autobiography', title: 'Autobiography' },
+  { slug: 'biography', title: 'Biography' },
+  { slug: 'business', title: 'Business' },
+  { slug: 'children', title: "Children's" },
+  { slug: 'comedy', title: 'Comedy' },
+  { slug: 'comics', title: 'Graphic Novels/Comics' },
+  { slug: 'cookbooks', title: 'Cookbooks' },
+  { slug: 'crime', title: 'Crime' },
+  { slug: 'drama', title: 'Drama' },
+  { slug: 'fantasy', title: 'Fantasy' },
+  { slug: 'fiction', title: 'Fiction' },
+  { slug: 'historical-fiction', title: 'Historical Fiction' },
+  { slug: 'horror', title: 'Horror' },
+  { slug: 'memoir', title: 'Memoir' },
+  { slug: 'mystery', title: 'Mystery' },
+  { slug: 'non-fiction', title: 'Non-fiction' },
+  { slug: 'philosophy', title: 'Philosophy' },
+  { slug: 'poetry', title: 'Poetry' },
+  { slug: 'psychology', title: 'Psychology' },
+  { slug: 'religion', title: 'Religion/Spirituality' },
+  { slug: 'romance', title: 'Romance' },
+  { slug: 'science', title: 'Science' },
+  { slug: 'science-fiction', title: 'Science Fiction (Sci-Fi)' },
+  { slug: 'self-help', title: 'Self-help' },
+  { slug: 'suspense', title: 'Suspense' },
+  { slug: 'thriller', title: 'Thriller' },
+  { slug: 'travel', title: 'Travel' },
+]
+
 const fakeYears = async () => {
   const years: number[] = []
   for (let year = new Date().getFullYear(); year >= 1990; year--) {
@@ -120,7 +121,7 @@ const fakeCategories = async () => {
   })
 }
 
-export const loader = async () => {
+const loader = async () => {
   return defer({
     years: fakeYears(),
     categories: fakeCategories(),
