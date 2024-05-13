@@ -7,7 +7,7 @@ const Layout: React.FC = () => {
   return (
     <div>
       <Header />
-      <main className='container mt-28 min-h-[calc(100dvh_-_306px)]'>
+      <main className='container min-h-[calc(100dvh_-_306px)]'>
         <Outlet />
       </main>
       <Footer />

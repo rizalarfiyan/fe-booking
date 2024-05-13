@@ -80,7 +80,7 @@ const Component: React.FC = () => {
   }
 
   return (
-    <div className='space-y-20 pb-20'>
+    <div className='mt-28 mb-20 space-y-20'>
       <div className='space-y-10'>
         <div className='mx-auto max-w-md space-y-2 text-center'>
           <Typography as='h2'>Get in Touch</Typography>
