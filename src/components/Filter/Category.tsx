@@ -9,6 +9,9 @@ import { Label } from '@components/Label'
 import { ScrollArea } from '@components/ScrollArea'
 import { Await, useSearchParams } from 'react-router-dom'
 import type { ISlugTitle } from '@/types/base'
+import { Skeleton } from '@components/Skeleton'
+import { Alert, AlertTitle } from '@components/Alert'
+import { TriangleAlert } from 'lucide-react'
 
 export interface FilterCategoryProps {
   categories: Promise<ISlugTitle[]>
@@ -27,8 +30,18 @@ const FilterCategory: React.FC<FilterCategoryProps> = ({ categories }) => {
   }
 
   return (
-    <Suspense fallback='loading....'>
-      <Await resolve={categories} errorElement={<div>Error</div>}>
+    <Suspense fallback={<Skeleton className='my-3 h-10 w-full' />}>
+      <Await
+        resolve={categories}
+        errorElement={
+          <Alert variant='destructive' className='my-3'>
+            <TriangleAlert className='size-6' />
+            <AlertTitle className='my-1 ml-2'>
+              Couldn't load category
+            </AlertTitle>
+          </Alert>
+        }
+      >
         {(categories) => (
           <AccordionItem value='category' className='border-none'>
             <AccordionTrigger>Category</AccordionTrigger>

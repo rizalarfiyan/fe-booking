@@ -99,7 +99,7 @@ const fakeYears = async () => {
   return await new Promise((resolve) => {
     setTimeout(() => {
       resolve(years)
-    }, 10)
+    }, 750)
   })
 }
 
@@ -117,7 +117,7 @@ const fakeCategories = async () => {
   return await new Promise((resolve) => {
     setTimeout(() => {
       resolve(sortAscCategories)
-    }, 10)
+    }, 1000)
   })
 }
 

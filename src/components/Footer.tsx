@@ -42,7 +42,7 @@ const content: FooterContent[] = [
       },
       {
         title: 'DI. Yogyakarta, Indonesia',
-        link: 'tel:0896223232392',
+        link: 'https://maps.app.goo.gl/kW7MYvGPaeZRcCYA6',
         icon: MapPin,
       },
     ],
@@ -129,7 +129,10 @@ const Footer: React.FC = () => {
                   </Typography>
                 </div>
               </Link>
-              <Typography type='detail' className='mt-2 max-w-sm'>
+              <Typography
+                type='detail'
+                className='mt-2 max-w-sm text-sm leading-tight'
+              >
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                 Asperiores consequatur corporis eum expedita explicabo nulla
                 quia ratione rerum, sunt totam!

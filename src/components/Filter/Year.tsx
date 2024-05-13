@@ -8,6 +8,9 @@ import { RadioGroup, RadioGroupItem } from '@components/RadioGroup'
 import { Label } from '@components/Label'
 import { ScrollArea } from '@components/ScrollArea'
 import { Await, useSearchParams } from 'react-router-dom'
+import { Skeleton } from '@components/Skeleton'
+import { Alert, AlertTitle } from '@components/Alert'
+import { TriangleAlert } from 'lucide-react'
 
 export interface FilterYearProps {
   years: Promise<number[]>
@@ -26,11 +29,19 @@ const FilterYear: React.FC<FilterYearProps> = ({ years }) => {
   }
 
   return (
-    <Suspense fallback='loading....'>
-      <Await resolve={years} errorElement={<div>Error</div>}>
+    <Suspense fallback={<Skeleton className='my-4 h-10 w-full' />}>
+      <Await
+        resolve={years}
+        errorElement={
+          <Alert variant='destructive' className='my-3'>
+            <TriangleAlert className='size-6' />
+            <AlertTitle className='my-1 ml-2'>Couldn't load year</AlertTitle>
+          </Alert>
+        }
+      >
         {(years) => (
           <AccordionItem value='year'>
-            <AccordionTrigger>Tahun</AccordionTrigger>
+            <AccordionTrigger>Year</AccordionTrigger>
             <AccordionContent>
               <ScrollArea className='h-80 rounded-md' type='always'>
                 <RadioGroup
