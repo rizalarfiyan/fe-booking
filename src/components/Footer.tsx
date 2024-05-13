@@ -85,7 +85,7 @@ const content: FooterContent[] = [
       },
       {
         title: 'New Books',
-        link: '/books?orderBy=newest',
+        link: '/books?orderBy=latest',
       },
     ],
   },
@@ -129,10 +129,7 @@ const Footer: React.FC = () => {
                   </Typography>
                 </div>
               </Link>
-              <Typography
-                type='detail'
-                className='mt-2 max-w-sm text-sm leading-tight'
-              >
+              <Typography type='small-description' className='mt-2 max-w-sm'>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                 Asperiores consequatur corporis eum expedita explicabo nulla
                 quia ratione rerum, sunt totam!
@@ -166,11 +163,11 @@ const Footer: React.FC = () => {
                       return (
                         <li key={idxItem} className='flex items-center gap-2'>
                           {Icon && (
-                            <Typography type='detail' asChild>
+                            <Typography type='description' asChild>
                               <Icon className='size-5 flex-shrink-0' />
                             </Typography>
                           )}
-                          <Typography type='detail' asChild>
+                          <Typography type='description' asChild>
                             <Link
                               to={link}
                               className='block flex-1 break-words text-sm hover:underline'
