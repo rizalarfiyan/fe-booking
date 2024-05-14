@@ -1,7 +1,5 @@
 import type { ISlugTitle } from '@/types/base'
 import { Accordion } from '@components/Accordion'
-import { buttonVariants } from '@components/Button'
-import { Card, CardContent, CardHeader } from '@components/Card'
 import FilterCategory from '@components/Filter/Category'
 import FilterRating from '@components/Filter/Rating'
 import FilterSearch from '@components/Filter/Search'
@@ -9,32 +7,16 @@ import FilterSorting from '@components/Filter/Sorting'
 import FilterYear from '@components/Filter/Year'
 import { ToggleGroup, ToggleGroupItem } from '@components/ToggleGroup'
 import { Typography } from '@components/Typograpy'
-import { BookOpenText, LayoutGrid, LayoutList, Star, User } from 'lucide-react'
+import { LayoutGrid, LayoutList } from 'lucide-react'
 import React, { Suspense } from 'react'
-import { Await, Link, defer, useLoaderData } from 'react-router-dom'
-import { getAuthor } from '@utils/string'
-
-interface IBook {
-  authors: string[]
-  description: string
-  height: string
-  image: string
-  isbn: string
-  language: string
-  pages: string
-  publishedAt: string
-  sku: string
-  slug: string
-  title: string
-  weight: string
-  width: string
-  rating: number
-}
+import { Await, defer, useLoaderData } from 'react-router-dom'
+import CardBook from '@components/Card/Book'
+import type { IBookCard } from '@/types/data'
 
 interface IPromiseFilter {
   years: Promise<number[]>
   categories: Promise<ISlugTitle[]>
-  books: Promise<IBook[]>
+  books: Promise<IBookCard[]>
 }
 
 const Component: React.FC = () => {
@@ -45,7 +27,7 @@ const Component: React.FC = () => {
       <Typography as='h1' variant='h2'>
         All Books
       </Typography>
-      <div className='flex gap-6'>
+      <div className='flex flex-col gap-6 1100w:flex-row'>
         <div className='w-80 space-y-4'>
           <FilterSearch />
           <Accordion type='multiple' className='w-full'>
@@ -75,54 +57,12 @@ const Component: React.FC = () => {
             <Suspense fallback='Loading...'>
               <Await resolve={books} errorElement='Error...'>
                 {(books) => (
-                  <div className='flex flex-wrap items-center justify-center gap-4'>
-                    {books.map((book: IBook, idx: number) => {
-                      return (
-                        <Link key={idx} to={`book/${book.slug}`}>
-                          <Card className='group w-full max-w-60 space-y-3 p-4'>
-                            <div className='relative aspect-[3/4] h-full w-full cursor-pointer overflow-hidden rounded-md bg-muted'>
-                              <img
-                                className='h-full w-full object-fill transition-transform duration-300 group-hover:scale-105'
-                                src={book.image}
-                                alt={book.title}
-                              />
-                              <div className='absolute inset-0 flex items-center justify-center bg-primary-500/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
-                                <div
-                                  className={buttonVariants({
-                                    size: 'icon',
-                                    className: 'size-10 rounded-full',
-                                  })}
-                                >
-                                  <BookOpenText />
-                                </div>
-                              </div>
-                            </div>
-                            <CardHeader className='p-0'>
-                              <Typography
-                                as='h3'
-                                className='line-clamp-2 text-lg leading-tight decoration-2 decoration-primary-500 underline-offset-2 group-hover:underline'
-                              >
-                                {book.title}
-                              </Typography>
-                            </CardHeader>
-                            <CardContent className='flex gap-4 p-0'>
-                              <div className='flex gap-1.5'>
-                                <User className='size-4 text-slate-500 dark:text-slate-400' />
-                                <Typography as='span' type='small-description'>
-                                  {getAuthor(book.authors)}
-                                </Typography>
-                              </div>
-                              <div className='flex gap-1.5'>
-                                <Star className='size-4 text-slate-500 dark:text-slate-400' />
-                                <Typography as='span' type='small-description'>
-                                  {book.rating}
-                                </Typography>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </Link>
-                      )
-                    })}
+                  <div className='space-y-8'>
+                    <div className='flex flex-wrap items-center justify-center gap-4'>
+                      {books.map((book: IBookCard, idx: number) => {
+                        return <CardBook key={idx} {...book} />
+                      })}
+                    </div>
                   </div>
                 )}
               </Await>
