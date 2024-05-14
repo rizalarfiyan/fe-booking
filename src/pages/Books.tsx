@@ -12,6 +12,7 @@ import { Typography } from '@components/Typograpy'
 import { BookOpenText, LayoutGrid, LayoutList, Star, User } from 'lucide-react'
 import React, { Suspense } from 'react'
 import { Await, Link, defer, useLoaderData } from 'react-router-dom'
+import { getAuthor } from '@utils/string'
 
 interface IBook {
   authors: string[]
@@ -75,22 +76,11 @@ const Component: React.FC = () => {
               <Await resolve={books} errorElement='Error...'>
                 {(books) => (
                   <div className='flex flex-wrap items-center justify-center gap-4'>
-                    {books.map((book: IBook) => {
-                      const countAuthor = book.authors.length
-                      const author =
-                        countAuthor === 1
-                          ? book.authors[0]
-                          : countAuthor > 1
-                            ? `${countAuthor} authors`
-                            : '-'
-
+                    {books.map((book: IBook, idx: number) => {
                       return (
-                        <Link key={book.isbn} to={`book/${book.slug}`}>
-                          <Card
-                            key={book.isbn}
-                            className='group w-full max-w-60 space-y-3 p-4'
-                          >
-                            <div className='relative aspect-[3/4] h-full w-full cursor-pointer overflow-hidden rounded-md bg-red-500'>
+                        <Link key={idx} to={`book/${book.slug}`}>
+                          <Card className='group w-full max-w-60 space-y-3 p-4'>
+                            <div className='relative aspect-[3/4] h-full w-full cursor-pointer overflow-hidden rounded-md bg-muted'>
                               <img
                                 className='h-full w-full object-fill transition-transform duration-300 group-hover:scale-105'
                                 src={book.image}
@@ -119,7 +109,7 @@ const Component: React.FC = () => {
                               <div className='flex gap-1.5'>
                                 <User className='size-4 text-slate-500 dark:text-slate-400' />
                                 <Typography as='span' type='small-description'>
-                                  {author}
+                                  {getAuthor(book.authors)}
                                 </Typography>
                               </div>
                               <div className='flex gap-1.5'>
@@ -209,26 +199,27 @@ const fakeCategories = async () => {
 }
 
 const fakeBooks = async () => {
-  const books = Array.from({ length: 16 }, (_, idx) => ({
-    authors: ['James Clear'],
-    rating: 4.5,
-    title: `Gadis Kretek ${
-      idx + 1
-    } Gadis Kretek Gadis Kretek Gadis Kretek Gadis Kretek Gadis Kretek`,
-    slug: `gadis-kretek-${idx + 1}`,
-    image:
-      'https://cdn.gramedia.com/uploads/picture_meta/2023/10/24/qsey9q69mtex5nshhdhjn6.jpg',
-    pages: '288',
-    weight: '0.2',
-    height: '20',
-    width: '13.5',
-    isbn: '9789792281415',
-    sku: '623202035',
-    publishedAt: '2023-11-07T17:00:00',
-    language: 'Indonesia',
-    description:
-      'Pak Raja sekarat. Dalam menanti ajal, ia memanggil satu nama perempuan yang bukan istrinya; Jeng Yah. Tiga anaknya, pewaris Kretek Djagad Raja, dimakan gundah. Sang ibu pun terbakar cemburu terlebih karena permintaan terakhir suaminya ingin bertemu Jeng Yah. Maka berpacu dengan malaikat maut, Lebas, Karim, dan Tegar, pergi ke pelosok Jawa untuk mencari Jeng Yah, sebelum ajal menjemput sang Ayah. Perjalanan itu bagai napak tilas bisnis dan rahasia keluarga. Lebas, Karim, dan Tegar bertemu dengan pelinting tua dan menguak asal-usul Kretek Djagad Raja hingga menjadi kretek nomor 1 di Indonesia. Lebih dari itu, ketiganya juga mengetahui kisah cinta ayah mereka dengar; Jeng Yah, yang ternyata adalah pemilik Kretek Gadis, kretek lokal Kota M yang terkenal pada zamannya. Apakah Lebas, Karim, dan Tegar akhirnya berhasil menemukan Jeng Yah?\nGadis Kretek tidak sekadar bercerita tentang cinta dan pencarian jati diri para tokohnya. Dengan latar Kota M, Kudus, Jakarta, dari periode penjajahan Belanda hingga kemerdekaan, Gadis Kretek akan membawa pembaca berkenalan dengan perkembangan industri kretek di Indonesia. Kaya akan wangi tembakau. Sarat dengan aroma cinta.',
-  }))
+  const books = Array.from({ length: 16 }, (_, idx) => {
+    const num = Math.floor(Math.random() * 16) + 1 + idx
+    return {
+      authors: ['James Clear'],
+      rating: 4.5,
+      title: `Gadis Kretek ${num} Gadis Kretek Gadis Kretek Gadis Kretek Gadis Kretek Gadis Kretek`,
+      slug: `gadis-kretek-${num}`,
+      image:
+        'https://cdn.gramedia.com/uploads/picture_meta/2023/10/24/qsey9q69mtex5nshhdhjn6.jpg',
+      pages: '288',
+      weight: '0.2',
+      height: '20',
+      width: '13.5',
+      isbn: '9789792281415',
+      sku: '623202035',
+      publishedAt: '2023-11-07T17:00:00',
+      language: 'Indonesia',
+      description:
+        'Pak Raja sekarat. Dalam menanti ajal, ia memanggil satu nama perempuan yang bukan istrinya; Jeng Yah. Tiga anaknya, pewaris Kretek Djagad Raja, dimakan gundah. Sang ibu pun terbakar cemburu terlebih karena permintaan terakhir suaminya ingin bertemu Jeng Yah. Maka berpacu dengan malaikat maut, Lebas, Karim, dan Tegar, pergi ke pelosok Jawa untuk mencari Jeng Yah, sebelum ajal menjemput sang Ayah. Perjalanan itu bagai napak tilas bisnis dan rahasia keluarga. Lebas, Karim, dan Tegar bertemu dengan pelinting tua dan menguak asal-usul Kretek Djagad Raja hingga menjadi kretek nomor 1 di Indonesia. Lebih dari itu, ketiganya juga mengetahui kisah cinta ayah mereka dengar; Jeng Yah, yang ternyata adalah pemilik Kretek Gadis, kretek lokal Kota M yang terkenal pada zamannya. Apakah Lebas, Karim, dan Tegar akhirnya berhasil menemukan Jeng Yah?\nGadis Kretek tidak sekadar bercerita tentang cinta dan pencarian jati diri para tokohnya. Dengan latar Kota M, Kudus, Jakarta, dari periode penjajahan Belanda hingga kemerdekaan, Gadis Kretek akan membawa pembaca berkenalan dengan perkembangan industri kretek di Indonesia. Kaya akan wangi tembakau. Sarat dengan aroma cinta.',
+    }
+  })
 
   return await new Promise((resolve) => {
     setTimeout(() => {
