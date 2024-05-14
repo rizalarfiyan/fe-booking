@@ -4,9 +4,12 @@ import useTheme from '@hooks/useTheme'
 import { BookOpenText, Moon, Sun } from 'lucide-react'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import useAuth from '@hooks/useAuth'
+import { UserDropdown } from '@components/UserDropdown'
 
 const Header: React.FC = () => {
   const { isDarkMode, toggleDarkMode } = useTheme()
+  const { isLoggedIn } = useAuth()
 
   const onToggleDarkMode = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -14,7 +17,7 @@ const Header: React.FC = () => {
   }
 
   return (
-    <header className='fixed top-0 right-0 z-[99] w-full border-b bg-background py-3'>
+    <header className='fixed top-0 right-0 z-[49] w-full border-b bg-background py-3'>
       <div className='container flex justify-between'>
         <Link to='/' className='flex items-center gap-2'>
           <Typography type='title' asChild>
@@ -38,20 +41,18 @@ const Header: React.FC = () => {
               <Moon className='size-5' />
             )}
           </Button>
-          <nav>
-            <ul className='flex items-center gap-2'>
-              <li>
-                <Button variant='secondary' asChild>
-                  <Link to='/login'>Login</Link>
-                </Button>
-              </li>
-              <li>
-                <Button asChild>
-                  <Link to='/register'>Register</Link>
-                </Button>
-              </li>
-            </ul>
-          </nav>
+          {isLoggedIn ? (
+            <UserDropdown />
+          ) : (
+            <div className='flex items-center gap-2'>
+              <Button variant='secondary' asChild>
+                <Link to='/login'>Login</Link>
+              </Button>
+              <Button asChild>
+                <Link to='/register'>Register</Link>
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </header>

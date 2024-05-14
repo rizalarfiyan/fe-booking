@@ -50,6 +50,16 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: 'dashboard',
+        lazy: lazyWrap(() => import('@layouts/Dashboard'), true),
+        children: [
+          {
+            index: true,
+            lazy: lazyWrap(() => import('@pages/dashboard/Dashboard')),
+          },
+        ],
+      },
+      {
         path: '*',
         lazy: lazyWrap(() => import('@pages/NotFound')),
       },

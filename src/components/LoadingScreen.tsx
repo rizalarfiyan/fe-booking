@@ -25,7 +25,7 @@ const LoadingScreen = forwardRef<HTMLDivElement, LoadingScreenProps>(
           {reason && (
             <Typography
               type='description'
-              className='mt-4 max-w-[220px] text-center text-base text-gray-800'
+              className='mt-4 max-w-[220px] text-center'
             >
               {reason}
             </Typography>

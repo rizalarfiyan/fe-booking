@@ -11,7 +11,8 @@ export interface IAuthContext {
 
 const dummyUser: IUser = {
   id: 1,
-  name: 'Paijo Royo',
+  first_name: 'Paijo',
+  last_name: 'Royo',
   email: 'paijo.royo@gmail.com',
   avatar: 'https://avatars.githubusercontent.com/u/19503666',
 }

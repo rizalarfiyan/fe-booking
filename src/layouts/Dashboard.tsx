@@ -7,14 +7,22 @@ const Layout: React.FC = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (isLoggedIn) {
-      navigate('/dashboard', { replace: true })
+    if (!isLoggedIn) {
+      navigate('/login', { replace: true })
     }
   }, [isLoggedIn, navigate])
 
-  if (isLoggedIn) return null
+  if (!isLoggedIn) return null
 
-  return <Outlet />
+  return (
+    <div>
+      <header>
+        <h1>Header</h1>
+      </header>
+      <Outlet />
+      <footer>Footer</footer>
+    </div>
+  )
 }
 
 export { Layout as default }
