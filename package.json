@@ -13,7 +13,7 @@
     "format": "biome format ./src --write",
     "format:check": "biome format ./src",
     "fix": "npm run lint && npm run format",
-    "prepare": "husky install && chmod +x ./node_modules/.bin/biome"
+    "prepare": "husky && chmod +x ./node_modules/.bin/biome"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
