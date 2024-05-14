@@ -42,7 +42,7 @@ const content: FooterContent[] = [
       },
       {
         title: 'DI. Yogyakarta, Indonesia',
-        link: 'tel:0896223232392',
+        link: 'https://maps.app.goo.gl/kW7MYvGPaeZRcCYA6',
         icon: MapPin,
       },
     ],
@@ -85,7 +85,7 @@ const content: FooterContent[] = [
       },
       {
         title: 'New Books',
-        link: '/books?orderBy=newest',
+        link: '/books?orderBy=latest',
       },
     ],
   },
@@ -114,10 +114,10 @@ const content: FooterContent[] = [
 
 const Footer: React.FC = () => {
   return (
-    <footer className='bg-background border-t'>
+    <footer className='border-t bg-background'>
       <div className='container mx-auto'>
-        <div className='lg:flex py-8'>
-          <div className='w-full -mx-6 lg:w-2/5'>
+        <div className='py-8 lg:flex'>
+          <div className='-mx-6 w-full lg:w-2/5'>
             <div className='px-6'>
               <Link to='/'>
                 <div className='flex items-center gap-2'>
@@ -129,12 +129,12 @@ const Footer: React.FC = () => {
                   </Typography>
                 </div>
               </Link>
-              <Typography type='detail' className='max-w-sm mt-2'>
+              <Typography type='small-description' className='mt-2 max-w-sm'>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                 Asperiores consequatur corporis eum expedita explicabo nulla
                 quia ratione rerum, sunt totam!
               </Typography>
-              <div className='flex mt-6 gap-2 text-slate-500 dark:text-slate-400'>
+              <div className='mt-6 flex gap-2 text-slate-500 dark:text-slate-400'>
                 <Button variant='outline' size='icon'>
                   <Facebook className='size-5' />
                 </Button>
@@ -151,7 +151,7 @@ const Footer: React.FC = () => {
             </div>
           </div>
           <div className='mt-6 lg:mt-0 lg:flex-1'>
-            <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+            <div className='grid grid-cols-1 gap-6 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'>
               {content.map((val, idx) => (
                 <div key={idx} className='space-y-4'>
                   <Typography as='h3' variant='h4' className='uppercase'>
@@ -163,17 +163,17 @@ const Footer: React.FC = () => {
                       return (
                         <li key={idxItem} className='flex items-center gap-2'>
                           {Icon && (
-                            <Typography type='detail' asChild>
-                              <Icon className='size-5' />
+                            <Typography type='description' asChild>
+                              <Icon className='size-5 flex-shrink-0' />
                             </Typography>
                           )}
-                          <Typography type='detail' asChild>
+                          <Typography type='description' asChild>
                             <Link
                               to={link}
-                              className='block text-sm hover:underline'
+                              className='block flex-1 break-words text-sm hover:underline'
                               target={isExternal ? '_blank' : undefined}
                             >
-                              <span>{title}</span>
+                              {title}
                             </Link>
                           </Typography>
                         </li>
@@ -185,7 +185,7 @@ const Footer: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className='text-center py-6 border-t'>
+        <div className='border-t py-6 text-center'>
           <Typography as='p'>
             Copyright &copy; {new Date().getFullYear()} Booking - All Rights
             Reserved

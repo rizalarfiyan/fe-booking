@@ -6,26 +6,27 @@ import React, { forwardRef } from 'react'
 const typographyVariants = cva('', {
   variants: {
     variant: {
-      h1: 'scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl',
-      h2: 'scroll-m-20 text-3xl font-semibold tracking-tight',
-      h3: 'scroll-m-20 text-2xl font-semibold tracking-tight',
-      h4: 'scroll-m-20 text-xl font-semibold tracking-tight',
+      h1: 'scroll-m-20 font-extrabold text-4xl tracking-tight lg:text-5xl',
+      h2: 'scroll-m-20 font-semibold text-3xl tracking-tight',
+      h3: 'scroll-m-20 font-semibold text-2xl tracking-tight',
+      h4: 'scroll-m-20 font-semibold text-xl tracking-tight',
       p: 'leading-tight',
-      lead: 'text-xl text-secondary-400',
-      large: 'text-lg font-semibold',
-      small: 'text-sm font-medium leading-none',
-      muted: 'text-sm text-secondary-400',
-      link: 'underline decoration-primary-500/50 decoration-2 underline-offset-2',
+      lead: 'text-secondary-400 text-xl',
+      large: 'font-semibold text-lg',
+      small: 'font-medium text-sm leading-none',
+      muted: 'text-secondary-400 text-sm',
+      link: 'underline decoration-2 decoration-primary-500/50 underline-offset-2',
       custom: '',
     },
     type: {
-      description: 'text-secondary-600 dark:text-slate-200/50',
+      description: 'text-slate-500 dark:text-slate-400',
       title: 'text-primary-600 dark:text-primary-500',
       secondary: 'text-secondary-800 dark:text-secondary-100',
       default: 'text-slate-900 dark:text-slate-50',
-      detail: 'text-slate-500 dark:text-slate-400',
+      'small-description':
+        'text-slate-500 text-sm leading-tight dark:text-slate-400',
       underline:
-        'underline decoration-current decoration-2 cursor-pointer underline-offset-2',
+        'cursor-pointer underline decoration-2 decoration-current underline-offset-2',
     },
   },
   defaultVariants: {

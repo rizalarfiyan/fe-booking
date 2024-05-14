@@ -3,13 +3,7 @@ import { Typography } from '@components/Typograpy'
 import React from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
-import {
-  Bot,
-  Handshake,
-  type LucideIcon,
-  MessageSquare,
-  Newspaper,
-} from 'lucide-react'
+import { Bot, Handshake, MessageSquare, Newspaper, Send } from 'lucide-react'
 import { Button } from '@components/Button'
 import {
   Form,
@@ -21,22 +15,10 @@ import {
 } from '@components/Form'
 import { Input } from '@components/Input'
 import { Textarea } from '@components/Textarea'
+import type { IContactInformation } from '@/types/data'
+import CardContactInformation from '@components/Card/ContactInformation'
 
-interface ICcontact {
-  icon: LucideIcon
-  title: string
-  description: string
-}
-
-const formSchema = z.object({
-  first_name: z.string().min(3),
-  last_name: z.string().optional(),
-  email: z.string().email(),
-  phone: z.number().optional(),
-  message: z.string().optional(),
-})
-
-const contacts: ICcontact[] = [
+const contacts: IContactInformation[] = [
   {
     icon: Bot,
     title: 'General Questions',
@@ -61,6 +43,26 @@ const contacts: ICcontact[] = [
   },
 ]
 
+const formSchema = z.object({
+  first_name: z
+    .string()
+    .min(3, { message: 'First name must be at least 3 characters.' }),
+  last_name: z.string().optional(),
+  email: z.string().email(),
+  phone: z
+    .string()
+    .refine(
+      (value) =>
+        /^(\+62|62)?[\s-]?(0)?8[1-9]{1}\d{1}[\s-]?\d{4}[\s-]?\d{2,5}$/.test(
+          value ?? '',
+        ),
+      'Phone number must be a valid Indonesian phone number.',
+    ),
+  message: z
+    .string()
+    .min(10, { message: 'Message must be at least 10 characters.' }),
+})
+
 const Component: React.FC = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,7 +70,7 @@ const Component: React.FC = () => {
       first_name: '',
       last_name: '',
       email: '',
-      phone: 0,
+      phone: '',
       message: '',
     },
   })
@@ -78,47 +80,34 @@ const Component: React.FC = () => {
   }
 
   return (
-    <div className='space-y-20 pb-20'>
+    <div className='mt-28 mb-20 space-y-20'>
       <div className='space-y-10'>
-        <div className='text-center max-w-md mx-auto space-y-2'>
+        <div className='mx-auto max-w-md space-y-2 text-center'>
           <Typography as='h2'>Get in Touch</Typography>
-          <Typography as='p'>
+          <Typography type='description'>
             We love hearing from you! Please select the appropriate option below
             and send us a message.
           </Typography>
         </div>
-        <div className='flex gap-4 justify-center flex-wrap mx-auto'>
-          {contacts.map(({ title, description, icon: Icon }, idx) => (
-            <div
-              key={idx}
-              className='border rounded-md p-6 w-full max-w-64 space-y-3'
-            >
-              <Button variant='secondary' size='icon' className='size-10'>
-                <Icon className='size-6' />
-              </Button>
-              <div className='space-y-1'>
-                <Typography as='h3' variant='p' className='font-semibold'>
-                  {title}
-                </Typography>
-                <Typography className='text-sm leading-tight'>
-                  {description}
-                </Typography>
-              </div>
-            </div>
+        <div className='mx-auto flex flex-wrap justify-center gap-4'>
+          {contacts.map((contact, idx) => (
+            <CardContactInformation key={idx} {...contact} />
           ))}
         </div>
       </div>
       <div className='space-y-10'>
-        <div className='text-center max-w-md mx-auto space-y-2'>
+        <div className='mx-auto max-w-md space-y-2 text-center'>
           <Typography as='h2'>Message Us</Typography>
-          <Typography as='p'>We'll get back to you within 24 hours.</Typography>
+          <Typography type='description'>
+            We'll get back to you within 24 hours.
+          </Typography>
         </div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-4 max-w-md mx-auto'
+            className='mx-auto max-w-md space-y-4'
           >
-            <div className='flex gap-4 flex-col md:flex-row'>
+            <div className='flex flex-col gap-4 md:flex-row'>
               <FormField
                 control={form.control}
                 name='first_name'
@@ -170,7 +159,7 @@ const Component: React.FC = () => {
                 <FormItem>
                   <FormLabel>Phone</FormLabel>
                   <FormControl>
-                    <Input placeholder='+62812-3443-5686' {...field} />
+                    <Input placeholder='0896223232392' type='text' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -185,7 +174,7 @@ const Component: React.FC = () => {
                   <FormControl>
                     <Textarea
                       placeholder='Your Message'
-                      className='resize-none'
+                      className='max-h-80 min-h-24'
                       {...field}
                     />
                   </FormControl>
@@ -194,7 +183,8 @@ const Component: React.FC = () => {
               )}
             />
             <Button type='submit' className='w-full'>
-              Submit
+              <span>Send</span>
+              <Send className='ml-2 size-4' />
             </Button>
           </form>
         </Form>

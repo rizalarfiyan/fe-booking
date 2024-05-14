@@ -87,7 +87,7 @@ const Component: React.FC = () => {
                         <Button
                           type='button'
                           size='icon'
-                          className='size-7 absolute right-1.5 top-1.5'
+                          className='absolute top-1.5 right-1.5 size-7'
                           onClick={onTogglePassword}
                         >
                           {showPassword ? (
@@ -115,7 +115,7 @@ const Component: React.FC = () => {
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
-                  <FormLabel className='space-y-1 leading-none cursor-pointer'>
+                  <FormLabel className='cursor-pointer space-y-1 leading-none'>
                     Stay Logged In?
                   </FormLabel>
                 </FormItem>

@@ -26,6 +26,22 @@
       },
       "correctness": {
         "noUnusedImports": "warn"
+      },
+      "nursery": {
+        "useSortedClasses": {
+          "level": "warn",
+          "options": {
+            "attributes": [
+              "classList"
+            ],
+            "functions": [
+              "clsx",
+              "cva",
+              "tw",
+              "cn"
+            ]
+          }
+        }
       }
     }
   },

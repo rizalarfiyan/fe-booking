@@ -14,16 +14,16 @@ const Header: React.FC = () => {
   }
 
   return (
-    <header className='w-full py-3 border-b fixed bg-background top-0 right-0 z-[99]'>
+    <header className='fixed top-0 right-0 z-[99] w-full border-b bg-background py-3'>
       <div className='container flex justify-between'>
-        <div className='flex items-center gap-2'>
+        <Link to='/' className='flex items-center gap-2'>
           <Typography type='title' asChild>
             <BookOpenText className='size-7' />
           </Typography>
           <Typography as='h1' variant='h3' type='title'>
             Booking
           </Typography>
-        </div>
+        </Link>
         <div className='flex items-center gap-4'>
           <Button
             size='icon'
