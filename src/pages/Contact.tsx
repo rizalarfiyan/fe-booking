@@ -182,9 +182,12 @@ const Component: React.FC = () => {
                 </FormItem>
               )}
             />
-            <Button type='submit' className='w-full'>
-              <span>Send</span>
-              <Send className='ml-2 size-4' />
+            <Button
+              type='submit'
+              rightIcon={<Send className='ml-2 size-4' />}
+              isFluid
+            >
+              Send
             </Button>
           </form>
         </Form>

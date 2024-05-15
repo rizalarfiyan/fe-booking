@@ -59,7 +59,7 @@ const Component: React.FC = () => {
             )}
           />
           <div className='space-y-2'>
-            <Button type='submit' className='w-full'>
+            <Button type='submit' isFluid>
               Forgot Password
             </Button>
             <Typography as='p' type='description'>

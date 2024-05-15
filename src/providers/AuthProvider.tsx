@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useMemo, useState } from 'react'
 import type { IUser } from '@/types/auth'
 import { LoadingScreen } from '@components/LoadingScreen'
+import { AUTH_ROLE } from '@/constants/app'
 
 export interface IAuthContext {
   user?: IUser
@@ -15,6 +16,7 @@ const dummyUser: IUser = {
   last_name: 'Royo',
   email: 'paijo.royo@gmail.com',
   avatar: 'https://avatars.githubusercontent.com/u/19503666',
+  role: AUTH_ROLE.GUEST,
 }
 
 export const AuthContext = createContext<IAuthContext | null>(null)

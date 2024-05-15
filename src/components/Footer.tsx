@@ -135,17 +135,41 @@ const Footer: React.FC = () => {
                 quia ratione rerum, sunt totam!
               </Typography>
               <div className='mt-6 flex gap-2 text-slate-500 dark:text-slate-400'>
-                <Button variant='outline' size='icon'>
-                  <Facebook className='size-5' />
+                <Button variant='outline' size='icon' asChild>
+                  <a
+                    href='https://facebook.com'
+                    target='_blank'
+                    rel='nofollow noreferrer'
+                  >
+                    <Facebook className='size-5' />
+                  </a>
                 </Button>
-                <Button variant='outline' size='icon'>
-                  <Twitter className='size-5' />
+                <Button variant='outline' size='icon' asChild>
+                  <a
+                    href='https://twitter.com'
+                    target='_blank'
+                    rel='nofollow noreferrer'
+                  >
+                    <Twitter className='size-5' />
+                  </a>
                 </Button>
-                <Button variant='outline' size='icon'>
-                  <Youtube className='size-5' />
+                <Button variant='outline' size='icon' asChild>
+                  <a
+                    href='https://youtube.com'
+                    target='_blank'
+                    rel='nofollow noreferrer'
+                  >
+                    <Youtube className='size-5' />
+                  </a>
                 </Button>
-                <Button variant='outline' size='icon'>
-                  <Linkedin className='size-5' />
+                <Button variant='outline' size='icon' asChild>
+                  <a
+                    href='https://linkedin.com'
+                    target='_blank'
+                    rel='nofollow noreferrer'
+                  >
+                    <Linkedin className='size-5' />
+                  </a>
                 </Button>
               </div>
             </div>

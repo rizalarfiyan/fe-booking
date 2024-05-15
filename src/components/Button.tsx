@@ -1,11 +1,12 @@
-import { Slot } from '@radix-ui/react-slot'
+import { Slot, Slottable } from '@radix-ui/react-slot'
 import { type VariantProps, cva } from 'class-variance-authority'
 import * as React from 'react'
 
 import { cn } from '@/utils/classes'
+import { Loader2 } from 'lucide-react'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium text-sm ring-offset-background transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+  'inline-flex items-center justify-center whitespace-nowrap font-medium text-sm ring-offset-background transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
   {
     variants: {
       variant: {
@@ -25,10 +26,16 @@ const buttonVariants = cva(
         lg: 'h-11 rounded-md px-8',
         icon: 'h-10 w-10',
       },
+      rounded: {
+        md: 'rounded-md',
+        lg: 'rounded-lg',
+        full: 'rounded-full',
+      },
     },
     defaultVariants: {
       variant: 'default',
       size: 'default',
+      rounded: 'md',
     },
   },
 )
@@ -37,17 +44,63 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
+  rightIcon?: React.ReactElement
+  leftIcon?: React.ReactElement
+  isLoading?: boolean
+  isFluid?: boolean
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      rounded,
+      isLoading,
+      isFluid,
+      rightIcon,
+      leftIcon,
+      disabled,
+      asChild = false,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
     const Comp = asChild ? Slot : 'button'
+    const classNames = cn(
+      isLoading && 'cursor-progress',
+      isFluid && 'w-full',
+      disabled && 'cursor-not-allowed',
+      buttonVariants({ variant, size, rounded, className }),
+    )
+
+    if (isLoading && Comp === 'button') {
+      return (
+        <Comp
+          className={classNames}
+          disabled={disabled || isLoading}
+          ref={ref}
+          {...props}
+        >
+          <Loader2 className='mr-2 animate-spin' />
+          <span>Loading</span>
+        </Comp>
+      )
+    }
+
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={classNames}
+        disabled={disabled || isLoading}
         ref={ref}
         {...props}
-      />
+      >
+        {leftIcon ?? leftIcon}
+        <Slottable>{children}</Slottable>
+        {rightIcon ?? rightIcon}
+      </Comp>
     )
   },
 )
