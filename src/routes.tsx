@@ -57,6 +57,10 @@ const router = createBrowserRouter([
             index: true,
             lazy: lazyWrap(() => import('@pages/dashboard/Dashboard')),
           },
+          {
+            path: 'leaderboard',
+            lazy: lazyWrap(() => import('@pages/dashboard/Leaderboard')),
+          },
         ],
       },
       {

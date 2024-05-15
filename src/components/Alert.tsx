@@ -3,33 +3,41 @@ import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/utils/classes'
 
-const alertVariants = cva(
-  'relative w-full rounded-lg border p-4 [&>svg]:absolute [&>svg]:top-4 [&>svg]:left-4 [&>svg+div]:translate-y-[-3px] [&>svg~*]:pl-7 [&>svg]:text-foreground',
-  {
-    variants: {
-      variant: {
-        default: 'bg-background text-foreground',
-        destructive:
-          'border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive',
-      },
-    },
-    defaultVariants: {
-      variant: 'default',
+const alertVariants = cva('relative w-full rounded-lg border p-4', {
+  variants: {
+    variant: {
+      default: 'bg-background text-foreground',
+      destructive:
+        'border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive',
     },
   },
-)
+  defaultVariants: {
+    variant: 'default',
+  },
+})
 
-const Alert = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
->(({ className, variant, ...props }, ref) => (
-  <div
-    ref={ref}
-    role='alert'
-    className={cn(alertVariants({ variant }), className)}
-    {...props}
-  />
-))
+interface AlertProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof alertVariants> {
+  isCenter?: boolean
+}
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
+  ({ className, variant, isCenter, ...props }, ref) => (
+    <div
+      ref={ref}
+      role='alert'
+      className={cn(
+        alertVariants({ variant }),
+        isCenter
+          ? 'flex items-center justify-center gap-1'
+          : '[&>svg]:absolute [&>svg]:top-4 [&>svg]:left-4 [&>svg+div]:translate-y-[-3px] [&>svg~*]:pl-7 [&>svg]:text-foreground',
+        className,
+      )}
+      {...props}
+    />
+  ),
+)
 Alert.displayName = 'Alert'
 
 const AlertTitle = React.forwardRef<

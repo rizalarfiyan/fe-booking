@@ -23,3 +23,14 @@ export interface IBookCard {
   width: string
   rating: number
 }
+
+export interface ILeaderboard {
+  id: number
+  first_name: string
+  last_name?: string
+  email: string
+  avatar: string
+  point: number
+  count: number
+  isMe?: boolean
+}
