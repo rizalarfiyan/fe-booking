@@ -54,7 +54,7 @@ const Component: React.FC = () => {
   return (
     <Layout
       title='Login'
-      description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis ea fugit nam nisi, officia.'
+      description='Sign in to access your account. Once logged in, manage your profile and access exclusive features.'
       hasBack
     >
       <Form {...form}>

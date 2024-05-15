@@ -57,7 +57,7 @@ const Component: React.FC = () => {
   return (
     <Layout
       title='Register'
-      description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis ea fugit nam nisi, officia.'
+      description='To create an account, fill out the form. Upon completion, you receive a confirmation email to activate your account.'
       hasBack
     >
       <Form {...form}>

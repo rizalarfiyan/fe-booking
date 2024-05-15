@@ -51,7 +51,7 @@ const Component: React.FC = () => {
   return (
     <Layout
       title='Change Password'
-      description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis ea fugit nam nisi, officia.'
+      description='Prioritize your accounts security and privacy by setting a new password to strengthen protection measures.'
       hasBack
       replaceBack
     >
