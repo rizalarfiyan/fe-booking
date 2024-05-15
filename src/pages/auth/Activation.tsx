@@ -24,7 +24,7 @@ const Component: React.FC = () => {
           making a positive impact on waste management right away.
         </Typography>
       </div>
-      <Button className='w-full' asChild>
+      <Button isFluid asChild>
         <Link to='/login' replace>
           Back to Login
         </Link>

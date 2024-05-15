@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Layout from '@layouts/Auth'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
 import {
@@ -18,6 +18,7 @@ import { Button } from '@components/Button'
 import { Checkbox } from '@components/Checkbox'
 import { Typography } from '@components/Typograpy'
 import { Eye, EyeOff } from 'lucide-react'
+import useAuth from '@hooks/useAuth'
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -27,18 +28,22 @@ const formSchema = z.object({
 
 const Component: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
+  const { login } = useAuth()
+  const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'admin@admin.com',
+      password: 'password',
       isRemember: false,
     },
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
+    login()
+    navigate('/')
   }
 
   const onTogglePassword = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -123,7 +128,7 @@ const Component: React.FC = () => {
             />
           </div>
           <div className='space-y-2'>
-            <Button type='submit' className='w-full'>
+            <Button type='submit' isFluid>
               Login
             </Button>
             <Typography as='p' type='description'>

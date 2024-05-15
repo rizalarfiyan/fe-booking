@@ -24,24 +24,40 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: 'login',
-        lazy: lazyWrap(() => import('@pages/auth/Login')),
+        path: '/',
+        lazy: lazyWrap(() => import('@layouts/AuthGuard'), true),
+        children: [
+          {
+            path: 'login',
+            lazy: lazyWrap(() => import('@pages/auth/Login')),
+          },
+          {
+            path: 'register',
+            lazy: lazyWrap(() => import('@pages/auth/Register')),
+          },
+          {
+            path: 'forgot-password',
+            lazy: lazyWrap(() => import('@pages/auth/ForgotPassword')),
+          },
+          {
+            path: 'change-password',
+            lazy: lazyWrap(() => import('@pages/auth/ChangePassword')),
+          },
+          {
+            path: 'activation',
+            lazy: lazyWrap(() => import('@pages/auth/Activation')),
+          },
+        ],
       },
       {
-        path: 'register',
-        lazy: lazyWrap(() => import('@pages/auth/Register')),
-      },
-      {
-        path: 'forgot-password',
-        lazy: lazyWrap(() => import('@pages/auth/ForgotPassword')),
-      },
-      {
-        path: 'change-password',
-        lazy: lazyWrap(() => import('@pages/auth/ChangePassword')),
-      },
-      {
-        path: 'activation',
-        lazy: lazyWrap(() => import('@pages/auth/Activation')),
+        path: 'dashboard',
+        lazy: lazyWrap(() => import('@layouts/Dashboard'), true),
+        children: [
+          {
+            index: true,
+            lazy: lazyWrap(() => import('@pages/dashboard/Dashboard')),
+          },
+        ],
       },
       {
         path: '*',

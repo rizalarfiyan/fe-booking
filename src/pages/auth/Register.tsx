@@ -160,7 +160,7 @@ const Component: React.FC = () => {
             />
           </div>
           <div className='space-y-2'>
-            <Button type='submit' className='w-full'>
+            <Button type='submit' isFluid>
               Register
             </Button>
             <Typography as='p' type='description'>

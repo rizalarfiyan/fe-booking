@@ -19,12 +19,11 @@ const typographyVariants = cva('', {
       custom: '',
     },
     type: {
-      description: 'text-slate-500 dark:text-slate-400',
+      description: 'text-muted-foreground',
       title: 'text-primary-600 dark:text-primary-500',
       secondary: 'text-secondary-800 dark:text-secondary-100',
       default: 'text-slate-900 dark:text-slate-50',
-      'small-description':
-        'text-slate-500 text-sm leading-tight dark:text-slate-400',
+      'small-description': 'text-muted-foreground text-sm leading-tight',
       underline:
         'cursor-pointer underline decoration-2 decoration-current underline-offset-2',
     },
