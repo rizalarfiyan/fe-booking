@@ -9,7 +9,7 @@ const Component: React.FC = () => {
   return (
     <Layout
       title='Activation'
-      description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis ea fugit nam nisi, officia.'
+      description='Tapping on the Activation menu initiates the process, unlocking additional features and benefits upon completion.'
       hasBack
       replaceBack
     >
@@ -20,8 +20,7 @@ const Component: React.FC = () => {
           className='font-semibold dark:text-slate-200'
           type='description'
         >
-          Congratulations! Your account is now active. You can log in and start
-          making a positive impact on waste management right away.
+          Congratulations! Your activation is complete.
         </Typography>
       </div>
       <Button isFluid asChild>

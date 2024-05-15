@@ -36,7 +36,7 @@ const Component: React.FC = () => {
   return (
     <Layout
       title='Forgot Password'
-      description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis ea fugit nam nisi, officia.'
+      description='Trouble accessing your account? No worries! Just enter your email to reset your password and regain access.'
       hasBack
     >
       <Form {...form}>
