@@ -34,7 +34,7 @@ const Component: React.FC = () => {
         errorElement={<ErrorMessage message="Couldn't load leaderboard" />}
       >
         {(leaderboards) => (
-          <div className='flex w-full flex-col justify-center gap-6 1400w:flex-row'>
+          <div className='flex w-full flex-col items-center justify-center gap-12 1400w:flex-row 1400w:items-start 1400w:gap-6'>
             <div className='w-full max-w-3xl space-y-6'>
               <LeaderboardTopThree leaderboards={leaderboards.slice(0, 3)} />
               <LeaderboardTable

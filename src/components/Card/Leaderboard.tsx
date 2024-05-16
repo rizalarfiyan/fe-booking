@@ -1,4 +1,4 @@
-import { Bolt, BookOpenText, Trophy } from 'lucide-react'
+import { Bolt, BookOpenText, Medal, Trophy } from 'lucide-react'
 import React, { useMemo } from 'react'
 import { getOrdinal } from '@utils/number'
 import { Card, CardContent } from '@components/Card'
@@ -36,7 +36,8 @@ const CardLeaderboard: React.FC<CardLeaderboardProps> = ({
   }, [rank, total, point])
 
   return (
-    <Card className='w-full space-y-3 p-6'>
+    <Card className='relative z-10 w-full space-y-3 overflow-hidden p-6'>
+      <Medal className='-right-20 absolute z-[-1] size-52 text-slate-400 opacity-10 dark:text-slate-200' />
       <CardContent className='flex flex-col gap-6 p-0'>
         {data.map((item, idx) => {
           return (
