@@ -10,6 +10,15 @@ import { Await, defer, useLoaderData } from 'react-router-dom'
 import CardBook from '@components/Card/Book'
 import type { IBookCard } from '@/types/data'
 import { TitleDescription } from '@components/TitleDescription'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@components/Pagination'
 
 interface IPromiseFilter {
   years: Promise<number[]>
@@ -43,12 +52,40 @@ const Component: React.FC = () => {
             <Suspense fallback='Loading...'>
               <Await resolve={books} errorElement='Error...'>
                 {(books) => (
-                  <div className='space-y-8'>
+                  <div className='space-y-16'>
                     <div className='flex flex-wrap justify-center gap-4'>
                       {books.map((book: IBookCard, idx: number) => {
                         return <CardBook key={idx} {...book} />
                       })}
                     </div>
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious />
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationLink isActive>1</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationLink>2</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationLink>3</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationLink>80</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationLink>81</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationNext />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
                   </div>
                 )}
               </Await>
