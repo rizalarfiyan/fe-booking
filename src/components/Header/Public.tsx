@@ -1,11 +1,11 @@
 import { Button } from '@components/Button'
 import { Typography } from '@components/Typograpy'
-import { BookOpenText } from 'lucide-react'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import useAuth from '@hooks/useAuth'
 import { UserDropdown } from '@components/UserDropdown'
 import DarkModeToggle from '@components/DarkModeToggle'
+import Logo from '@components/Logo'
 
 const HeaderPublic: React.FC = () => {
   const { isLoggedIn } = useAuth()
@@ -15,7 +15,7 @@ const HeaderPublic: React.FC = () => {
       <div className='container flex justify-between'>
         <Link to='/' className='flex items-center gap-2'>
           <Typography type='title' asChild>
-            <BookOpenText className='size-7' />
+            <Logo className='size-7' />
           </Typography>
           <Typography as='h1' variant='h3' type='title'>
             Booking

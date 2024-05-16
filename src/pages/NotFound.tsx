@@ -1,6 +1,6 @@
 import { Button } from '@components/Button'
 import { Typography } from '@components/Typograpy'
-import GraphicNotFound from '@components/graphic/NotFound'
+import GraphicNotFound from '@components/Graphic/NotFound'
 import { ChevronLeft } from 'lucide-react'
 import type React from 'react'
 import { Link } from 'react-router-dom'
