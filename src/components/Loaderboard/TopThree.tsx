@@ -2,7 +2,7 @@ import React from 'react'
 import { cn } from '@utils/classes'
 import { getOrdinal } from '@utils/number'
 import { Typography } from '@components/Typograpy'
-import { getAvatarName, getFullName } from '@utils/string'
+import { getAvatarName, getFullName, plural } from '@utils/string'
 import { Avatar, AvatarFallback, AvatarImage } from '@components/Avatar'
 import { Badge } from '@components/Badge'
 import type { ILeaderboard } from '@/types/data'
@@ -47,9 +47,9 @@ const LeaderboardTopThree: React.FC<LeaderboardTopThreeProps> = ({
             <Typography
               as='span'
               type='small-description'
-              className='text-slate-900'
+              className='text-center text-slate-900'
             >
-              {data?.point || 0}pts
+              {plural(data?.point || 0, 'pt')}
             </Typography>
             <div className='gap absolute top-[-90px] flex flex-col items-center gap-1'>
               <div className='relative'>

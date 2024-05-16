@@ -48,6 +48,6 @@ export interface ILeaderboard {
   email: string
   avatar: string
   point: number
-  count: number
+  book: number
   isMe?: boolean
 }

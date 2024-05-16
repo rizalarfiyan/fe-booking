@@ -59,7 +59,7 @@ const Component: React.FC = () => {
             <div className='w-full max-w-sm space-y-6'>
               <CardLeaderboard rank={1} point={2235} total={52} />
               <Typography as='h2' className='text-center'>
-                My Tear List
+                My Tier List
               </Typography>
               <TierLeaderboard point={2235} />
             </div>
@@ -76,7 +76,7 @@ const fakeLeaderboards = async () => {
     last_name: 'Royo Opo Wae Jenenge Nang Kene Ono',
     email: 'paijo.royo@gmail.com',
     avatar: 'https://avatars.githubusercontent.com/u/19503666',
-    count: i + 1,
+    book: i + 1,
     point: (i + 1) * 100,
     isMe: i === 13 || i === 5,
   })).sort((a, b) => b.point - a.point)
