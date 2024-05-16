@@ -51,13 +51,13 @@ const BookDetail: React.FC<BookDetailProps> = ({ book }) => {
 
   return (
     <div className='mx-auto mt-28 mb-20 max-w-4xl space-y-10 p-4'>
-      <div className='flex w-full items-start justify-between'>
-        <div className='h-full w-1/3 object-fill transition-transform duration-300 group-hover:scale-105'>
+      <div className='flex w-full flex-col items-start md:flex-row'>
+        <div className='h-full w-full object-fill transition-transform duration-300 md:w-1/3 group-hover:scale-105'>
           <div className='overflow-hidden rounded-lg shadow-lg'>
             <img src={image} alt={title} className='w-full' />
           </div>
         </div>
-        <div className='w-2/3 pl-6'>
+        <div className='mt-6 w-full md:mt-0 md:w-2/3 md:pl-6'>
           <Typography className='font-bold text-2xl'>{title}</Typography>
           <Typography className='text-gray-600 text-lg'>
             by {authors.join(', ')}
