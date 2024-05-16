@@ -2,9 +2,9 @@ import React from 'react'
 
 import { Button } from '@components/Button'
 import { Typography } from '@components/Typograpy'
-import AuthGraphic from '@images/graphics/auth.svg?react'
 import { ArrowLeft } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import GraphicAuth from '@components/Graphics/Auth'
 
 export interface IAuthLayoutProps {
   title: string
@@ -23,8 +23,8 @@ const Layout: React.FC<IAuthLayoutProps> = ({
 }) => {
   return (
     <div className='flex justify-center bg-background'>
-      <div className='hidden h-full min-h-screen flex-1 bg-slate-100 md:flex md:items-center dark:bg-slate-700'>
-        <AuthGraphic className='mx-auto hidden h-auto w-full max-w-3xl lg:block' />
+      <div className='hidden h-full min-h-screen flex-1 bg-slate-100 md:flex md:items-center dark:bg-slate-800'>
+        <GraphicAuth className='mx-auto hidden h-auto w-full max-w-2xl lg:block' />
       </div>
       <main className='relative h-full min-h-screen w-full max-w-xl lg:max-w-2xl md:max-w-3xl'>
         <div className='flex min-h-screen w-full items-center justify-center p-10 py-24'>

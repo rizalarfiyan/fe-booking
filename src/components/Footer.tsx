@@ -1,7 +1,6 @@
 import { Button } from '@components/Button'
 import { Typography } from '@components/Typograpy'
 import {
-  BookOpenText,
   Facebook,
   Linkedin,
   type LucideIcon,
@@ -14,6 +13,7 @@ import {
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { isExternalUrl } from '@utils/url'
+import Logo from '@components/Logo'
 
 interface FooterItem {
   title: string
@@ -122,7 +122,7 @@ const Footer: React.FC = () => {
               <Link to='/'>
                 <div className='flex items-center gap-2'>
                   <Typography type='title' asChild>
-                    <BookOpenText className='size-10' />
+                    <Logo className='size-10' />
                   </Typography>
                   <Typography as='h2' variant='h2' type='title'>
                     Booking
