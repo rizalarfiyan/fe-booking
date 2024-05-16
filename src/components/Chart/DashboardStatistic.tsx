@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader } from '@components/Card'
 import { DATETIME_FORMAT } from '@/constants/app'
 import { parseDate } from '@utils/date'
 import { Typography } from '@components/Typograpy'
+import { plural } from '@utils/string'
 
 interface CardDashboardStatisticProps {
   data: ILabelValue<number>[]
@@ -24,7 +25,9 @@ const CardDashboardStatistic: React.FC<CardDashboardStatisticProps> = ({
   return (
     <Card>
       <CardHeader className='pb-2 text-center'>
-        <Typography>Statistic last 1 month</Typography>
+        <Typography as='p' className='font-semibold'>
+          Statistic last 1 month
+        </Typography>
       </CardHeader>
       <CardContent className='h-[420px] w-full p-0 text-slate-900 dark:text-slate-50'>
         <ResponsiveContainer width='100%' height='100%'>
@@ -63,7 +66,10 @@ const CardDashboardStatistic: React.FC<CardDashboardStatisticProps> = ({
                         <Typography className='font-semibold'>
                           {parseDate(label, DATETIME_FORMAT.date)}
                         </Typography>
-                        <Typography>{payload[0].value}</Typography>
+                        <Typography>
+                          Borrowed{' '}
+                          {plural((payload[0].value as number) || 0, 'book')}
+                        </Typography>
                       </CardContent>
                     </Card>
                   )

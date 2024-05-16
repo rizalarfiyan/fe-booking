@@ -37,15 +37,7 @@ const Component: React.FC = () => {
           }}
         </Await>
       </Suspense>
-      <Suspense
-        fallback={
-          <div className='flex flex-wrap justify-center gap-6'>
-            {Array.from({ length: 4 }, (_, idx) => {
-              return <Skeleton key={idx} className='h-36 w-72' />
-            })}
-          </div>
-        }
-      >
+      <Suspense fallback={<Skeleton className='h-[420px] w-full' />}>
         <Await
           resolve={statistics}
           errorElement={<ErrorMessage message="Couldn't load statistic" />}
@@ -74,7 +66,7 @@ const fakeDashboard = async () => {
           title: 'Overthinking Is My Hobby, And I Hate It',
         },
       })
-    }, 1000)
+    }, 1500)
   })
 }
 
@@ -94,12 +86,10 @@ const fakeStatistics = async () => {
     })
   }
 
-  console.log(statistics)
-
   return await new Promise((resolve) => {
     setTimeout(() => {
       resolve(statistics)
-    }, 1000)
+    }, 2000)
   })
 }
 
