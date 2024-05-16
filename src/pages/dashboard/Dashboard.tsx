@@ -1,29 +1,23 @@
 import React from 'react'
-import DashboardLeaderboard from '@components/Loaderboard/Dashboard'
+import { DashboardInformation } from '@components/Dashboard/Information'
 
 const Component: React.FC = () => {
+  const data = {
+    point: 6023,
+    total: 52,
+    borrow: {
+      count: 3,
+      max: 5,
+    },
+    nearest: {
+      date: '2021-09-01',
+      title: 'Overthinking Is My Hobby, And I Hate It',
+    },
+  }
+
   return (
     <div className=''>
-      <DashboardLeaderboard point={6023} total={52} borrow={2} maxBorrow={5} />
-      {/*<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-7'>*/}
-      {/*  <Card className='col-span-4'>*/}
-      {/*    <CardHeader>*/}
-      {/*      <CardTitle>Overview</CardTitle>*/}
-      {/*    </CardHeader>*/}
-      {/*    <CardContent className='pl-2'>*/}
-      {/*      <Overview />*/}
-      {/*    </CardContent>*/}
-      {/*  </Card>*/}
-      {/*  <Card className='col-span-3'>*/}
-      {/*    <CardHeader>*/}
-      {/*      <CardTitle>Recent Sales</CardTitle>*/}
-      {/*      <CardDescription>You made 265 sales this month.</CardDescription>*/}
-      {/*    </CardHeader>*/}
-      {/*    <CardContent>*/}
-      {/*      <RecentSales />*/}
-      {/*    </CardContent>*/}
-      {/*  </Card>*/}
-      {/*</div>*/}
+      <DashboardInformation data={data} />
     </div>
   )
 }

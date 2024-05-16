@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from '@components/Card'
 import { Typography } from '@components/Typograpy'
 import type { LucideIcon } from 'lucide-react'
 
-interface DashboardInformationProps {
+interface CardDashboardInformationProps {
   label: string
   value: string
   icon: LucideIcon
@@ -11,7 +11,7 @@ interface DashboardInformationProps {
   tier?: string
 }
 
-const DashboardInformation: React.FC<DashboardInformationProps> = ({
+const CardDashboardInformation: React.FC<CardDashboardInformationProps> = ({
   label,
   value,
   icon: Icon,
@@ -19,7 +19,7 @@ const DashboardInformation: React.FC<DashboardInformationProps> = ({
   tier,
 }) => {
   return (
-    <Card className='relative z-[1] overflow-hidden'>
+    <Card className='relative z-[1] w-full max-w-72 overflow-hidden'>
       <Icon className='-right-10 absolute top-1 z-[-1] size-32 text-slate-400 opacity-10 dark:text-slate-200' />
       <CardHeader className='pb-2'>
         <Typography as='h3' variant='p' type='description'>
@@ -33,7 +33,11 @@ const DashboardInformation: React.FC<DashboardInformationProps> = ({
           </Typography>
           {tier && <img src={tier} alt={label} className='size-8' />}
         </div>
-        <Typography as='p' type='small-description'>
+        <Typography
+          as='p'
+          type='small-description'
+          className='max-w-56 truncate'
+        >
           {description}
         </Typography>
       </CardContent>
@@ -41,4 +45,4 @@ const DashboardInformation: React.FC<DashboardInformationProps> = ({
   )
 }
 
-export default DashboardInformation
+export default CardDashboardInformation
