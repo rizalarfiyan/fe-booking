@@ -1,4 +1,5 @@
 import type { LucideIcon } from 'lucide-react'
+import type { BookHistoryType } from '@/types/book'
 
 export interface IContactInformation {
   icon: LucideIcon
@@ -63,4 +64,15 @@ export interface IDashboardInformation {
     title: string
     date: string
   }
+}
+
+export interface IHistoryBook {
+  isbn: string
+  title: string
+  slug: string
+  image: string
+  point?: number
+  status: BookHistoryType
+  borrowAt: string
+  returnAt?: string
 }

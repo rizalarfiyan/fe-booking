@@ -32,7 +32,7 @@ const Component: React.FC = () => {
             <div className='w-full max-w-sm space-y-6'>
               <Skeleton className='h-64 w-full' />
               <Skeleton className='mx-auto h-10 w-48' />
-              <div className='space-y-2'>
+              <div className='space-y-4'>
                 {Array.from({ length: 5 }, (_, idx) => {
                   return <Skeleton key={idx} className='h-14 w-full' />
                 })}

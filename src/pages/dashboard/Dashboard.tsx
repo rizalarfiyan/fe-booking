@@ -1,21 +1,24 @@
 import React, { Suspense } from 'react'
 import { DashboardInformation } from '@components/Dashboard/Information'
 import { Await, defer, useLoaderData } from 'react-router-dom'
-import type { IDashboardInformation } from '@/types/data'
+import type { IDashboardInformation, IHistoryBook } from '@/types/data'
 import { ErrorMessage } from '@components/ErrorMessage'
 import { Skeleton } from '@components/Skeleton'
 import dayjs from 'dayjs'
 import type { ILabelValue } from '@/types/base'
 import { DATETIME_FORMAT } from '@/constants/app'
 import { CardDashboardStatistic } from '@components/Chart/DashboardStatistic'
+import { DashboardTable } from '@components/Dashboard/History'
 
 interface IPromiseDashboard {
   information: Promise<IDashboardInformation>
   statistics: Promise<ILabelValue<number>[]>
+  histories: Promise<IHistoryBook[]>
 }
 
 const Component: React.FC = () => {
-  const { information, statistics } = useLoaderData() as IPromiseDashboard
+  const { information, statistics, histories } =
+    useLoaderData() as IPromiseDashboard
 
   return (
     <div className='space-y-8'>
@@ -45,6 +48,22 @@ const Component: React.FC = () => {
           {(statistics) => {
             return <CardDashboardStatistic data={statistics} />
           }}
+        </Await>
+      </Suspense>
+      <Suspense
+        fallback={
+          <div className='space-y-2'>
+            {Array.from({ length: 5 }, (_, idx) => {
+              return <Skeleton key={idx} className='h-16 w-full' />
+            })}
+          </div>
+        }
+      >
+        <Await
+          resolve={histories}
+          errorElement={<ErrorMessage message="Couldn't load statistic" />}
+        >
+          {(histories) => <DashboardTable data={histories} />}
         </Await>
       </Suspense>
     </div>
@@ -93,10 +112,22 @@ const fakeStatistics = async () => {
   })
 }
 
+const fakeHistories = async () => {
+  const histories = await import('@dummy/history.json').then(
+    (res) => res.default,
+  )
+  return await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(histories)
+    }, 1750)
+  })
+}
+
 const loader = async () => {
   return defer({
     information: fakeDashboard(),
     statistics: fakeStatistics(),
+    histories: fakeHistories(),
   })
 }
 
