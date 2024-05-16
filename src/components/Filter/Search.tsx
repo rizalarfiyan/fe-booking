@@ -9,7 +9,14 @@ const FilterSearch: React.FC = () => {
     - Implement throttle/debounce for search
   * */
 
-  return <Input type='text' placeholder='Title, Author, ISBN' icon={Search} />
+  return (
+    <Input
+      type='text'
+      placeholder='Title, Author, ISBN'
+      parentClassName='w-full sm:w-auto'
+      icon={Search}
+    />
+  )
 }
 
 export default FilterSearch

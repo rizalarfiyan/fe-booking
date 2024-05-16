@@ -6,12 +6,13 @@ export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: LucideIcon
   action?: React.ReactNode
+  parentClassName?: string
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, icon: Icon, action, ...props }, ref) => {
+  ({ className, parentClassName, type, icon: Icon, action, ...props }, ref) => {
     return (
-      <div className='relative'>
+      <div className={cn('relative', parentClassName)}>
         <input
           type={type}
           className={cn(

@@ -43,7 +43,7 @@ const Component: React.FC = () => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
     login()
-    navigate('/')
+    navigate('/dashboard')
   }
 
   const onTogglePassword = (e: React.MouseEvent<HTMLButtonElement>) => {

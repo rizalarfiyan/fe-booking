@@ -5,13 +5,20 @@ import FilterRating from '@components/Filter/Rating'
 import FilterSearch from '@components/Filter/Search'
 import FilterSorting from '@components/Filter/Sorting'
 import FilterYear from '@components/Filter/Year'
-import { ToggleGroup, ToggleGroupItem } from '@components/ToggleGroup'
-import { Typography } from '@components/Typograpy'
-import { LayoutGrid, LayoutList } from 'lucide-react'
 import React, { Suspense } from 'react'
 import { Await, defer, useLoaderData } from 'react-router-dom'
 import CardBook from '@components/Card/Book'
 import type { IBookCard } from '@/types/data'
+import { TitleDescription } from '@components/TitleDescription'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@components/Pagination'
 
 interface IPromiseFilter {
   years: Promise<number[]>
@@ -23,13 +30,13 @@ const Component: React.FC = () => {
   const { years, categories, books } = useLoaderData() as IPromiseFilter
 
   return (
-    <div className='mt-28 mb-20 w-full space-y-4'>
-      <Typography as='h1' variant='h2'>
-        All Books
-      </Typography>
-      <div className='flex flex-col gap-6 1100w:flex-row'>
-        <div className='w-80 space-y-4'>
-          <FilterSearch />
+    <div className='mt-28 mb-20 w-full space-y-16'>
+      <TitleDescription
+        title='All Books'
+        description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur explicabo laudantium quisquam suscipit totam.'
+      />
+      <div className='flex flex-col items-center gap-6 1100w:flex-row 1100w:items-start'>
+        <div className='w-full max-w-lg space-y-4 1100w:w-80'>
           <Accordion type='multiple' className='w-full'>
             <FilterRating />
             <FilterYear years={years} />
@@ -37,32 +44,48 @@ const Component: React.FC = () => {
           </Accordion>
         </div>
         <div className='w-full space-y-8'>
-          <div className='flex items-center justify-between'>
+          <div className='mx-auto flex max-w-lg flex-col items-center justify-between gap-4 1100w:max-w-full sm:flex-row'>
+            <FilterSearch />
             <FilterSorting />
-            <ToggleGroup
-              type='single'
-              variant='outline'
-              defaultValue='grid'
-              className='space-x-1'
-            >
-              <ToggleGroupItem value='grid' aria-label='Toggle Grid'>
-                <LayoutGrid className='size-5' />
-              </ToggleGroupItem>
-              <ToggleGroupItem value='list' aria-label='Toggle List'>
-                <LayoutList className='size-5' />
-              </ToggleGroupItem>
-            </ToggleGroup>
           </div>
           <div className=''>
             <Suspense fallback='Loading...'>
               <Await resolve={books} errorElement='Error...'>
                 {(books) => (
-                  <div className='space-y-8'>
-                    <div className='flex flex-wrap items-center justify-center gap-4'>
+                  <div className='space-y-16'>
+                    <div className='flex flex-wrap justify-center gap-4'>
                       {books.map((book: IBookCard, idx: number) => {
                         return <CardBook key={idx} {...book} />
                       })}
                     </div>
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious />
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationLink isActive>1</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationLink>2</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationLink>3</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationLink>80</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationLink>81</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationNext />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
                   </div>
                 )}
               </Await>
@@ -139,28 +162,7 @@ const fakeCategories = async () => {
 }
 
 const fakeBooks = async () => {
-  const books = Array.from({ length: 16 }, (_, idx) => {
-    const num = Math.floor(Math.random() * 16) + 1 + idx
-    return {
-      authors: ['James Clear'],
-      rating: 4.5,
-      title: `Gadis Kretek ${num} Gadis Kretek Gadis Kretek Gadis Kretek Gadis Kretek Gadis Kretek`,
-      slug: `gadis-kretek-${num}`,
-      image:
-        'https://cdn.gramedia.com/uploads/picture_meta/2023/10/24/qsey9q69mtex5nshhdhjn6.jpg',
-      pages: '288',
-      weight: '0.2',
-      height: '20',
-      width: '13.5',
-      isbn: '9789792281415',
-      sku: '623202035',
-      publishedAt: '2023-11-07T17:00:00',
-      language: 'Indonesia',
-      description:
-        'Pak Raja sekarat. Dalam menanti ajal, ia memanggil satu nama perempuan yang bukan istrinya; Jeng Yah. Tiga anaknya, pewaris Kretek Djagad Raja, dimakan gundah. Sang ibu pun terbakar cemburu terlebih karena permintaan terakhir suaminya ingin bertemu Jeng Yah. Maka berpacu dengan malaikat maut, Lebas, Karim, dan Tegar, pergi ke pelosok Jawa untuk mencari Jeng Yah, sebelum ajal menjemput sang Ayah. Perjalanan itu bagai napak tilas bisnis dan rahasia keluarga. Lebas, Karim, dan Tegar bertemu dengan pelinting tua dan menguak asal-usul Kretek Djagad Raja hingga menjadi kretek nomor 1 di Indonesia. Lebih dari itu, ketiganya juga mengetahui kisah cinta ayah mereka dengar; Jeng Yah, yang ternyata adalah pemilik Kretek Gadis, kretek lokal Kota M yang terkenal pada zamannya. Apakah Lebas, Karim, dan Tegar akhirnya berhasil menemukan Jeng Yah?\nGadis Kretek tidak sekadar bercerita tentang cinta dan pencarian jati diri para tokohnya. Dengan latar Kota M, Kudus, Jakarta, dari periode penjajahan Belanda hingga kemerdekaan, Gadis Kretek akan membawa pembaca berkenalan dengan perkembangan industri kretek di Indonesia. Kaya akan wangi tembakau. Sarat dengan aroma cinta.',
-    }
-  })
-
+  const books = await import('@dummy/books.json').then((res) => res.default)
   return await new Promise((resolve) => {
     setTimeout(() => {
       resolve(books)
