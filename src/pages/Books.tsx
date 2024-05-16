@@ -106,7 +106,7 @@ const categories: ISlugTitle[] = [
   { slug: 'business', title: 'Business' },
   { slug: 'children', title: "Children's" },
   { slug: 'comedy', title: 'Comedy' },
-  { slug: 'comics', title: 'Graphic Novels/Comics' },
+  { slug: 'comics', title: 'Graphics Novels/Comics' },
   { slug: 'cookbooks', title: 'Cookbooks' },
   { slug: 'crime', title: 'Crime' },
   { slug: 'drama', title: 'Drama' },

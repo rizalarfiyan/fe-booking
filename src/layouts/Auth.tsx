@@ -4,7 +4,7 @@ import { Button } from '@components/Button'
 import { Typography } from '@components/Typograpy'
 import { ArrowLeft } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import GraphicAuth from '@components/Graphic/Auth'
+import GraphicAuth from '@components/Graphics/Auth'
 
 export interface IAuthLayoutProps {
   title: string
