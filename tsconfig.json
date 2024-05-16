@@ -26,6 +26,7 @@
       "@stores/*": ["src/stores/*"],
       "@css/*": ["src/assets/css/*"],
       "@images/*": ["src/assets/images/*"],
+      "@dummy/*": ["src/assets/dummy/*"],
       "@/*": ["src/*"]
     }
   },

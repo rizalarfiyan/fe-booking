@@ -17,6 +17,7 @@ import { Input } from '@components/Input'
 import { Textarea } from '@components/Textarea'
 import type { IContactInformation } from '@/types/data'
 import CardContactInformation from '@components/Card/ContactInformation'
+import { TitleDescription } from '@components/TitleDescription'
 
 const contacts: IContactInformation[] = [
   {
@@ -82,13 +83,11 @@ const Component: React.FC = () => {
   return (
     <div className='mt-28 mb-20 space-y-20'>
       <div className='space-y-10'>
-        <div className='mx-auto max-w-md space-y-2 text-center'>
-          <Typography as='h2'>Get in Touch</Typography>
-          <Typography type='description'>
-            We love hearing from you! Please select the appropriate option below
-            and send us a message.
-          </Typography>
-        </div>
+        <TitleDescription
+          title='Get in Touch'
+          description='We love hearing from you! Please select the appropriate option below
+            and send us a message.'
+        />
         <div className='mx-auto flex flex-wrap justify-center gap-4'>
           {contacts.map((contact, idx) => (
             <CardContactInformation key={idx} {...contact} />

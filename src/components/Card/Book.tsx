@@ -45,7 +45,11 @@ const CardBook: React.FC<IBookCard> = ({
         <CardContent className='flex gap-4 p-0'>
           <div className='flex gap-1.5'>
             <User className='size-4 text-slate-500 dark:text-slate-400' />
-            <Typography as='span' type='small-description'>
+            <Typography
+              as='span'
+              type='small-description'
+              className='max-w-28 truncate'
+            >
               {getAuthor(authors)}
             </Typography>
           </div>
