@@ -24,6 +24,23 @@ export interface IBookCard {
   rating: number
 }
 
+export interface IBookDetail {
+  authors: string[]
+  description: string
+  height: string
+  image: string
+  isbn: string
+  language: string
+  pages: string
+  publishedAt: string
+  sku: string
+  slug: string
+  title: string
+  weight: string
+  width: string
+  rating: number
+}
+
 export interface ILeaderboard {
   id: number
   first_name: string
