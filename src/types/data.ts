@@ -51,3 +51,16 @@ export interface ILeaderboard {
   book: number
   isMe?: boolean
 }
+
+export interface IDashboardInformation {
+  total: number
+  point: number
+  borrow: {
+    count: number
+    max: number
+  }
+  nearest: {
+    title: string
+    date: string
+  }
+}

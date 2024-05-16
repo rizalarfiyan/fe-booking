@@ -4,22 +4,10 @@ import { getCurrentTier } from '@utils/dashboard'
 import { plural } from '@utils/string'
 import CardDashboardInformation from '@components/Card/DashboardInformation'
 import { parseDate } from '@utils/date'
-
-interface DashboardInformationData {
-  total: number
-  point: number
-  borrow: {
-    count: number
-    max: number
-  }
-  nearest: {
-    title: string
-    date: string
-  }
-}
+import type { IDashboardInformation } from '@/types/data'
 
 interface DashboardInformationProps {
-  data: DashboardInformationData
+  data: IDashboardInformation
 }
 
 const DashboardInformation: React.FC<DashboardInformationProps> = ({

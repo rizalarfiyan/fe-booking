@@ -7,4 +7,5 @@ export const DATETIME_FORMAT = {
   date: 'DD MMMM YYYY',
   time: 'HH:mm:ss',
   datetime: 'DD MMMM YYYY HH:mm:ss',
+  statistic: 'DD MMM',
 }
