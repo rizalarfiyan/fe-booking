@@ -20,11 +20,24 @@ const Component: React.FC = () => {
     <Suspense
       fallback={
         <>
-          <Skeleton className='h-96 w-full' />
-          <div className='space-y-3'>
-            {Array.from({ length: 5 }, (_, idx) => {
-              return <Skeleton key={idx} className='h-12 w-full' />
-            })}
+          <div className='flex w-full flex-col items-center gap-12 1400w:flex-row 1400w:items-start 1400w:gap-6'>
+            <div className='w-full max-w-3xl space-y-6'>
+              <Skeleton className='h-96 w-full' />
+              <div className='space-y-3'>
+                {Array.from({ length: 5 }, (_, idx) => {
+                  return <Skeleton key={idx} className='h-12 w-full' />
+                })}
+              </div>
+            </div>
+            <div className='w-full max-w-sm space-y-6'>
+              <Skeleton className='h-64 w-full' />
+              <Skeleton className='mx-auto h-10 w-48' />
+              <div className='space-y-2'>
+                {Array.from({ length: 5 }, (_, idx) => {
+                  return <Skeleton key={idx} className='h-14 w-full' />
+                })}
+              </div>
+            </div>
           </div>
         </>
       }
