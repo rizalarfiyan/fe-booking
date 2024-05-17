@@ -30,7 +30,7 @@ const Component: React.FC = () => {
   const { years, categories, books } = useLoaderData() as IPromiseFilter
 
   return (
-    <div className='mt-28 mb-20 w-full space-y-16'>
+    <div className='container mt-28 mb-20 w-full space-y-16'>
       <TitleDescription
         title='All Books'
         description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur explicabo laudantium quisquam suscipit totam.'

@@ -1,8 +1,18 @@
-import { Card, CardContent } from '@components/Card'
-import GraphicAboutInformation from '@components/Graphic/AboutInformation'
-import GraphicAboutVision from '@components/Graphic/AboutVision'
+import { Button } from '@components/Button'
+import { Card, CardContent, CardHeader } from '@components/Card'
+import GraphicAboutInformation from '@components/Graphics/AboutInformation'
+import GraphicAboutVision from '@components/Graphics/AboutVision'
 import { Typography } from '@components/Typograpy'
-import { Linkedin, Instagram, Github } from 'lucide-react'
+import {
+  Linkedin,
+  Instagram,
+  Github,
+  Quote,
+  BookUp2,
+  UserRound,
+  Check,
+} from 'lucide-react'
+import { TitleDescription } from '@components/TitleDescription'
 import React from 'react'
 
 const teamMembers = [
@@ -10,217 +20,289 @@ const teamMembers = [
     name: 'Muhamad Rizal Arfiyan',
     role: 'CO & Founder',
     image: 'https://avatars.githubusercontent.com/u/19503666?v=4',
-    linkedin: '#',
-    instagram: '#',
-    github: '#',
+    linkedin: 'https://linkedin.com',
+    instagram: 'https://instagram.com',
+    github: 'https://github.com/rizalarfiyan',
   },
   {
     name: 'Gilang Nur Hidayat',
     role: 'CO & Founder',
     image: 'https://avatars.githubusercontent.com/u/130344101?v=4',
-    linkedin: '#',
-    instagram: '#',
-    github: '#',
+    linkedin: 'https://linkedin.com',
+    instagram: 'https://instagram.com',
+    github: 'https://github.com/glngnoor',
   },
   {
     name: 'Damar Galih',
     role: 'CO & Founder',
     image:
       'https://damar-glh.github.io/me/static/media/Damar.7d80677b81bb3c0271dc.jpg',
-    linkedin: '#',
-    instagram: '#',
-    github: '#',
+    linkedin: 'https://linkedin.com',
+    instagram: 'https://instagram.com',
+    github: 'https://github.com/damar-glh',
   },
   {
     name: 'Ahmad Mufied Nugroho',
     role: 'CO & Founder',
     image: 'https://avatars.githubusercontent.com/u/40788381?v=4',
-    linkedin: '#',
-    instagram: '#',
-    github: '#',
+    linkedin: 'https://linkedin.com',
+    instagram: 'https://instagram.com',
+    github: 'https://github.com/ahmad-mufied',
   },
   {
     name: 'Wisnu Kusuma Dewa',
     role: 'CO & Founder',
     image: 'https://avatars.githubusercontent.com/u/154528514?v=4',
-    linkedin: '#',
-    instagram: '#',
-    github: '#',
+    linkedin: 'https://linkedin.com',
+    instagram: 'https://instagram.com',
+    github: 'https://github.com/wisnu-kusuma-dewa',
   },
 ]
 
+const data = {
+  hero: {
+    title: 'How It Started?',
+    quote:
+      'Five people with a deep love of reading met and shared the same dream',
+    description:
+      "Founded in 2024, Booking's mission is to make reading accessible and affordable for everyone. We are committed to providing a diverse selection of books from a variety of genres, ensuring that everyone, regardless of age, background, or budget, can enjoy the benefits and happiness of reading",
+    detail: [
+      {
+        title: '10th',
+        description: 'Since Year',
+      },
+      {
+        title: '10k+',
+        description: 'Lots of Books',
+      },
+      {
+        title: '50k+',
+        description: 'Positive Reviews',
+      },
+      {
+        title: '50k+',
+        description: 'Books Borrowed',
+      },
+    ],
+  },
+  first: {
+    title: 'Social Impact and Community',
+    description:
+      'Through our flexible and affordable book rental services, we support and empower communities of readers across the country, fostering a love of literacy and building bridges of knowledge that connect diverse individuals and cultures.',
+    point: [
+      {
+        icon: BookUp2,
+        title: 'Fostering Literacy',
+        description:
+          'Our services make reading accessible, fostering a love of literacy in communities.',
+      },
+      {
+        icon: UserRound,
+        title: 'Cultural Connection',
+        description:
+          'We offer diverse books to connect individuals from various cultural backgrounds.',
+      },
+    ],
+  },
+  second: {
+    title: 'Our Vision',
+    description:
+      'Our vision is to make books easily accessible and affordable for everyone, fostering a love of reading, enhancing knowledge, and expanding imagination. We provide a diverse selection of books, support reader communities, promote sustainability, and leverage technology to improve our services.',
+    point: [
+      'Accessible and Affordable Books',
+      'Diverse Book Selection',
+      'Active Reader Community',
+      'Sustainability and Book Sharing',
+      'Technology-Enhanced Services',
+    ],
+  },
+}
+
+const Graphic: React.FC<React.PropsWithChildren> = ({ children }) => {
+  return (
+    <div className='sm:-mx-12 overflow-hidden p-4 md:mx-0 md:w-1/2 md:overflow-visible md:px-0 sm:px-12'>
+      <div className='relative bg-gray-100 after:absolute before:absolute after:inset-0 before:inset-0 before:scale-x-110 after:scale-y-110 after:border-gray-200 before:border-gray-200 dark:after:border-gray-700 dark:before:border-gray-700 after:border-x before:border-y dark:bg-gray-800'>
+        <div className='flex h-96 items-center justify-center p-10 lg:h-[32rem]'>
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const About = () => {
   return (
-    <div className='space-y-20'>
-      <section className='flex h-full min-h-dvh w-full flex-col items-center justify-center px-4 md:px-0'>
-        <div className='mt-28 w-full'>
-          <div className='flex flex-col-reverse items-center justify-between gap-10 md:flex-row'>
-            <div className='max-w-2xl space-y-4'>
-              <Typography as='h1' className='font-bold text-4xl'>
-                How It Started?
-              </Typography>
-              <Typography as='h4' className='font-bold text-2xl'>
-                Five people with a deep love of reading met and shared the same
-                dream
-              </Typography>
-              <Typography
-                as='p'
-                className='pt-5 text-justify indent-8 leading-relaxed'
-              >
-                At Booking, we believe that everyone should have access to a
-                world of knowledge, adventure, and imagination through books.
-                Founded in 2024, our mission is to make reading accessible and
-                affordable for everyone. We understand that reading is a gateway
-                to new worlds, providing opportunities for unlimited learning,
-                adventure, and dreaming. With a commitment to providing a
-                diverse selection of books from a variety of genres, we want to
-                ensure that everyone, regardless of age, background, or budget,
-                can enjoy the benefits and happiness of reading. Through our
-                flexible and affordable book rental services, we are committed
-                to supporting and empowering communities of readers across the
-                country, fostering a love of literacy, and building bridges of
-                knowledge that connect diverse individuals and cultures.
-              </Typography>
+    <div className='mb-32 space-y-24 lg:space-y-32'>
+      <section className='relative flex h-full min-h-dvh w-full items-center bg-muted text-center'>
+        <div
+          aria-hidden='true'
+          className='-space-x-52 absolute inset-0 grid grid-cols-2 opacity-40 dark:opacity-20'
+        >
+          <div className='h-56 bg-gradient-to-br from-primary-500 to-primary-100 blur-[106px] dark:from-slate-100' />
+          <div className='h-32 bg-gradient-to-r from-primary-100 to-primary-500 blur-[106px] dark:to-slate-100' />
+        </div>
+
+        <div className='mt-28 mb-20 space-y-14 md:space-y-20'>
+          <div className='mx-auto w-full md:w-3/4 xl:w-1/2'>
+            <div className='mx-auto mb-8 flex flex-col items-center gap-2'>
+              <Typography variant='h4'>{data.hero.title}</Typography>
+              <div className='h-1 w-10 rounded bg-primary' />
             </div>
-            <GraphicAboutInformation className='order-first h-auto w-full max-w-xl md:order-last' />
-          </div>
-          <Typography
-            as='p'
-            className='pt-10 text-justify indent-8 leading-relaxed'
-          >
-            With backgrounds spanning education, technology, and community
-            service, the five of us combined our expertise to create a platform
-            that not only provides a wide selection of books but also offers an
-            easy and enjoyable experience for users. We care about every detail,
-            from curating a diverse book collection to easy pick-ups and easy
-            returns. Our vision is to create a community where reading is an
-            activity that can be enjoyed by anyone, anytime, and anywhere. We
-            are committed to empowering readers across the country, fostering a
-            love of literacy, and spreading knowledge through the books we
-            provide.
-          </Typography>
-        </div>
-      </section>
-
-      <section className='flex w-full flex-wrap items-center justify-center gap-4 text-center'>
-        <Card className='w-full max-w-xs p-5 shadow-lg'>
-          <CardContent>
-            <Typography as='h2' className='font-bold text-4xl'>
-              10th
+            <Quote className='mb-8 inline-block size-8 text-muted-foreground' />
+            <Typography as='h1' className='text-4xl leading-normal lg:text-5xl'>
+              {data.hero.quote}
             </Typography>
-            <Typography as='p' type='description'>
-              Since Year
-            </Typography>
-          </CardContent>
-        </Card>
-        <Card className='w-full max-w-xs p-5 shadow-lg'>
-          <CardContent>
-            <Typography as='h2' className='font-bold text-4xl'>
-              10k+
-            </Typography>
-            <Typography as='p' type='description'>
-              Lots of Books
-            </Typography>
-          </CardContent>
-        </Card>
-        <Card className='w-full max-w-xs p-5 shadow-lg'>
-          <CardContent>
-            <Typography as='h2' className='font-bold text-4xl'>
-              50k+
-            </Typography>
-            <Typography as='p' type='description'>
-              Positive Reviews
-            </Typography>
-          </CardContent>
-        </Card>
-        <Card className='w-full max-w-xs p-5 shadow-lg'>
-          <CardContent>
-            <Typography as='h2' className='font-bold text-4xl'>
-              50k+
-            </Typography>
-            <Typography as='p' type='description'>
-              Books Borrowed
-            </Typography>
-          </CardContent>
-        </Card>
-      </section>
-
-      <section className='flex h-full min-h-screen w-full items-center justify-center py-20'>
-        <div className='mx-auto flex flex-col items-center justify-between gap-10 px-5 lg:flex-row'>
-          <GraphicAboutVision className='h-auto w-full max-w-xl' />
-          <div className='max-w-2xl space-y-6'>
-            <Typography as='h2' className='font-bold text-4xl'>
-              Our Vision
-            </Typography>
-            <Typography as='h4' className='font-bold text-2xl'>
-              Five people with a deep love of reading met and shared the same
-              dream
-            </Typography>
-            <Typography
-              as='p'
-              className='pt-5 text-justify indent-8 leading-relaxed'
-            >
-              Our vision is to create a world where everyone has easy and
-              affordable access to books, so they can enjoy the joy of reading,
-              increase their knowledge, and expand their imagination without
-              limits. Our mission is to provide a diverse selection of books for
-              everyone, ensuring that everyone, regardless of age, background,
-              or budget, can find books they love. We support an active
-              community of readers through events, discussions, and literacy
-              initiatives, and offer a user-friendly platform with a simple and
-              efficient book rental and return process. We encourage the reuse
-              and sharing of books to support sustainability, and hold programs
-              and campaigns to increase reading interest and literacy,
-              especially in undeserved areas. In addition, we continue to
-              improve our services by utilizing the latest technology to provide
-              the best experience for users. With this vision and mission, we
-              are determined to be a trusted partner in your literacy journey,
-              helping you find happiness and knowledge through the world of
-              books.
+            <div className='mt-8 mb-6 inline-block h-1 w-10 rounded bg-primary' />
+            <Typography type='description' className='leading-snug'>
+              {data.hero.description}
             </Typography>
           </div>
-        </div>
-      </section>
-
-      <div className='min-h-screen w-full py-20'>
-        <div className='container mx-auto'>
-          <div className='mx-auto max-w-md space-y-4 text-center'>
-            <Typography as='h2' className='font-bold text-4xl'>
-              Get to Know Our Team
-            </Typography>
-          </div>
-          <div className='flex w-full flex-wrap justify-center gap-10 pt-10'>
-            {teamMembers.map((member, index) => (
-              <div key={index} className='max-w-sm'>
-                <Card className='border shadow-lg'>
-                  <CardContent className='space-y-2 p-6'>
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className='w-full rounded-lg object-cover grayscale'
-                    />
-                    <Typography as='h4' className='font-bold text-xl'>
-                      {member.name}
-                    </Typography>
-                    <Typography as='p'>{member.role}</Typography>
-                    <div className='flex justify-end space-x-4 pt-4'>
-                      <a href={member.linkedin} aria-label='LinkedIn'>
-                        <Linkedin className='h-6 w-6' />
-                      </a>
-                      <a href={member.instagram} aria-label='Instagram'>
-                        <Instagram className='h-6 w-6' />
-                      </a>
-                      <a href={member.github} aria-label='GitHub'>
-                        <Github className='h-6 w-6' />
-                      </a>
-                    </div>
-                  </CardContent>
-                </Card>
+          <div className='mx-auto flex max-w-5xl flex-wrap justify-center gap-6 border-y py-8 md:justify-between'>
+            {data.hero.detail.map(({ title, description }, index) => (
+              <div key={index} className='w-full max-w-32'>
+                <Typography as='h2' className='font-bold text-4xl'>
+                  {title}
+                </Typography>
+                <Typography as='p' type='description'>
+                  {description}
+                </Typography>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
+
+      <section className='container flex flex-col-reverse items-center gap-12 lg:flex-row lg:gap-6'>
+        <div className='flex w-full flex-col justify-center lg:w-1/2'>
+          <div className='space-y-8 lg:space-y-12'>
+            <div className='space-y-2'>
+              <Typography as='h3' className='text-2xl lg:text-3xl'>
+                {data.first.title}
+              </Typography>
+              <Typography as='p' type='description' className='leading-snug'>
+                {data.first.description}
+              </Typography>
+            </div>
+            <div className='space-y-6'>
+              {data.first.point.map(
+                ({ title, description, icon: Icon }, index) => (
+                  <div key={index} className='flex items-center gap-6'>
+                    <div className='flex size-14 flex-shrink-0 items-center justify-center rounded-3xl border border-primary bg-background'>
+                      <Icon className='size-7 text-primary' />
+                    </div>
+                    <div className='flex-1 space-y-2'>
+                      <Typography as='h4' variant='p' className='font-semibold'>
+                        {title}
+                      </Typography>
+                      <Typography as='p' type='description'>
+                        {description}
+                      </Typography>
+                    </div>
+                  </div>
+                ),
+              )}
+            </div>
+          </div>
+        </div>
+        <Graphic>
+          <GraphicAboutInformation className='h-auto w-full max-w-md' />
+        </Graphic>
+      </section>
+
+      <section className='container flex flex-col items-center gap-12 lg:flex-row lg:gap-24'>
+        <Graphic>
+          <GraphicAboutVision className='h-auto w-full max-w-md' />
+        </Graphic>
+        <div className='flex w-full flex-col justify-center lg:w-1/2'>
+          <div className='space-y-8'>
+            <div className='space-y-2'>
+              <Typography as='h3' className='text-2xl lg:text-3xl'>
+                {data.second.title}
+              </Typography>
+              <Typography as='p' type='description' className='leading-snug'>
+                {data.second.description}
+              </Typography>
+            </div>
+            <div className='space-y-6'>
+              {data.second.point.map((point, index) => (
+                <div key={index} className='flex items-center gap-3'>
+                  <div className='flex-shrink-0 rounded-full bg-primary p-1'>
+                    <Check className='size-5 text-white' />
+                  </div>
+                  <Typography
+                    as='h4'
+                    variant='p'
+                    className='flex-1 font-semibold'
+                  >
+                    {point}
+                  </Typography>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className='container space-y-10'>
+        <TitleDescription
+          title='Get to Know Our Team'
+          description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores consequuntur distinctio saepe sint voluptas?'
+        />
+        <div className='flex w-full flex-wrap justify-center gap-4'>
+          {teamMembers.map(
+            ({ role, image, name, linkedin, instagram, github }, idx) => (
+              <Card key={idx} className='group'>
+                <CardHeader className='p-4'>
+                  <div className='aspect-[1/1] h-full w-full max-w-48 overflow-hidden rounded-md bg-muted'>
+                    <img
+                      className='h-full w-full object-fill grayscale transition-all duration-300 group-hover:scale-105 group-hover:grayscale-0'
+                      src={image}
+                      alt={name}
+                    />
+                  </div>
+                </CardHeader>
+                <CardContent className='space-y-4 p-4 pt-0'>
+                  <div>
+                    <Typography as='h4' className='text-lg'>
+                      {name}
+                    </Typography>
+                    <Typography type='small-description'>{role}</Typography>
+                  </div>
+                  <div className='flex justify-end gap-2'>
+                    <Button variant='outline' size='icon' asChild>
+                      <a
+                        href={linkedin}
+                        target='_blank'
+                        rel='nofollow noreferrer'
+                      >
+                        <Linkedin className='size-5' />
+                      </a>
+                    </Button>
+                    <Button variant='outline' size='icon' asChild>
+                      <a
+                        href={instagram}
+                        target='_blank'
+                        rel='nofollow noreferrer'
+                      >
+                        <Instagram className='size-5' />
+                      </a>
+                    </Button>
+                    <Button variant='outline' size='icon' asChild>
+                      <a
+                        href={github}
+                        target='_blank'
+                        rel='nofollow noreferrer'
+                      >
+                        <Github className='size-5' />
+                      </a>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ),
+          )}
+        </div>
+      </section>
     </div>
   )
 }

@@ -81,7 +81,7 @@ const Component: React.FC = () => {
   }
 
   return (
-    <div className='mt-28 mb-20 space-y-20'>
+    <div className='container mt-28 mb-20 space-y-20'>
       <div className='space-y-10'>
         <TitleDescription
           title='Get in Touch'
