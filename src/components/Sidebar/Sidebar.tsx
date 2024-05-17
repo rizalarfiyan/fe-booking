@@ -5,6 +5,7 @@ import { Typography } from '@components/Typograpy'
 import { SIDEBAR_MENU } from '@/constants/sidebar'
 import SidebarItem from '@components/Sidebar/Item'
 import SidebarDivide from '@components/Sidebar/Divide'
+import Logo from '@components/Logo'
 
 const Sidebar = React.forwardRef<
   HTMLDivElement,
@@ -16,9 +17,12 @@ const Sidebar = React.forwardRef<
   return (
     <div ref={ref} {...props}>
       <div className='mb-4 flex border-b p-1 text-center'>
-        <div className='mx-auto justify-center gap-3 rounded-sm p-1 px-2 py-2.5'>
-          <Link to='/'>
-            <Typography as='h1' variant='h2' className='text-secondary-600'>
+        <div className='mx-auto justify-center gap-3 rounded-sm px-2 py-3'>
+          <Link to='/' className='flex items-center gap-2'>
+            <Typography type='title' asChild>
+              <Logo className='size-7' />
+            </Typography>
+            <Typography as='h1' variant='h3' type='title'>
               Booking
             </Typography>
           </Link>
