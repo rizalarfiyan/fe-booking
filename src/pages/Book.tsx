@@ -13,7 +13,7 @@ const Component: React.FC = () => {
   const { book } = useLoaderData() as IPromiseBook
 
   return (
-    <div className='mt-28 mb-20'>
+    <div className='container mt-28 mb-20'>
       <Suspense
         fallback={
           <div className='space-y-10'>
