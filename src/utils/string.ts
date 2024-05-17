@@ -20,3 +20,7 @@ export const truncate = (text: string, length: number, separator = '...') => {
   if (text.length <= length) return text
   return text.slice(0, length) + separator
 }
+
+export const plural = (count: number, str: string) => {
+  return `${count} ${str}${count > 1 ? 's' : ''}`
+}

@@ -19,6 +19,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@components/Pagination'
+import { Skeleton } from '@components/Skeleton'
 
 interface IPromiseFilter {
   years: Promise<number[]>
@@ -30,7 +31,7 @@ const Component: React.FC = () => {
   const { years, categories, books } = useLoaderData() as IPromiseFilter
 
   return (
-    <div className='container mt-28 mb-20 w-full space-y-16'>
+    <div className='container w-full mb-20 space-y-16 mt-28'>
       <TitleDescription
         title='All Books'
         description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur explicabo laudantium quisquam suscipit totam.'
@@ -44,12 +45,31 @@ const Component: React.FC = () => {
           </Accordion>
         </div>
         <div className='w-full space-y-8'>
-          <div className='mx-auto flex max-w-lg flex-col items-center justify-between gap-4 1100w:max-w-full sm:flex-row'>
+          <div className='flex flex-col items-center justify-between max-w-lg gap-4 mx-auto 1100w:max-w-full sm:flex-row'>
             <FilterSearch />
             <FilterSorting />
           </div>
           <div className=''>
-            <Suspense fallback='Loading...'>
+            <Suspense
+              fallback={
+                <div className='space-y-10'>
+                  <div className='flex flex-wrap justify-center gap-4'>
+                    {Array.from({ length: 8 }, (_, idx) => {
+                      return (
+                        <Skeleton key={idx} className='w-full h-72 max-w-60' />
+                      )
+                    })}
+                  </div>
+                  <div className='flex justify-center gap-2'>
+                    <Skeleton className='h-10 w-28' />
+                    {Array.from({ length: 4 }, (_, idx) => {
+                      return <Skeleton key={idx} className='w-16 h-10' />
+                    })}
+                    <Skeleton className='h-10 w-28' />
+                  </div>
+                </div>
+              }
+            >
               <Await resolve={books} errorElement='Error...'>
                 {(books) => (
                   <div className='space-y-16'>
@@ -97,39 +117,6 @@ const Component: React.FC = () => {
   )
 }
 
-// Fake data
-const categories: ISlugTitle[] = [
-  { slug: 'adventure', title: 'Adventure' },
-  { slug: 'art', title: 'Art/Photography' },
-  { slug: 'autobiography', title: 'Autobiography' },
-  { slug: 'biography', title: 'Biography' },
-  { slug: 'business', title: 'Business' },
-  { slug: 'children', title: "Children's" },
-  { slug: 'comedy', title: 'Comedy' },
-  { slug: 'comics', title: 'Graphics Novels/Comics' },
-  { slug: 'cookbooks', title: 'Cookbooks' },
-  { slug: 'crime', title: 'Crime' },
-  { slug: 'drama', title: 'Drama' },
-  { slug: 'fantasy', title: 'Fantasy' },
-  { slug: 'fiction', title: 'Fiction' },
-  { slug: 'historical-fiction', title: 'Historical Fiction' },
-  { slug: 'horror', title: 'Horror' },
-  { slug: 'memoir', title: 'Memoir' },
-  { slug: 'mystery', title: 'Mystery' },
-  { slug: 'non-fiction', title: 'Non-fiction' },
-  { slug: 'philosophy', title: 'Philosophy' },
-  { slug: 'poetry', title: 'Poetry' },
-  { slug: 'psychology', title: 'Psychology' },
-  { slug: 'religion', title: 'Religion/Spirituality' },
-  { slug: 'romance', title: 'Romance' },
-  { slug: 'science', title: 'Science' },
-  { slug: 'science-fiction', title: 'Science Fiction (Sci-Fi)' },
-  { slug: 'self-help', title: 'Self-help' },
-  { slug: 'suspense', title: 'Suspense' },
-  { slug: 'thriller', title: 'Thriller' },
-  { slug: 'travel', title: 'Travel' },
-]
-
 const fakeYears = async () => {
   const years: number[] = []
   for (let year = new Date().getFullYear(); year >= 1990; year--) {
@@ -144,7 +131,10 @@ const fakeYears = async () => {
 }
 
 const fakeCategories = async () => {
-  const sortAscCategories = categories.sort((a, b) => {
+  const rawCategories = await import('@dummy/category.json').then(
+    (res) => res.default,
+  )
+  const categories = rawCategories.sort((a, b) => {
     if (a.slug < b.slug) {
       return -1
     }
@@ -156,7 +146,7 @@ const fakeCategories = async () => {
 
   return await new Promise((resolve) => {
     setTimeout(() => {
-      resolve(sortAscCategories)
+      resolve(categories)
     }, 1000)
   })
 }
@@ -166,7 +156,7 @@ const fakeBooks = async () => {
   return await new Promise((resolve) => {
     setTimeout(() => {
       resolve(books)
-    }, 1)
+    }, 1500)
   })
 }
 

@@ -1,0 +1,87 @@
+[
+  {
+    "title": "The Psychology Of Emotion",
+    "slug": "the-psychology-of-emotion",
+    "image": "https://cdn.gramedia.com/uploads/picture_meta/2023/7/12/yaojczarygfaaalqoapavu.jpg",
+    "isbn": "9786026486929",
+    "status": "pending",
+    "borrowAt": "2024-05-17T00:00:00",
+    "returnAt": "2024-05-24T00:00:00"
+  },
+  {
+    "title": "Overthinking Is My Hobby, And I Hate It",
+    "slug": "overthinking-is-my-hobby-and-i-hate-it",
+    "image": "https://cdn.gramedia.com/uploads/picture_meta/2023/7/31/llygc9ysmeiht7kve8xymj.jpg",
+    "isbn": "9786239700232",
+    "status": "read",
+    "borrowAt": "2024-05-10T00:00:00",
+    "returnAt": "2024-05-17T00:00:00"
+  },
+  {
+    "title": "Atomic Habits: Perubahan Kecil yang Memberikan Hasil Luar Biasa",
+    "slug": "atomic-habits-perubahan-kecil-yang-memberikan-hasil-luar-bi",
+    "image": "https://cdn.gramedia.com/uploads/items/9786020633176_.Atomic_Habit.jpg",
+    "isbn": "9786020633176",
+    "status": "success",
+    "point": 86,
+    "borrowAt": "2014-05-12T00:00:00",
+    "returnAt": "2014-05-16T00:00:00"
+  },
+  {
+    "title": "Tiny Habits : Perubahan-Perubahan Kecil yang Mengubah Hidup",
+    "slug": "tiny-habits-perubahan-perubahan-kecil-yang-mengubah-hidup",
+    "image": "https://cdn.gramedia.com/uploads/picture_meta/2023/1/30/jbwt8neyygeufbthm48vuz.jpg",
+    "isbn": "9786020664859",
+    "status": "cancel",
+    "borrowAt": "2024-05-13T00:00:00",
+    "returnAt": null
+  },
+  {
+    "title": "Slow Living, Hidup Bukanlah Pelarian Tapi Perjalanan",
+    "slug": "slow-living-hidup-bukanlah-pelarian-tapi-perjalanan",
+    "image": "https://cdn.gramedia.com/uploads/picture_meta/2023/6/26/zoqf8otjyjhqvxkzqm9zkw.png",
+    "isbn": "9786235269283",
+    "status": "success",
+    "point": 68,
+    "borrowAt": "2024-05-08T00:00:00",
+    "returnAt": "2024-05-15T00:00:00"
+  },
+  {
+    "title": "Why Has Nobody Told Me This Before?",
+    "slug": "why-has-nobody-told-me-this-before",
+    "image": "https://cdn.gramedia.com/uploads/items/9780063227934.jpg",
+    "isbn": "9780063227934",
+    "status": "cancel",
+    "borrowAt": "2024-05-05T00:00:00",
+    "returnAt": null
+  },
+  {
+    "title": "Omoiyari: Pedoman Hidup Bahagia Dan Tenteram Ala Jepang",
+    "slug": "omoiyari-pedoman-hidup-bahagia-dan-tenteram-ala-jepang",
+    "image": "https://cdn.gramedia.com/uploads/picture_meta/2023/10/5/6sdxiqr2ndbachltqpnglt.jpeg",
+    "isbn": "9786230413728",
+    "status": "cancel",
+    "borrowAt": "2024-05-05T00:00:00",
+    "returnAt": null
+  },
+  {
+    "title": "The Psychology of Money Edisi Revisi",
+    "slug": "the-psychology-money-edisi-revisi",
+    "image": "https://cdn.gramedia.com/uploads/picture_meta/2024/1/20/qvjtc65vbzmexfegzrgs7u.jpg",
+    "isbn": "9786238371044",
+    "status": "success",
+    "point": 47,
+    "borrowAt": "2024-05-03T00:00:00",
+    "returnAt": "2024-05-14T00:00:00"
+  },
+  {
+    "title": "Berpikir yang Tidak Dipikirkan Orang Lain",
+    "slug": "berpikir-yang-tidak-dipikirkan-orang-lain",
+    "image": "https://cdn.gramedia.com/uploads/picture_meta/2024/3/19/enna9neduvjlexdvygyvpa.jpg",
+    "isbn": "9786020676555",
+    "status": "success",
+    "point": 35,
+    "borrowAt": "2024-05-02T00:00:00",
+    "returnAt": "2024-05-05T00:00:00"
+  }
+]

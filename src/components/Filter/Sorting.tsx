@@ -6,8 +6,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@components/Select'
-import { BOOK_ORDER_BY, DEFAULT_BOOK_ORDER_BY } from '@/constants'
 import { useSearchParams } from 'react-router-dom'
+import { BOOK_ORDER_BY, DEFAULT_BOOK_ORDER_BY } from '@/constants/books'
 
 const FilterSorting: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()

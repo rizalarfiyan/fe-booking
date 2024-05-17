@@ -22,3 +22,10 @@ export type DivideSidebarRole = DivideSidebar & SidebarWithRole
 export type SidebarWithRole = {
   role: AuthRole
 }
+
+export interface ITier {
+  title: string
+  description: string
+  image: string
+  point: number
+}
