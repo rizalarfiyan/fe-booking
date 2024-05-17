@@ -53,11 +53,11 @@ const BookDetail: React.FC<BookDetailProps> = ({ data }) => {
 
   return (
     <div className='space-y-10'>
-      <div className='mx-auto flex w-full max-w-3xl flex-col items-center justify-center gap-12 md:flex-row'>
+      <div className='mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-12 md:flex-row'>
         <div className='aspect-[3/4] h-full w-full max-w-72 cursor-pointer overflow-hidden rounded-md bg-muted'>
           <img className='h-full w-full object-fill' src={image} alt={title} />
         </div>
-        <div className='w-full max-w-sm'>
+        <div className='w-full max-w-3xl'>
           <Typography as='h1' variant='h3'>
             {title}
           </Typography>
