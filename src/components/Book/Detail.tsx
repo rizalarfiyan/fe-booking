@@ -6,6 +6,8 @@ import type { IBookCard } from '@/types/data'
 import useAuth from '@hooks/useAuth'
 import { Link } from 'react-router-dom'
 import { truncate } from '@utils/string'
+import { parseDate } from '@utils/date'
+import { DATETIME_FORMAT } from '@/constants/app'
 
 interface BookDetailProps {
   data: IBookCard
@@ -25,7 +27,7 @@ const BookDetail: React.FC<BookDetailProps> = ({ data }) => {
       },
       {
         title: 'Publish Date',
-        value: new Date(publishedAt).toLocaleDateString(),
+        value: parseDate(publishedAt, DATETIME_FORMAT.date),
       },
       {
         title: 'Language',

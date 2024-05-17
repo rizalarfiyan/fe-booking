@@ -78,46 +78,39 @@ const Component: React.FC = () => {
           }}
         </Await>
       </Suspense>
-      <Suspense
-        fallback={
-          <div className='space-y-4'>
-            <HorizontalLine>
-              <Typography as='h3' variant='h4'>
-                Recommendations
-              </Typography>
-            </HorizontalLine>
-            <div className='flex flex-wrap justify-center gap-4'>
+      <div className='space-y-4'>
+        <HorizontalLine>
+          <Typography as='h3' variant='h4'>
+            Recommendations
+          </Typography>
+        </HorizontalLine>
+        <Suspense
+          fallback={
+            <div className='flex w-full flex-wrap justify-center gap-4'>
               {Array.from({ length: 5 }, (_, idx) => {
                 return <Skeleton key={idx} className='h-72 w-full max-w-60' />
               })}
             </div>
-          </div>
-        }
-      >
-        <Await
-          resolve={recommendations}
-          errorElement={
-            <ErrorMessage message="Couldn't load book recommendations" />
           }
         >
-          {(recommendations) => {
-            return (
-              <div className='space-y-4'>
-                <HorizontalLine>
-                  <Typography as='h3' variant='h4'>
-                    Recommendations
-                  </Typography>
-                </HorizontalLine>
+          <Await
+            resolve={recommendations}
+            errorElement={
+              <ErrorMessage message="Couldn't load book recommendations" />
+            }
+          >
+            {(recommendations) => {
+              return (
                 <div className='flex flex-wrap justify-center gap-4'>
                   {recommendations.map((book: IBookCard, idx: number) => {
                     return <CardBook key={idx} {...book} />
                   })}
                 </div>
-              </div>
-            )
-          }}
-        </Await>
-      </Suspense>
+              )
+            }}
+          </Await>
+        </Suspense>
+      </div>
     </div>
   )
 }

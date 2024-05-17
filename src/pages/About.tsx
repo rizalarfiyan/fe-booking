@@ -15,50 +15,6 @@ import {
 import { TitleDescription } from '@components/TitleDescription'
 import React from 'react'
 
-const teamMembers = [
-  {
-    name: 'Muhamad Rizal Arfiyan',
-    role: 'CO & Founder',
-    image: 'https://avatars.githubusercontent.com/u/19503666?v=4',
-    linkedin: 'https://linkedin.com',
-    instagram: 'https://instagram.com',
-    github: 'https://github.com/rizalarfiyan',
-  },
-  {
-    name: 'Gilang Nur Hidayat',
-    role: 'CO & Founder',
-    image: 'https://avatars.githubusercontent.com/u/130344101?v=4',
-    linkedin: 'https://linkedin.com',
-    instagram: 'https://instagram.com',
-    github: 'https://github.com/glngnoor',
-  },
-  {
-    name: 'Damar Galih',
-    role: 'CO & Founder',
-    image:
-      'https://damar-glh.github.io/me/static/media/Damar.7d80677b81bb3c0271dc.jpg',
-    linkedin: 'https://linkedin.com',
-    instagram: 'https://instagram.com',
-    github: 'https://github.com/damar-glh',
-  },
-  {
-    name: 'Ahmad Mufied Nugroho',
-    role: 'CO & Founder',
-    image: 'https://avatars.githubusercontent.com/u/40788381?v=4',
-    linkedin: 'https://linkedin.com',
-    instagram: 'https://instagram.com',
-    github: 'https://github.com/ahmad-mufied',
-  },
-  {
-    name: 'Wisnu Kusuma Dewa',
-    role: 'CO & Founder',
-    image: 'https://avatars.githubusercontent.com/u/154528514?v=4',
-    linkedin: 'https://linkedin.com',
-    instagram: 'https://instagram.com',
-    github: 'https://github.com/wisnu-kusuma-dewa',
-  },
-]
-
 const data = {
   hero: {
     title: 'How It Started?',
@@ -114,6 +70,54 @@ const data = {
       'Active Reader Community',
       'Sustainability and Book Sharing',
       'Technology-Enhanced Services',
+    ],
+  },
+  team: {
+    title: 'Get to Know Our Team',
+    description:
+      'Meet our passionate team dedicated to making reading accessible and enjoyable for everyone.',
+    members: [
+      {
+        name: 'Muhamad Rizal Arfiyan',
+        role: 'CO & Founder',
+        image: 'https://avatars.githubusercontent.com/u/19503666?v=4',
+        linkedin: 'https://linkedin.com',
+        instagram: 'https://instagram.com',
+        github: 'https://github.com/rizalarfiyan',
+      },
+      {
+        name: 'Gilang Nur Hidayat',
+        role: 'CO & Founder',
+        image: 'https://avatars.githubusercontent.com/u/130344101?v=4',
+        linkedin: 'https://linkedin.com',
+        instagram: 'https://instagram.com',
+        github: 'https://github.com/glngnoor',
+      },
+      {
+        name: 'Damar Galih',
+        role: 'CO & Founder',
+        image:
+          'https://damar-glh.github.io/me/static/media/Damar.7d80677b81bb3c0271dc.jpg',
+        linkedin: 'https://linkedin.com',
+        instagram: 'https://instagram.com',
+        github: 'https://github.com/damar-glh',
+      },
+      {
+        name: 'Ahmad Mufied Nugroho',
+        role: 'CO & Founder',
+        image: 'https://avatars.githubusercontent.com/u/40788381?v=4',
+        linkedin: 'https://linkedin.com',
+        instagram: 'https://instagram.com',
+        github: 'https://github.com/ahmad-mufied',
+      },
+      {
+        name: 'Wisnu Kusuma Dewa',
+        role: 'CO & Founder',
+        image: 'https://avatars.githubusercontent.com/u/154528514?v=4',
+        linkedin: 'https://linkedin.com',
+        instagram: 'https://instagram.com',
+        github: 'https://github.com/wisnu-kusuma-dewa',
+      },
     ],
   },
 }
@@ -245,11 +249,11 @@ const About = () => {
 
       <section className='container space-y-10'>
         <TitleDescription
-          title='Get to Know Our Team'
-          description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores consequuntur distinctio saepe sint voluptas?'
+          title={data.team.title}
+          description={data.team.description}
         />
         <div className='flex w-full flex-wrap justify-center gap-4'>
-          {teamMembers.map(
+          {data.team.members.map(
             ({ role, image, name, linkedin, instagram, github }, idx) => (
               <Card key={idx} className='group'>
                 <CardHeader className='p-4'>
