@@ -62,6 +62,8 @@ const Component: React.FC = () => {
     },
   })
 
+  const disabled = !form.formState.isDirty || !form.formState.isValid
+
   function onSubmit(values: FormRequest) {
     send(values)
       .then((res) => {
@@ -184,7 +186,12 @@ const Component: React.FC = () => {
             />
           </div>
           <div className='space-y-2'>
-            <Button type='submit' isFluid isLoading={loading}>
+            <Button
+              type='submit'
+              isFluid
+              isLoading={loading}
+              disabled={disabled}
+            >
               Register
             </Button>
             <Typography as='p' type='description'>

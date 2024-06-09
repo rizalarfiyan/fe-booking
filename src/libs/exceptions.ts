@@ -1,8 +1,7 @@
 class ErrorAuthorization extends Error {
-  constructor(message = 'Unauthorized', code = 401) {
-    const messages = message ? `${code}: ${message}` : `${code}`
-    super(messages)
-    this.message = messages
+  constructor(message = 'Unauthorized') {
+    super(message)
+    this.message = message
   }
 
   toString() {
@@ -13,10 +12,9 @@ class ErrorAuthorization extends Error {
 class ErrorValidation extends Error {
   protected data: object
 
-  constructor(message = 'Validation Error', data: object = {}, code = 400) {
-    const messages = message ? `${code}: ${message}` : `${code}`
-    super(messages)
-    this.message = messages
+  constructor(message = 'Validation Error', data: object = {}) {
+    super(message)
+    this.message = message
     this.data = data
   }
 

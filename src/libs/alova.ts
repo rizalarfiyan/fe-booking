@@ -18,11 +18,11 @@ const alova = createAlova({
     const { message, data } = res
 
     if (code === 401) {
-      throw new ErrorAuthorization(message, code)
+      throw new ErrorAuthorization(message)
     }
 
     if (code === 400) {
-      throw new ErrorValidation(message, data ?? {}, code)
+      throw new ErrorValidation(message, data ?? {})
     }
 
     if (!(code >= 200 && code <= 299)) {
