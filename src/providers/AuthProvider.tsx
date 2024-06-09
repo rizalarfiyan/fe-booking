@@ -1,22 +1,16 @@
 import React, { createContext, useEffect, useMemo, useState } from 'react'
 import type { IUser } from '@/types/auth'
 import { LoadingScreen } from '@components/LoadingScreen'
-import { AUTH_ROLE } from '@/constants/app'
+import type { IBaseResponse } from '@/types/base'
+import alova from '@libs/alova'
+import { useRequest } from 'alova'
+import { toast } from 'sonner'
 
 export interface IAuthContext {
   user?: IUser
   isLoggedIn: boolean
-  login: () => void
+  login: (user: IUser, token: string) => void
   logout: () => void
-}
-
-const dummyUser: IUser = {
-  id: 1,
-  first_name: 'Paijo',
-  last_name: 'Royo',
-  email: 'paijo.royo@gmail.com',
-  avatar: 'https://avatars.githubusercontent.com/u/19503666',
-  role: AUTH_ROLE.GUEST,
 }
 
 export const AuthContext = createContext<IAuthContext | null>(null)
@@ -27,6 +21,19 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   const [user, setUser] = useState<IUser>()
   const [loading, setLoading] = useState<boolean>(true)
 
+  const { send: getMe } = useRequest(
+    alova.Get<IBaseResponse<IUser>>('/v1/auth/me'),
+    {
+      immediate: false,
+    },
+  )
+
+  const logout = () => {
+    setUser(undefined)
+    localStorage.removeItem('access_token')
+  }
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: This effect should only run once
   useEffect(() => {
     const user = localStorage.getItem('access_token')
     if (!user) {
@@ -35,12 +42,16 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
     }
 
     async function fakeFetchMe() {
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          setUser(dummyUser)
-          resolve(true)
-        }, 1000)
-      }).finally(() => setLoading(false))
+      setLoading(true)
+      await getMe()
+        .then((res) => {
+          setUser(res.data)
+        })
+        .catch(() => {
+          toast.error('Session expired, please login again.')
+          logout()
+        })
+        .finally(() => setLoading(false))
     }
 
     fakeFetchMe()
@@ -50,16 +61,13 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
     return {
       user,
       isLoggedIn: !!user,
-      login: () => {
-        setUser(dummyUser)
-        localStorage.setItem('access_token', 'the-access-token')
+      login: (user: IUser, token: string) => {
+        setUser(user)
+        localStorage.setItem('access_token', token)
       },
-      logout: () => {
-        setUser(undefined)
-        localStorage.removeItem('access_token')
-      },
+      logout,
     }
-  }, [user])
+  }, [user, logout])
 
   if (loading) {
     return <LoadingScreen reason='Fetching user info...' />

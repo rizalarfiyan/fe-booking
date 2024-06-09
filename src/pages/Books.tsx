@@ -31,7 +31,7 @@ const Component: React.FC = () => {
   const { years, categories, books } = useLoaderData() as IPromiseFilter
 
   return (
-    <div className='container w-full mb-20 space-y-16 mt-28'>
+    <div className='container mt-28 mb-20 w-full space-y-16'>
       <TitleDescription
         title='All Books'
         description='Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur explicabo laudantium quisquam suscipit totam.'
@@ -45,7 +45,7 @@ const Component: React.FC = () => {
           </Accordion>
         </div>
         <div className='w-full space-y-8'>
-          <div className='flex flex-col items-center justify-between max-w-lg gap-4 mx-auto 1100w:max-w-full sm:flex-row'>
+          <div className='mx-auto flex max-w-lg flex-col items-center justify-between gap-4 1100w:max-w-full sm:flex-row'>
             <FilterSearch />
             <FilterSorting />
           </div>
@@ -56,14 +56,14 @@ const Component: React.FC = () => {
                   <div className='flex flex-wrap justify-center gap-4'>
                     {Array.from({ length: 8 }, (_, idx) => {
                       return (
-                        <Skeleton key={idx} className='w-full h-72 max-w-60' />
+                        <Skeleton key={idx} className='h-72 w-full max-w-60' />
                       )
                     })}
                   </div>
                   <div className='flex justify-center gap-2'>
                     <Skeleton className='h-10 w-28' />
                     {Array.from({ length: 4 }, (_, idx) => {
-                      return <Skeleton key={idx} className='w-16 h-10' />
+                      return <Skeleton key={idx} className='h-10 w-16' />
                     })}
                     <Skeleton className='h-10 w-28' />
                   </div>
