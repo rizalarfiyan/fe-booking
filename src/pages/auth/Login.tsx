@@ -32,23 +32,23 @@ const formSchema = z.object({
   isRemember: z.boolean().default(false).optional(),
 })
 
-type LoginForm = z.infer<typeof formSchema>
+type FormRequest = z.infer<typeof formSchema>
 
 const Component: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
-  const { login, logout } = useAuth()
+  const { login } = useAuth()
   const navigate = useNavigate()
-  const { handleError } = useHandleError(navigate, logout)
+  const { handleError } = useHandleError(navigate)
 
-  const { loading, send: loginService } = useRequest(
+  const { loading, send } = useRequest(
     (req) =>
-      alova.Post<IBaseResponse<ILoginDTO>, LoginForm>('/v1/auth/login', req),
+      alova.Post<IBaseResponse<ILoginDTO>, FormRequest>('/v1/auth/login', req),
     {
       immediate: false,
     },
   )
 
-  const form = useForm<LoginForm>({
+  const form = useForm<FormRequest>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
@@ -57,8 +57,8 @@ const Component: React.FC = () => {
     },
   })
 
-  function onSubmit(values: LoginForm) {
-    loginService(values)
+  function onSubmit(values: FormRequest) {
+    send(values)
       .then((res) => {
         toast.success(res.message)
         login(res.data.user, res.data.token)
@@ -66,7 +66,7 @@ const Component: React.FC = () => {
           replace: true,
         })
       })
-      .catch((err) => handleError(err, form.setError))
+      .catch((err) => handleError(err, form))
   }
 
   const onTogglePassword = (e: React.MouseEvent<HTMLButtonElement>) => {

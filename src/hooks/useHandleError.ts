@@ -1,12 +1,12 @@
 import type { NavigateFunction } from 'react-router-dom'
 import { ErrorAuthorization, ErrorValidation } from '@libs/exceptions'
 import { toast } from 'sonner'
-import type { FieldValues, UseFormSetError } from 'react-hook-form'
+import type { FieldValues, UseFormReturn } from 'react-hook-form'
 
 const useHandleError = (navigate: NavigateFunction, logout = () => {}) => {
   const handleError = <T extends FieldValues>(
     error: Error,
-    setError: UseFormSetError<T> | null = null,
+    form: UseFormReturn<T> | null = null,
   ) => {
     if (error instanceof ErrorAuthorization) {
       logout?.()
@@ -20,9 +20,9 @@ const useHandleError = (navigate: NavigateFunction, logout = () => {}) => {
     }
 
     if (error instanceof ErrorValidation) {
-      if (!setError) return
+      if (!form) return
       for (const [key, value] of Object.entries(error.getData())) {
-        setError(key as any, {
+        form.setError(key as any, {
           type: 'manual',
           message: value,
         })
@@ -30,6 +30,7 @@ const useHandleError = (navigate: NavigateFunction, logout = () => {}) => {
       return
     }
 
+    if (form) form.reset()
     toast.error(error?.message ?? 'An error occurred, please try again later')
   }
 
