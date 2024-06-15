@@ -201,12 +201,12 @@ const GuideAndRules = () => {
                   value={index.toString()}
                   className='overflow-hidden rounded-md border'
                 >
-                  <AccordionTrigger className='relative z-10 flex cursor-pointer items-center justify-between bg-slate-50 p-4 dark:bg-slate-900'>
+                  <AccordionTrigger className='relative z-10 flex cursor-pointer items-center justify-between p-4 dark:bg-slate-900'>
                     <Typography as='h3' className='font-semibold text-lg'>
                       {faq.question}
                     </Typography>
                   </AccordionTrigger>
-                  <AccordionContent className='bg-slate-100 px-4 py-2 transition-max-height duration-500 ease-in-out dark:bg-slate-800'>
+                  <AccordionContent className='px-4 py-2 transition-max-height duration-500 ease-in-out dark:bg-slate-800'>
                     <Typography as='p' type='description'>
                       {faq.answer}
                     </Typography>
