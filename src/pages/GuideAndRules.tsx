@@ -107,7 +107,7 @@ const faqs = [
 
 const GuideAndRules = () => {
   return (
-    <div className='space-y-0'>
+    <div className='mb-20 space-y-0'>
       <section className='relative flex h-full min-h-dvh w-full items-center bg-muted text-center'>
         <div
           aria-hidden='true'
@@ -192,9 +192,9 @@ const GuideAndRules = () => {
         <Typography as='h2' className='text-center font-bold text-3xl'>
           Frequently Asked Questions
         </Typography>
-        <div className='flex items-center justify-center bg-muted py-16 text-justify dark:bg-slate-950'>
-          <div className='w-full max-w-2xl space-y-4'>
-            <Accordion type='single' collapsible>
+        <div className='flex items-center justify-center bg-background py-16 text-justify dark:bg-slate-950'>
+          <div className='w-full max-w-2xl'>
+            <Accordion type='single' collapsible className='space-y-4'>
               {faqs.map((faq, index) => (
                 <AccordionItem
                   key={index}
