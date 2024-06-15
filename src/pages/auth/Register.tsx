@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Layout from '@layouts/Auth'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
 import {
@@ -17,36 +17,62 @@ import { Input } from '@/components/Input'
 import { Button } from '@components/Button'
 import { Typography } from '@components/Typograpy'
 import { Eye, EyeOff } from 'lucide-react'
+import useHandleError from '@hooks/useHandleError'
+import type { IBaseResponse } from '@/types/base'
+import { useRequest } from 'alova'
+import alova from '@libs/alova'
+import { toast } from 'sonner'
 
 const formSchema = z
   .object({
-    first_name: z.string().min(3),
-    last_name: z.string().optional(),
+    firstName: z.string().min(3),
+    lastName: z.string().optional(),
     email: z.string().email(),
     password: z.string().min(5, 'Password is required'),
-    password_confirmation: z.string(),
+    passwordConfirmation: z.string(),
   })
-  .refine((data) => data.password === data.password_confirmation, {
+  .refine((data) => data.password === data.passwordConfirmation, {
     message: "Password don't match",
-    path: ['password_confirmation'],
+    path: ['passwordConfirmation'],
   })
+
+type FormRequest = z.infer<typeof formSchema>
 
 const Component: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const navigate = useNavigate()
+  const { handleError } = useHandleError(navigate)
+
+  const { loading, send } = useRequest(
+    (req) => alova.Post<IBaseResponse, FormRequest>('/v1/auth/register', req),
+    {
+      immediate: false,
+    },
+  )
+
+  const form = useForm<FormRequest>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      first_name: '',
-      last_name: '',
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
-      password_confirmation: '',
+      passwordConfirmation: '',
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+  const disabled = !form.formState.isDirty || !form.formState.isValid
+
+  function onSubmit(values: FormRequest) {
+    send(values)
+      .then((res) => {
+        toast.success(res.message)
+        navigate('/login', {
+          replace: true,
+        })
+      })
+      .catch((err) => handleError(err, form))
   }
 
   const onTogglePassword = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -66,7 +92,7 @@ const Component: React.FC = () => {
             <div className='flex flex-col gap-4 md:flex-row'>
               <FormField
                 control={form.control}
-                name='first_name'
+                name='firstName'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>First Name</FormLabel>
@@ -79,7 +105,7 @@ const Component: React.FC = () => {
               />
               <FormField
                 control={form.control}
-                name='last_name'
+                name='lastName'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Last Name</FormLabel>
@@ -143,7 +169,7 @@ const Component: React.FC = () => {
             />
             <FormField
               control={form.control}
-              name='password_confirmation'
+              name='passwordConfirmation'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password Confirmation</FormLabel>
@@ -160,7 +186,12 @@ const Component: React.FC = () => {
             />
           </div>
           <div className='space-y-2'>
-            <Button type='submit' isFluid>
+            <Button
+              type='submit'
+              isFluid
+              isLoading={loading}
+              disabled={disabled}
+            >
               Register
             </Button>
             <Typography as='p' type='description'>

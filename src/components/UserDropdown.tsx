@@ -19,7 +19,7 @@ const UserDropdown = () => {
   const navigate = useNavigate()
   if (!user) return null
 
-  const fullName = getFullName(user.first_name, user.last_name)
+  const fullName = getFullName(user.firstName, user.lastName)
   const onLogout = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
     logout()
@@ -52,7 +52,7 @@ const UserDropdown = () => {
               Dashboard
             </DropdownMenuItem>
           </Link>
-          <Link to={`/profile/${user.id}`}>
+          <Link to={`/profile/${user.userId}`}>
             <DropdownMenuItem className='cursor-pointer'>
               View Profile
             </DropdownMenuItem>

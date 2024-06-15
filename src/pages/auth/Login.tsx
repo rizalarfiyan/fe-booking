@@ -19,6 +19,12 @@ import { Checkbox } from '@components/Checkbox'
 import { Typography } from '@components/Typograpy'
 import { Eye, EyeOff } from 'lucide-react'
 import useAuth from '@hooks/useAuth'
+import { useRequest } from 'alova'
+import alova from '@libs/alova'
+import useHandleError from '@hooks/useHandleError'
+import type { ILoginDTO } from '@/types/auth'
+import type { IBaseResponse } from '@/types/base'
+import { toast } from 'sonner'
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -26,24 +32,43 @@ const formSchema = z.object({
   isRemember: z.boolean().default(false).optional(),
 })
 
+type FormRequest = z.infer<typeof formSchema>
+
 const Component: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const { login } = useAuth()
   const navigate = useNavigate()
+  const { handleError } = useHandleError(navigate)
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const { loading, send } = useRequest(
+    (req) =>
+      alova.Post<IBaseResponse<ILoginDTO>, FormRequest>('/v1/auth/login', req),
+    {
+      immediate: false,
+    },
+  )
+
+  const form = useForm<FormRequest>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: 'admin@admin.com',
-      password: 'password',
+      email: '',
+      password: '',
       isRemember: false,
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
-    login()
-    navigate('/dashboard')
+  const disabled = !form.formState.isDirty || !form.formState.isValid
+
+  function onSubmit(values: FormRequest) {
+    send(values)
+      .then((res) => {
+        toast.success(res.message)
+        login(res.data.user, res.data.token)
+        navigate('/dashboard', {
+          replace: true,
+        })
+      })
+      .catch((err) => handleError(err, form))
   }
 
   const onTogglePassword = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -128,7 +153,12 @@ const Component: React.FC = () => {
             />
           </div>
           <div className='space-y-2'>
-            <Button type='submit' isFluid>
+            <Button
+              type='submit'
+              isFluid
+              isLoading={loading}
+              disabled={disabled}
+            >
               Login
             </Button>
             <Typography as='p' type='description'>
