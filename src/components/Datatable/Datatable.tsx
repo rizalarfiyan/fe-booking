@@ -218,7 +218,7 @@ export default function Datatable({
           </TableBody>
         </Table>
       </div>
-      <div className='flex items-center justify-between space-x-2 py-4'>
+      <div className='flex flex-wrap items-center justify-center gap-4 space-x-2 py-4 xl:justify-between'>
         <div className='flex items-center space-x-2'>
           <p className='whitespace-nowrap font-medium text-sm'>Rows per page</p>
           <Select

@@ -57,7 +57,7 @@ const ContactDetail: React.FC<ContactDetailProps> = ({ contactId }) => {
           <MessageSquareMore className='size-4' />
         </Button>
       </DialogTrigger>
-      <DialogContent className='max-w-4xl'>
+      <DialogContent className='w-[calc(100%_-_40px)] max-w-2xl'>
         <DialogHeader>
           <DialogTitle className='mb-4 flex items-center gap-2'>
             <Info className='size-6' />
