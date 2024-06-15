@@ -56,7 +56,7 @@ const content: FooterContent[] = [
       },
       {
         title: 'Guide & Rules',
-        link: '/guide-rules',
+        link: '/guide-and-rules',
       },
       {
         title: 'Contact',
