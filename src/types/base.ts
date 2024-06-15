@@ -13,3 +13,17 @@ export interface IBaseResponse<T = any> {
   message: string
   status: number
 }
+
+export interface ResponseList<T = any> {
+  content: T
+  metadata: ResponseMetadata
+}
+
+export interface ResponseMetadata {
+  total: number
+  page: number
+  perPage: number
+  totalPage: number
+}
+
+export type IBaseResponseList<T = any> = IBaseResponse<ResponseList<T[]>>
