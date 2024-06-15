@@ -6,3 +6,7 @@ export interface IContact {
   phone: string
   submittedAt: string
 }
+
+export interface IContactDetail extends IContact {
+  message: string
+}

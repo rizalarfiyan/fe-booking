@@ -9,8 +9,7 @@ import { parseDate } from '@utils/date'
 import { Badge } from '@components/Badge'
 import Datatable from '@components/Datatable/Datatable'
 import ColumnHeader from '@components/Datatable/ColumnHeader'
-import { Button } from '@components/Button'
-import { Eye } from 'lucide-react'
+import ContactDetail from '@pages/dashboard/contact/ContactDetail'
 
 export const columns: ColumnDef<IContact>[] = [
   {
@@ -56,14 +55,11 @@ export const columns: ColumnDef<IContact>[] = [
     },
   },
   {
-    id: 'actions',
+    id: 'message',
     enableHiding: false,
-    cell: () => {
-      return (
-        <Button size='icon' variant='outline' className='size-8'>
-          <Eye className='size-4' />
-        </Button>
-      )
+    header: 'Message',
+    cell: ({ row }) => {
+      return <ContactDetail contactId={row.original.contactId} />
     },
   },
 ]

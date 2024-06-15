@@ -75,7 +75,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'contact',
-            lazy: lazyWrap(() => import('@pages/dashboard/Contact')),
+            lazy: lazyWrap(() => import('@pages/dashboard/contact/Contact')),
           },
         ],
       },
