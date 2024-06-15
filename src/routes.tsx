@@ -29,6 +29,10 @@ const router = createBrowserRouter([
             path: 'book/:slug',
             lazy: lazyWrap(() => import('@pages/Book')),
           },
+          {
+            path: 'guide-and-rules',
+            lazy: lazyWrap(() => import('@pages/GuideAndRules')),
+          },
         ],
       },
       {
