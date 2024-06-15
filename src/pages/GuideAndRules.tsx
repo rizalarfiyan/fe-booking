@@ -132,7 +132,7 @@ const GuideAndRules = () => {
               {hero.description}
             </Typography>
           </div>
-          <div className='mx-auto flex max-w-5xl flex-wrap justify-center gap-6 border-y py-8 md:justify-between'>
+          <div className='mx-auto flex max-w-5xl flex-wrap justify-center gap-6 border-y py-8'>
             {tag.map((item, index) => (
               <div
                 key={index}
