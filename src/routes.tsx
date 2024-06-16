@@ -73,6 +73,10 @@ const router = createBrowserRouter([
             path: 'leaderboard',
             lazy: lazyWrap(() => import('@pages/dashboard/Leaderboard')),
           },
+          {
+            path: 'contact',
+            lazy: lazyWrap(() => import('@pages/dashboard/contact/Contact')),
+          },
         ],
       },
       {

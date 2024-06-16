@@ -1,5 +1,13 @@
 import type { SidebarData } from '@/types/dashboard'
-import { LayoutDashboard, Trophy } from 'lucide-react'
+import {
+  BookText,
+  BookUser,
+  Contact,
+  LayoutDashboard,
+  List,
+  Trophy,
+} from 'lucide-react'
+import { AUTH_ROLE } from '@/constants/app'
 
 export const SIDEBAR_MENU: SidebarData[] = [
   {
@@ -17,6 +25,40 @@ export const SIDEBAR_MENU: SidebarData[] = [
         title: 'Leaderboard',
         href: '/dashboard/leaderboard',
         icon: Trophy,
+      },
+    ],
+  },
+  {
+    type: 'divide',
+    title: 'Management',
+    items: [
+      {
+        type: 'item',
+        title: 'Borrow',
+        href: '/dashboard/borrow',
+        icon: BookUser,
+        roles: [AUTH_ROLE.ADMIN],
+      },
+      {
+        type: 'item',
+        title: 'Category',
+        href: '/dashboard/category',
+        icon: List,
+        roles: [AUTH_ROLE.ADMIN],
+      },
+      {
+        type: 'item',
+        title: 'Book',
+        href: '/dashboard/book',
+        icon: BookText,
+        roles: [AUTH_ROLE.ADMIN],
+      },
+      {
+        type: 'item',
+        title: 'Contact',
+        href: '/dashboard/contact',
+        icon: Contact,
+        roles: [AUTH_ROLE.ADMIN],
       },
     ],
   },

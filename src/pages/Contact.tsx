@@ -18,6 +18,12 @@ import { Textarea } from '@components/Textarea'
 import type { IContactInformation } from '@/types/data'
 import CardContactInformation from '@components/Card/ContactInformation'
 import { TitleDescription } from '@components/TitleDescription'
+import type { IBaseResponse } from '@/types/base'
+import { useNavigate } from 'react-router-dom'
+import useHandleError from '@hooks/useHandleError'
+import { useRequest } from 'alova'
+import alova from '@libs/alova'
+import { toast } from 'sonner'
 
 const contacts: IContactInformation[] = [
   {
@@ -45,10 +51,10 @@ const contacts: IContactInformation[] = [
 ]
 
 const formSchema = z.object({
-  first_name: z
+  firstName: z
     .string()
     .min(3, { message: 'First name must be at least 3 characters.' }),
-  last_name: z.string().optional(),
+  lastName: z.string().optional(),
   email: z.string().email(),
   phone: z
     .string()
@@ -64,20 +70,39 @@ const formSchema = z.object({
     .min(10, { message: 'Message must be at least 10 characters.' }),
 })
 
+type FormRequest = z.infer<typeof formSchema>
+
 const Component: React.FC = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const navigate = useNavigate()
+  const { handleError } = useHandleError(navigate)
+
+  const { loading, send } = useRequest(
+    (req) => alova.Post<IBaseResponse, FormRequest>('/v1/contact', req),
+    {
+      immediate: false,
+    },
+  )
+
+  const form = useForm<FormRequest>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      first_name: '',
-      last_name: '',
+      firstName: '',
+      lastName: '',
       email: '',
       phone: '',
       message: '',
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+  const disabled = !form.formState.isDirty || !form.formState.isValid
+
+  function onSubmit(values: FormRequest) {
+    send(values)
+      .then((res) => {
+        toast.success(res.message)
+        form.reset()
+      })
+      .catch((err) => handleError(err, form))
   }
 
   return (
@@ -109,7 +134,7 @@ const Component: React.FC = () => {
             <div className='flex flex-col gap-4 md:flex-row'>
               <FormField
                 control={form.control}
-                name='first_name'
+                name='firstName'
                 render={({ field }) => (
                   <FormItem className='w-full'>
                     <FormLabel>First Name</FormLabel>
@@ -122,7 +147,7 @@ const Component: React.FC = () => {
               />
               <FormField
                 control={form.control}
-                name='last_name'
+                name='lastName'
                 render={({ field }) => (
                   <FormItem className='w-full'>
                     <FormLabel>Last Name</FormLabel>
@@ -185,6 +210,8 @@ const Component: React.FC = () => {
               type='submit'
               rightIcon={<Send className='ml-2 size-4' />}
               isFluid
+              isLoading={loading}
+              disabled={disabled}
             >
               Send
             </Button>

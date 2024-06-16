@@ -2,7 +2,13 @@ export default function ({ addBase, theme }) {
   if (process.env.NODE_ENV === 'production') return
 
   const screens = theme('screens', {})
-  const breakpoints = Object.keys(screens)
+  const breakpoints = Object.entries(screens).map(([screen, size]) => ({
+    screen,
+    size,
+    num: Number.parseInt(size.replace('px', '')),
+  }))
+
+  breakpoints.sort((a, b) => a.num - b.num)
 
   addBase({
     'body::after': {
@@ -19,9 +25,9 @@ export default function ({ addBase, theme }) {
       zIndex: '99999',
     },
     ...breakpoints.reduce((acc, current) => {
-      acc[`@media (min-width: ${screens[current]})`] = {
+      acc[`@media (min-width: ${current.size})`] = {
         'body::after': {
-          content: `"${current}"`,
+          content: `"${current.screen}"`,
         },
       }
       return acc
