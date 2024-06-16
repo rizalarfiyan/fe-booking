@@ -15,7 +15,7 @@ interface ViewOptionsProps<TData> {
   titleHeader: Record<string, string>
 }
 
-export function ViewOptions<TData>({
+export default function ViewOptions<TData>({
   table,
   titleHeader,
 }: ViewOptionsProps<TData>) {

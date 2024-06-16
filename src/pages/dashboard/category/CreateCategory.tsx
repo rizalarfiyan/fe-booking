@@ -30,6 +30,7 @@ import type { IBaseResponse } from '@/types/base'
 import { toast } from 'sonner'
 import { type UseDisclosure, useDisclosure } from '@hooks/useDislosure'
 import React from 'react'
+import useDatatable from '@hooks/useDatatable'
 
 const formSchema = z.object({
   name: z.string().min(5, 'Name is required').max(50, 'Name is too long'),
@@ -40,12 +41,12 @@ type FormRequest = z.infer<typeof formSchema>
 
 interface ContentProps {
   state: UseDisclosure
-  refresh?: () => void
 }
 
-const Content: React.FC<ContentProps> = ({ state, refresh }) => {
+const Content: React.FC<ContentProps> = ({ state }) => {
   const navigate = useNavigate()
   const { handleError } = useHandleError(navigate)
+  const { refresh } = useDatatable()
 
   const { loading, send } = useRequest(
     (req) =>
@@ -57,12 +58,11 @@ const Content: React.FC<ContentProps> = ({ state, refresh }) => {
     },
   )
 
-  const uniq = new Date().getUTCMilliseconds()
   const form = useForm<FormRequest>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: `Category ${uniq}`,
-      slug: `category-${uniq}`,
+      name: '',
+      slug: '',
     },
   })
 
@@ -72,10 +72,10 @@ const Content: React.FC<ContentProps> = ({ state, refresh }) => {
     state.disable()
     send(values)
       .then((res) => {
-        refresh?.()
-        state.close(true)
+        refresh()
         form.reset()
         toast.success(res.message)
+        state.close(true)
       })
       .catch((err) => handleError(err, form))
       .finally(() => state.enable())
@@ -132,11 +132,7 @@ const Content: React.FC<ContentProps> = ({ state, refresh }) => {
   )
 }
 
-type CreateCategoryProps = {
-  refresh?: () => void
-}
-
-const CreateCategory: React.FC<CreateCategoryProps> = ({ refresh }) => {
+const CreateCategory: React.FC = () => {
   const state = useDisclosure()
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -166,7 +162,7 @@ const CreateCategory: React.FC<CreateCategoryProps> = ({ refresh }) => {
             blanditiis debitis dicta repellendus tempora.
           </DialogDescription>
         </DialogHeader>
-        <Content state={state} refresh={refresh} />
+        <Content state={state} />
       </DialogContent>
     </Dialog>
   )

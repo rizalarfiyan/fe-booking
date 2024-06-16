@@ -1,16 +1,14 @@
 import {
   type ColumnDef,
-  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-  type VisibilityState,
 } from '@tanstack/react-table'
 import * as React from 'react'
-import { useEffect, useImperativeHandle, useState } from 'react'
+import { useMemo } from 'react'
 import {
   Table,
   TableBody,
@@ -21,7 +19,7 @@ import {
 } from '@/components/Table'
 import Paginator from '@/components/Paginator'
 import { useSearchParams } from 'react-router-dom'
-import { type AlovaMethodHandler, useRequest } from 'alova'
+import { type AlovaMethodHandler, useWatcher } from 'alova'
 import type { IBaseResponseList } from '@/types/base'
 import {
   Select,
@@ -30,13 +28,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@components/Select'
-import { ViewOptions } from '@components/Datatable/ViewOptions'
-import { Input } from '@components/Input'
-import { Search } from 'lucide-react'
-import useDebounce from '@hooks/useDebounce'
-import { cn } from '@utils/classes'
+import ViewOptions from './ViewOptions'
+import Search from './Search'
+import { DatatableContext } from './context'
 
-interface DatatableProps extends React.HTMLAttributes<HTMLDivElement> {
+interface DatatableProps {
   columns: ColumnDef<any, any>[]
   api: AlovaMethodHandler<
     any,
@@ -53,29 +49,37 @@ interface DatatableProps extends React.HTMLAttributes<HTMLDivElement> {
   create?: React.ReactElement
 }
 
-export type DatatableHandle = {
-  refresh: () => void
-}
+const Datatable: React.FC<DatatableProps> = ({
+  api,
+  columns,
+  defaultOrderBy = 'created_at',
+  defaultOrderType = 'asc',
+  titleHeader = {},
+  create,
+}) => {
+  const [searchParams, setSearchParams] = useSearchParams()
 
-const Datatable = React.forwardRef<DatatableHandle, DatatableProps>(
-  (
+  const queryPage = searchParams.get('page') ?? undefined
+  const count = searchParams.get('count') ?? undefined
+  const orderBy = searchParams.get('orderBy') ?? undefined
+  const orderType = searchParams.get('orderType') ?? undefined
+  const querySearch = searchParams.get('search') ?? undefined
+
+  const payload = useMemo(() => {
+    return {
+      page: queryPage,
+      count: count,
+      orderBy: orderBy,
+      orderType: orderType,
+      search: querySearch,
+    }
+  }, [queryPage, count, orderBy, orderType, querySearch])
+
+  const { data: rawData, send: resend } = useWatcher(
+    () => api(payload),
+    [payload],
     {
-      className,
-      api,
-      columns,
-      defaultOrderBy = 'created_at',
-      defaultOrderType = 'asc',
-      titleHeader = {},
-      create,
-      children,
-      ...props
-    },
-    ref,
-  ) => {
-    const [searchParams, setSearchParams] = useSearchParams()
-
-    const { data: rawData, send: service } = useRequest(api, {
-      immediate: false,
+      immediate: true,
       initialData: {
         data: {
           content: [],
@@ -89,120 +93,50 @@ const Datatable = React.forwardRef<DatatableHandle, DatatableProps>(
         message: 'Processing',
         status: 200,
       },
-    })
+    },
+  )
 
-    const queryPage = searchParams.get('page') ?? undefined
-    const count = searchParams.get('count') ?? undefined
-    const orderBy = searchParams.get('orderBy') ?? undefined
-    const orderType = searchParams.get('orderType') ?? undefined
-    const querySearch = searchParams.get('search') ?? undefined
-
-    const callService = async ({
-      queryPage,
-      count,
-      orderBy,
-      orderType,
-      querySearch,
-    }: Record<string, any>) => {
-      await service({
-        page: queryPage,
-        count,
-        orderBy,
-        orderType,
-        search: querySearch,
-      })
-    }
-    // biome-ignore lint/correctness/useExhaustiveDependencies: Service is not depends
-    useEffect(() => {
-      callService({ queryPage, count, orderBy, orderType, querySearch })
-    }, [queryPage, count, orderBy, orderType, querySearch])
-
-    // biome-ignore lint/correctness/useExhaustiveDependencies: Service is not depends
-    useImperativeHandle(
-      ref,
-      () => {
-        return {
-          refresh: () => {
-            callService({ queryPage, count, orderBy, orderType, querySearch })
-          },
-        }
-      },
-      [queryPage, count, orderBy, orderType, querySearch],
-    )
-
-    const [columnFilters, setColumnFilters] =
-      React.useState<ColumnFiltersState>([])
-    const [columnVisibility, setColumnVisibility] =
-      React.useState<VisibilityState>({})
-    const [rowSelection, setRowSelection] = React.useState({})
-
-    const data = (rawData as IBaseResponseList).data
-    const { page, totalPage, perPage, total } = data.metadata
-    const table = useReactTable({
-      data: data.content,
-      columns,
-      onColumnFiltersChange: setColumnFilters,
-      getCoreRowModel: getCoreRowModel(),
-      getPaginationRowModel: getPaginationRowModel(),
-      getSortedRowModel: getSortedRowModel(),
-      getFilteredRowModel: getFilteredRowModel(),
-      onColumnVisibilityChange: setColumnVisibility,
-      onRowSelectionChange: setRowSelection,
-      enableRowSelection: false,
-      manualPagination: true,
-      manualSorting: true,
-      state: {
-        sorting: [
-          {
-            id: orderBy || defaultOrderBy,
-            desc: (orderType || defaultOrderType).toLowerCase() === 'desc',
-          },
-        ],
-        columnFilters,
-        columnVisibility,
-        rowSelection,
-        pagination: {
-          pageSize: perPage,
-          pageIndex: page,
+  const data = (rawData as IBaseResponseList).data
+  const { page, totalPage, perPage, total } = data.metadata
+  const table = useReactTable({
+    data: data.content,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    enableRowSelection: false,
+    manualPagination: true,
+    manualSorting: true,
+    state: {
+      sorting: [
+        {
+          id: orderBy || defaultOrderBy,
+          desc: (orderType || defaultOrderType).toLowerCase() === 'desc',
         },
+      ],
+      pagination: {
+        pageSize: perPage,
+        pageIndex: page,
       },
-    })
+    },
+  })
 
-    const [search, setSearch] = useState<string>('')
-    const searchDebounce = useDebounce(search, 1000)
-    const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearch(e.target.value)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Resend is not depends
+  const contextValue = useMemo(() => {
+    return {
+      refresh: () => {
+        resend(payload)
+      },
     }
+  }, [payload])
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies: setSearchParams is not depends
-    useEffect(() => {
-      if (searchDebounce === '') {
-        if (searchParams.get('search')) {
-          setSearchParams((prev) => {
-            prev.delete('search')
-            return prev
-          })
-        }
-        return
-      }
-
-      setSearchParams((prev) => {
-        prev.set('search', searchDebounce)
-        return prev
-      })
-    }, [searchDebounce])
-
-    return (
-      <div role='alert' className={cn('w-full', className)} {...props}>
+  return (
+    <DatatableContext.Provider value={contextValue}>
+      <div className='w-full'>
         <div className='mb-4 flex items-center justify-center gap-2'>
           <div className='w-full'>
-            <Input
-              type='text'
-              placeholder='Search...'
-              parentClassName='w-full sm:w-auto max-w-[20rem]'
-              icon={Search}
-              onChange={onSearchChange}
-            />
+            <Search />
           </div>
           <div className='flex w-full items-center justify-end gap-2'>
             {create}
@@ -303,10 +237,8 @@ const Datatable = React.forwardRef<DatatableHandle, DatatableProps>(
           </div>
         </div>
       </div>
-    )
-  },
-)
-
-Datatable.displayName = 'Datatable'
+    </DatatableContext.Provider>
+  )
+}
 
 export default Datatable

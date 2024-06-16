@@ -1,13 +1,10 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { Typography } from '@components/Typograpy'
 import type { ColumnDef } from '@tanstack/react-table'
 import type { IBaseResponseList } from '@/types/base'
 import alova from '@libs/alova'
 import type { IContact } from '@/types/contact'
-import Datatable, {
-  type DatatableHandle,
-} from '@components/Datatable/Datatable'
-import ColumnHeader from '@components/Datatable/ColumnHeader'
+import Datatable, { ColumnHeader } from '@components/Datatable'
 import { Badge } from '@components/Badge'
 import { parseDate } from '@utils/date'
 import CreateCategory from '@pages/dashboard/category/CreateCategory'
@@ -51,41 +48,28 @@ export const columns: ColumnDef<IContact>[] = [
   },
 ]
 
-const Component: React.FC = () => {
-  const ref = useRef<DatatableHandle>(null)
-  const refresh = () => {
-    ref.current?.refresh()
-  }
+const getAll = (params: any) => {
+  return alova.Get<IBaseResponseList>('/v1/category', {
+    params,
+    hitSource: /category/,
+  })
+}
 
+const Component: React.FC = () => {
   return (
     <div className='space-y-8'>
       <Typography as='h1' variant='h2'>
         Category
       </Typography>
-      <button
-        type='button'
-        onClick={(e) => {
-          e.preventDefault()
-          ref.current?.refresh()
-        }}
-      >
-        woke
-      </button>
       <Datatable
-        ref={ref}
-        api={(params) =>
-          alova.Get<IBaseResponseList>('/v1/category', {
-            params,
-            hitSource: ['create-category'],
-          })
-        }
+        api={getAll}
         columns={columns}
         titleHeader={{
           name: 'Name',
           slug: 'Slug',
           created_at: 'Created At',
         }}
-        create={<CreateCategory refresh={refresh} />}
+        create={<CreateCategory />}
       />
     </div>
   )
