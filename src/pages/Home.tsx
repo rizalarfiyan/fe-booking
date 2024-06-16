@@ -72,7 +72,7 @@ const Component: React.FC = () => {
   return (
     <div className='space-y-24 lg:space-y-32'>
       <section className='relative flex h-full min-h-dvh w-full items-center justify-center bg-muted'>
-        <div className='container mt-20 mb-16 flex items-center justify-between gap-0 flex-col-reverse lg:flex-row lg:mt-28 lg:mb-20 lg:gap-20'>
+        <div className='container mt-20 mb-16 flex flex-col-reverse items-center justify-between gap-0 lg:mt-28 lg:mb-20 lg:flex-row lg:gap-20'>
           <div className='flex w-full flex-col justify-center lg:w-1/2'>
             <div className='space-y-10'>
               <div className='space-y-4'>
@@ -85,10 +85,10 @@ const Component: React.FC = () => {
                   </Typography>
                   <Typography
                     as='h1'
-                    className='!leading-snug text-3xl sm:text-4xl lg:text-5xl xl:text-6xl'
+                    className='!leading-snug text-3xl lg:text-5xl sm:text-4xl xl:text-6xl'
                   >
                     <span>Unlocking </span>
-                    <span className='rounded-md bg-primary px-2 py-1 sm:px-4 sm:py-2 text-white'>
+                    <span className='rounded-md bg-primary px-2 py-1 text-white sm:px-4 sm:py-2'>
                       World
                     </span>
                     <span>, One </span>
@@ -101,20 +101,20 @@ const Component: React.FC = () => {
                 <Typography
                   as='p'
                   type='description'
-                  className='w-full text-base sm:text-lg md:text-xl leading-relaxed lg:max-w-2xl'
+                  className='w-full text-base leading-relaxed lg:max-w-2xl md:text-xl sm:text-lg'
                 >
                   {data.hero.description}
                 </Typography>
               </div>
               <Button
-                className='mx-auto px-6 py-4 sm:px-8 sm:py-6 text-base sm:text-lg shadow-lg shadow-orange-300 dark:shadow-orange-600'
+                className='mx-auto px-6 py-4 text-base shadow-lg shadow-orange-300 sm:px-8 sm:py-6 sm:text-lg dark:shadow-orange-600'
                 asChild
               >
                 <Link to='/books'>Explore Now</Link>
               </Button>
             </div>
           </div>
-          <WelcomeToBooking className='h-auto w-full max-w-md sm:max-w-lg lg:max-w-2xl' />
+          <WelcomeToBooking className='h-auto w-full max-w-md lg:max-w-2xl sm:max-w-lg' />
         </div>
       </section>
 
@@ -151,8 +151,8 @@ const Component: React.FC = () => {
       </section>
 
       <section className='relative flex h-full min-h-dvh w-full items-center justify-center bg-muted'>
-        <div className='container mt-20 mb-16 flex items-center justify-between gap-0 flex-col lg:flex-row lg:mt-28 lg:mb-20 lg:gap-20'>
-          <WhyChooseUs className='h-auto w-full max-w-md sm:max-w-lg lg:max-w-2xl' />
+        <div className='container mt-20 mb-16 flex flex-col items-center justify-between gap-0 lg:mt-28 lg:mb-20 lg:flex-row lg:gap-20'>
+          <WhyChooseUs className='h-auto w-full max-w-md lg:max-w-2xl sm:max-w-lg' />
           <div className='flex w-full flex-col justify-center lg:w-1/2'>
             <div className='space-y-10'>
               <div className='space-y-4'>
@@ -165,10 +165,10 @@ const Component: React.FC = () => {
                   </Typography>
                   <Typography
                     as='h1'
-                    className='!leading-snug text-3xl sm:text-4xl lg:text-5xl xl:text-6xl'
+                    className='!leading-snug text-3xl lg:text-5xl sm:text-4xl xl:text-6xl'
                   >
                     <span>Discovering New </span>
-                    <span className='rounded-md bg-primary px-2 py-1 sm:px-4 sm:py-2 text-white'>
+                    <span className='rounded-md bg-primary px-2 py-1 text-white sm:px-4 sm:py-2'>
                       World
                     </span>
                     <span> Through Every </span>
@@ -180,7 +180,7 @@ const Component: React.FC = () => {
                 <Typography
                   as='p'
                   type='description'
-                  className='w-full text-base sm:text-lg md:text-xl leading-relaxed lg:max-w-2xl'
+                  className='w-full text-base leading-relaxed lg:max-w-2xl md:text-xl sm:text-lg'
                 >
                   {data.why.description}
                 </Typography>
@@ -233,7 +233,7 @@ const Component: React.FC = () => {
             <div className='-mx-4 flex flex-wrap items-stretch'>
               <div className='w-full px-4'>
                 <div className='mx-auto flex max-w-4xl flex-col items-center gap-8'>
-                  <div className='mx-auto max-w-md space-y-4 text-center min-w-full'>
+                  <div className='mx-auto min-w-full max-w-md space-y-4 text-center'>
                     <Typography as='h2' variant='h1'>
                       {data.join.title}
                     </Typography>
