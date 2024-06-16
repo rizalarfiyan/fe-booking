@@ -10,6 +10,7 @@ import { Badge } from '@components/Badge'
 import Datatable from '@components/Datatable/Datatable'
 import ColumnHeader from '@components/Datatable/ColumnHeader'
 import ContactDetail from '@pages/dashboard/contact/ContactDetail'
+import { DATETIME_FORMAT } from '@/constants/app'
 
 export const columns: ColumnDef<IContact>[] = [
   {
@@ -50,7 +51,9 @@ export const columns: ColumnDef<IContact>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <Badge variant='secondary'>{parseDate(row.original.submittedAt)}</Badge>
+        <Badge variant='secondary'>
+          {parseDate(row.original.submittedAt, DATETIME_FORMAT.datetime)}
+        </Badge>
       )
     },
   },
