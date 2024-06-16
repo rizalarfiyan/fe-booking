@@ -5,6 +5,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  type Row,
   useReactTable,
 } from '@tanstack/react-table'
 import * as React from 'react'
@@ -30,7 +31,8 @@ import {
 } from '@components/Select'
 import ViewOptions from './ViewOptions'
 import Search from './Search'
-import { DatatableContext } from './context'
+import { DatatableContext, type IDatatableContext } from './context'
+import { cn } from '@utils/classes'
 
 interface DatatableProps {
   columns: ColumnDef<any, any>[]
@@ -120,10 +122,14 @@ const Datatable: React.FC<DatatableProps> = ({
         pageIndex: page,
       },
     },
+    meta: {
+      getRowClassName: (row: Row<any>): string =>
+        cn(row?.original?.deletedAt && 'bg-red-50 hover:bg-red-100'),
+    },
   })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: Resend is not depends
-  const contextValue = useMemo(() => {
+  const contextValue = useMemo((): IDatatableContext => {
     return {
       refresh: () => {
         resend(payload)
@@ -169,6 +175,9 @@ const Datatable: React.FC<DatatableProps> = ({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
+                    className={(table.options.meta as any)?.getRowClassName(
+                      row,
+                    )}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>

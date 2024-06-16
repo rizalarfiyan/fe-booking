@@ -3,13 +3,14 @@ import { Typography } from '@components/Typograpy'
 import type { ColumnDef } from '@tanstack/react-table'
 import type { IBaseResponseList } from '@/types/base'
 import alova from '@libs/alova'
-import type { IContact } from '@/types/contact'
+import type { ICategory } from '@/types/category'
 import Datatable, { ColumnHeader } from '@components/Datatable'
 import { Badge } from '@components/Badge'
 import { parseDate } from '@utils/date'
 import CreateCategory from '@pages/dashboard/category/CreateCategory'
+import DeleteCategory from '@pages/dashboard/category/DeleteCategory'
 
-export const columns: ColumnDef<IContact>[] = [
+export const columns: ColumnDef<ICategory>[] = [
   {
     id: 'increment',
     header: '#',
@@ -34,7 +35,7 @@ export const columns: ColumnDef<IContact>[] = [
     header: ({ column }) => <ColumnHeader column={column} title='Created At' />,
     cell: ({ row }) => {
       return (
-        <Badge variant='secondary'>{parseDate(row.original.submittedAt)}</Badge>
+        <Badge variant='secondary'>{parseDate(row.original.createdAt)}</Badge>
       )
     },
   },
@@ -42,8 +43,13 @@ export const columns: ColumnDef<IContact>[] = [
     id: 'action',
     enableHiding: false,
     header: 'Action',
-    cell: () => {
-      return <div className='space-y-2'>action</div>
+    cell: ({ row }) => {
+      const { categoryId, deletedAt } = row.original
+      return (
+        <div className='space-y-2'>
+          <DeleteCategory categoryId={categoryId} isRestore={!!deletedAt} />
+        </div>
+      )
     },
   },
 ]
