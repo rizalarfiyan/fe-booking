@@ -66,6 +66,13 @@ export const columns: ColumnDef<IContact>[] = [
   },
 ]
 
+const getAll = (params: any) => {
+  return alova.Get<IBaseResponseList>('/v1/contact', {
+    params,
+    hitSource: /contact/,
+  })
+}
+
 const Component: React.FC = () => {
   return (
     <div className='space-y-8'>
@@ -73,11 +80,7 @@ const Component: React.FC = () => {
         Contact
       </Typography>
       <Datatable
-        api={(params) =>
-          alova.Get<IBaseResponseList>('/v1/contact', {
-            params,
-          })
-        }
+        api={getAll}
         columns={columns}
         titleHeader={{
           first_name: 'Name',
