@@ -1,11 +1,13 @@
-import { useCallback, useState } from 'react'
+import { useState, useCallback, useRef } from 'react'
 
 export interface UseDisclosure {
   isOpen: boolean
-  open: () => void
-  close: () => void
-  toggle: () => void
+  open: (isForce?: boolean) => void
+  close: (isForce?: boolean) => void
+  toggle: (isForce?: boolean) => void
   setIsOpen: (status: boolean) => void
+  enable: () => void
+  disable: () => void
 }
 
 interface UseDisclosureOptions {
@@ -14,25 +16,59 @@ interface UseDisclosureOptions {
   onClose?: () => void
 }
 
-export const useDisclosure = (props?: UseDisclosureOptions): UseDisclosure => {
-  const { initial = false, onOpen, onClose } = props || {}
+export const useDisclosure = ({
+  initial = false,
+  onOpen,
+  onClose,
+}: UseDisclosureOptions = {}): UseDisclosure => {
   const [isOpen, setIsOpen] = useState(initial)
+  const isEnable = useRef(true)
 
-  const open = useCallback(() => {
-    setIsOpen(true)
-    if (onOpen) {
-      onOpen()
-    }
-  }, [onOpen])
+  const open = useCallback(
+    (isForce = false) => {
+      if (!isForce && !isEnable.current) return
+      setIsOpen(true)
+      if (onOpen) {
+        onOpen()
+      }
+    },
+    [onOpen],
+  )
 
-  const close = useCallback(() => {
-    setIsOpen(false)
-    if (onClose) {
-      onClose()
-    }
-  }, [onClose])
+  const close = useCallback(
+    (isForce = false) => {
+      if (!isForce && !isEnable.current) return
+      setIsOpen(false)
+      if (onClose) {
+        onClose()
+      }
+    },
+    [onClose],
+  )
 
-  const toggle = useCallback(() => setIsOpen((state) => !state), [])
+  const toggle = useCallback(
+    (isForce = false) => {
+      if (!isForce && !isEnable.current) return
+      setIsOpen((state) => {
+        const newState = !state
+        if (newState && onOpen) {
+          onOpen()
+        } else if (!newState && onClose) {
+          onClose()
+        }
+        return newState
+      })
+    },
+    [onOpen, onClose],
+  )
 
-  return { isOpen, open, close, toggle, setIsOpen }
+  const enable = useCallback(() => {
+    isEnable.current = true
+  }, [])
+
+  const disable = useCallback(() => {
+    isEnable.current = false
+  }, [])
+
+  return { isOpen, open, close, toggle, setIsOpen, enable, disable }
 }
