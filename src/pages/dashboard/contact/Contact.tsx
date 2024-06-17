@@ -7,9 +7,9 @@ import type { IContact } from '@/types/contact'
 import { getFullName } from '@utils/string'
 import { parseDate } from '@utils/date'
 import { Badge } from '@components/Badge'
-import Datatable from '@components/Datatable/Datatable'
-import ColumnHeader from '@components/Datatable/ColumnHeader'
+import Datatable, { ColumnHeader } from '@components/Datatable'
 import ContactDetail from '@pages/dashboard/contact/ContactDetail'
+import { DATETIME_FORMAT } from '@/constants/app'
 
 export const columns: ColumnDef<IContact>[] = [
   {
@@ -50,7 +50,9 @@ export const columns: ColumnDef<IContact>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <Badge variant='secondary'>{parseDate(row.original.submittedAt)}</Badge>
+        <Badge variant='secondary'>
+          {parseDate(row.original.submittedAt, DATETIME_FORMAT.datetime)}
+        </Badge>
       )
     },
   },
@@ -64,6 +66,13 @@ export const columns: ColumnDef<IContact>[] = [
   },
 ]
 
+const getAll = (params: any) => {
+  return alova.Get<IBaseResponseList>('/v1/contact', {
+    params,
+    hitSource: /contact/,
+  })
+}
+
 const Component: React.FC = () => {
   return (
     <div className='space-y-8'>
@@ -71,11 +80,7 @@ const Component: React.FC = () => {
         Contact
       </Typography>
       <Datatable
-        api={(params) =>
-          alova.Get<IBaseResponseList>('/v1/contact', {
-            params,
-          })
-        }
+        api={getAll}
         columns={columns}
         titleHeader={{
           first_name: 'Name',

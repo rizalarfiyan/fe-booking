@@ -15,7 +15,7 @@ interface ViewOptionsProps<TData> {
   titleHeader: Record<string, string>
 }
 
-export function ViewOptions<TData>({
+export default function ViewOptions<TData>({
   table,
   titleHeader,
 }: ViewOptionsProps<TData>) {
@@ -23,12 +23,10 @@ export function ViewOptions<TData>({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          aria-label='Toggle columns'
           variant='outline'
-          size='sm'
-          className='ml-auto flex h-8'
+          leftIcon={<ListChecks className='mr-2 size-4' />}
+          aria-label='Toggle columns'
         >
-          <ListChecks className='mr-2 size-4' />
           View
         </Button>
       </DropdownMenuTrigger>
