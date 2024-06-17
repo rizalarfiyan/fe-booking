@@ -70,7 +70,7 @@ const DeleteCategory: React.FC<DeleteCategoryProps> = ({
 
   return (
     <AlertDialog open={state.isOpen} onOpenChange={() => state.close()}>
-      <AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
         <Button
           size='icon'
           variant='outline'

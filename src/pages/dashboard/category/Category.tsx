@@ -9,6 +9,7 @@ import { Badge } from '@components/Badge'
 import { parseDate } from '@utils/date'
 import CreateCategory from '@pages/dashboard/category/CreateCategory'
 import DeleteCategory from '@pages/dashboard/category/DeleteCategory'
+import EditCategory from '@pages/dashboard/category/EditCategory'
 
 export const columns: ColumnDef<ICategory>[] = [
   {
@@ -45,9 +46,11 @@ export const columns: ColumnDef<ICategory>[] = [
     header: 'Action',
     cell: ({ row }) => {
       const { categoryId, deletedAt } = row.original
+      const isDeleted = !!deletedAt
       return (
-        <div className='space-y-2'>
-          <DeleteCategory categoryId={categoryId} isRestore={!!deletedAt} />
+        <div className='space-x-2'>
+          {!isDeleted && <EditCategory categoryId={categoryId} />}
+          <DeleteCategory categoryId={categoryId} isRestore={isDeleted} />
         </div>
       )
     },

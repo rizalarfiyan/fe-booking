@@ -5,3 +5,10 @@ export interface ICategory {
   createdAt: string
   deletedAt: string
 }
+
+export interface ICategoryDetail extends ICategory {
+  createdBy: number
+  updatedAt: string
+  updatedBy: number
+  deletedBy: number
+}

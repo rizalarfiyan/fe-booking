@@ -124,7 +124,10 @@ const Datatable: React.FC<DatatableProps> = ({
     },
     meta: {
       getRowClassName: (row: Row<any>): string =>
-        cn(row?.original?.deletedAt && 'bg-red-50 hover:bg-red-100'),
+        cn(
+          row?.original?.deletedAt &&
+            'bg-red-50 dark:bg-red-400/20 dark:hover:bg-red-300/20 hover:bg-red-100',
+        ),
     },
   })
 
