@@ -1,17 +1,19 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import { TitleDescription } from '@components/TitleDescription'
 import { Clock2, History, LibraryBig } from 'lucide-react'
 import { Typography } from '@components/Typograpy'
 import { Card, CardContent, CardHeader } from '@components/Card'
 import { Button } from '@components/Button'
-import { Await, defer, Link, useLoaderData } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import type { IBookCard } from '@/types/data'
 import { Skeleton } from '@components/Skeleton'
-import { ErrorMessage } from '@components/ErrorMessage'
 import CardBook from '@components/Card/Book'
 import useAuth from '@hooks/useAuth'
 import WelcomeToBooking from '@components/Graphics/WelcomeToBooking'
 import WhyChooseUs from '@components/Graphics/WhyUs'
+import { useRequest } from 'alova'
+import alova from '@libs/alova'
+import type { IBaseResponseList } from '@/types/base'
 
 const data = {
   hero: {
@@ -61,13 +63,23 @@ const data = {
   },
 }
 
-interface IPromiseLanding {
-  books: Promise<IBookCard[]>
-}
-
 const Component: React.FC = () => {
-  const { books } = useLoaderData() as IPromiseLanding
   const { isLoggedIn } = useAuth()
+
+  const { data: books, loading } = useRequest(
+    alova.Get<IBaseResponseList<IBookCard>>('/v1/book/list', {
+      params: {
+        orderBy: 'popular',
+      },
+    }),
+    {
+      initialData: {
+        data: {
+          content: [],
+        },
+      },
+    },
+  )
 
   return (
     <div className='space-y-24 lg:space-y-32'>
@@ -195,43 +207,37 @@ const Component: React.FC = () => {
           title={data.books.title}
           description={data.books.description}
         />
-        <Suspense
-          fallback={
+        {loading ? (
+          <>
             <div className='flex w-full flex-wrap justify-center gap-4'>
               {Array.from({ length: 8 }, (_, idx) => {
                 return <Skeleton key={idx} className='h-72 w-full max-w-60' />
               })}
             </div>
-          }
-        >
-          <Await
-            resolve={books}
-            errorElement={<ErrorMessage message="Couldn't load book books" />}
-          >
-            {(books) => {
-              return (
-                <div className='flex flex-wrap justify-center gap-4'>
-                  {books.map((book: IBookCard, idx: number) => {
-                    return <CardBook key={idx} {...book} />
-                  })}
-                </div>
-              )
-            }}
-          </Await>
-        </Suspense>
-        <Button
-          className='mx-auto shadow-lg shadow-orange-300 dark:shadow-orange-600'
-          asChild
-        >
-          <Link to='/books?orderBy=popular'>Show More</Link>
-        </Button>
+            <Skeleton className='h-12 w-28' />
+          </>
+        ) : (
+          <>
+            <div className='flex flex-wrap justify-center gap-4'>
+              {books.data.content.map((book: IBookCard, idx: number) => {
+                return <CardBook key={idx} {...book} />
+              })}
+            </div>
+            <Button
+              className='mx-auto shadow-lg shadow-orange-300 dark:shadow-orange-600'
+              asChild
+            >
+              <Link to='/books?orderBy=popular'>Show More</Link>
+            </Button>
+          </>
+        )}
       </section>
 
       <section className='relative z-10 overflow-hidden bg-muted py-20 lg:py-32'>
         <div className='container mx-auto'>
           <div className='relative overflow-hidden'>
             <div className='-mx-4 flex flex-wrap items-stretch'>
-              <div className='w-full px-4'>
+              <div className='w-full px-4 py-8'>
                 <div className='mx-auto flex max-w-4xl flex-col items-center gap-8'>
                   <div className='mx-auto min-w-full max-w-md space-y-4 text-center'>
                     <Typography as='h2' variant='h1'>
@@ -334,25 +340,4 @@ const Component: React.FC = () => {
   )
 }
 
-const fakeLatestBooks = async () => {
-  const books = await import('@dummy/books.json').then((res) => res.default)
-  for (let i = books.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[books[i], books[j]] = [books[j], books[i]]
-  }
-
-  const recommendation = books.slice(0, 8)
-  return await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(recommendation)
-    }, 1500)
-  })
-}
-
-const loader = async () => {
-  return defer({
-    books: fakeLatestBooks(),
-  })
-}
-
-export { Component as default, loader }
+export { Component as default }

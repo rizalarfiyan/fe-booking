@@ -9,20 +9,12 @@ export interface IContactInformation {
 
 // FIXME: remove not used fields
 export interface IBookCard {
-  authors: string[]
-  description: string
-  height: string
-  image: string
-  isbn: string
-  language: string
-  pages: string
-  publishedAt: string
-  sku: string
-  slug: string
+  bookId: number
   title: string
-  weight: string
-  width: string
+  slug: string
+  image: string
   rating: number
+  author: string[]
 }
 
 export interface IBookDetail {

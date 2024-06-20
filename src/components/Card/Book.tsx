@@ -11,7 +11,7 @@ const CardBook: React.FC<IBookCard> = ({
   slug,
   image,
   title,
-  authors,
+  author,
   rating,
 }) => {
   return (
@@ -19,7 +19,7 @@ const CardBook: React.FC<IBookCard> = ({
       <Card className='group w-full max-w-60 space-y-3 p-4'>
         <div className='relative aspect-[3/4] h-full w-full cursor-pointer overflow-hidden rounded-md bg-muted'>
           <img
-            className='h-full w-full object-fill transition-transform duration-300 group-hover:scale-105'
+            className='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
             src={image}
             alt={title}
           />
@@ -50,7 +50,7 @@ const CardBook: React.FC<IBookCard> = ({
               type='small-description'
               className='max-w-28 truncate'
             >
-              {getAuthor(authors)}
+              {getAuthor(author)}
             </Typography>
           </div>
           <div className='flex gap-1.5'>
