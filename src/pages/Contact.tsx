@@ -77,7 +77,10 @@ const Component: React.FC = () => {
   const { handleError } = useHandleError(navigate)
 
   const { loading, send } = useRequest(
-    (req) => alova.Post<IBaseResponse, FormRequest>('/v1/contact', req),
+    (req) =>
+      alova.Post<IBaseResponse, FormRequest>('/v1/contact', req, {
+        name: 'create-contact',
+      }),
     {
       immediate: false,
     },
