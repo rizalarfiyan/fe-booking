@@ -2,24 +2,56 @@ import React, { useMemo, useState } from 'react'
 import { Button } from '@components/Button'
 import { Stars } from '@components/Star'
 import { Typography } from '@components/Typograpy'
-import type { IBookCard } from '@/types/data'
+import type { IBookDetail } from '@/types/book'
 import useAuth from '@hooks/useAuth'
 import { Link } from 'react-router-dom'
 import { truncate } from '@utils/string'
 import { parseDate } from '@utils/date'
 import { DATETIME_FORMAT } from '@/constants/app'
+import { useRequest } from 'alova'
+import type { IBaseResponse } from '@/types/base'
+import alova from '@libs/alova'
+import { Skeleton } from '@components/Skeleton'
+import type { IBookStock } from '@/types/book'
+import { Badge } from '@components/Badge'
 
 interface BookDetailProps {
-  data: IBookCard
+  book: IBookDetail
 }
 
-const BookDetail: React.FC<BookDetailProps> = ({ data }) => {
-  const { authors, rating, title, image, description } = data
+const BookDetail: React.FC<BookDetailProps> = ({ book }) => {
+  const { author, rating, title, image, description } = book
   const { isLoggedIn } = useAuth()
 
-  // TODO: FIXME publish date format time
+  const {
+    data: {
+      data: { stock, borrow },
+    },
+    loading,
+  } = useRequest(
+    alova.Get<IBaseResponse<IBookStock>>(`/v1/book/${book.bookId}/stock`),
+    {
+      force: true,
+      initialData: {
+        data: {
+          stock: 0,
+          borrow: 0,
+        },
+      },
+    },
+  )
+
   const details = useMemo(() => {
-    const { pages, weight, height, width, isbn, publishedAt, language } = data
+    const {
+      pages,
+      weight,
+      height,
+      width,
+      isbn,
+      publishedAt,
+      language,
+      category,
+    } = book
     return [
       {
         title: 'ISBN',
@@ -45,8 +77,21 @@ const BookDetail: React.FC<BookDetailProps> = ({ data }) => {
         title: 'Dimensions',
         value: height || width ? `${height} cm x ${width} cm` : null,
       },
+      {
+        title: 'Category',
+        value:
+          category.length === 0 ? (
+            '-'
+          ) : (
+            <div className='flex flex-wrap gap-1'>
+              {(category ?? []).map(({ name, categoryId }) => (
+                <Badge key={categoryId}>{name}</Badge>
+              ))}
+            </div>
+          ),
+      },
     ]
-  }, [data])
+  }, [book])
 
   const [isExpanded, setIsExpanded] = useState(false)
   const toggleDescription = () => {
@@ -57,21 +102,18 @@ const BookDetail: React.FC<BookDetailProps> = ({ data }) => {
     <div className='space-y-10'>
       <div className='mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-12 md:flex-row'>
         <div className='aspect-[3/4] h-full w-full max-w-72 cursor-pointer overflow-hidden rounded-md bg-muted'>
-          <img className='h-full w-full object-fill' src={image} alt={title} />
+          <img className='h-full w-full object-cover' src={image} alt={title} />
         </div>
         <div className='w-full max-w-3xl'>
           <Typography as='h1' variant='h3'>
             {title}
           </Typography>
-          <Typography type='description'>by {authors.join(', ')}</Typography>
+          <Typography type='description'>by {author.join(', ')}</Typography>
           <div className='mt-2 flex items-center gap-2'>
             <Stars rating={rating} variant='primary' disabled />
             <Typography type='description'>{rating}</Typography>
           </div>
           <div className='mt-8 space-y-4'>
-            <Typography as='h3' variant='h4'>
-              Details
-            </Typography>
             <table className='w-full border-collapse'>
               <tbody>
                 {details.map(({ title, value }, idx) => {
@@ -84,12 +126,27 @@ const BookDetail: React.FC<BookDetailProps> = ({ data }) => {
                     </tr>
                   )
                 })}
+                {loading ? (
+                  <tr>
+                    <td className='w-1/3 pr-2 pb-2'>
+                      <Skeleton className='h-6 w-full' />
+                    </td>
+                    <td className='pb-2'>
+                      <Skeleton className='h-6 w-full' />
+                    </td>
+                  </tr>
+                ) : (
+                  <tr>
+                    <td className='w-1/3 align-top font-semibold'>
+                      <span>Available stock</span>
+                    </td>
+                    <td className='pl-2 align-top'>{stock - borrow}</td>
+                  </tr>
+                )}
               </tbody>
             </table>
             {isLoggedIn ? (
-              <Button asChild>
-                <Link to='/dashboard'>Borrow Now</Link>
-              </Button>
+              <Button disabled={stock - borrow === 0}>Borrow Now</Button>
             ) : (
               <Button asChild>
                 <Link to='/login'>Login</Link>
@@ -98,20 +155,22 @@ const BookDetail: React.FC<BookDetailProps> = ({ data }) => {
           </div>
         </div>
       </div>
-      <div className='space-y-2'>
-        <Typography as='h3' variant='h4'>
-          Description
-        </Typography>
-        <Typography className='text-justify leading-relaxed'>
-          {isExpanded ? description : truncate(description, 500)}
-          <button
-            type='button'
-            onClick={toggleDescription}
-            className='ml-2 font-semibold text-primary-600 dark:text-primary-500'
-          >
-            {isExpanded ? 'Show less' : 'Read more'}
-          </button>
-        </Typography>
+      <div className='space-y-4'>
+        <div className='space-y-2'>
+          <Typography as='h3' variant='h4'>
+            Description
+          </Typography>
+          <Typography className='text-justify leading-relaxed'>
+            {isExpanded ? description : truncate(description, 500)}
+            <button
+              type='button'
+              onClick={toggleDescription}
+              className='ml-2 font-semibold text-primary-600 dark:text-primary-500'
+            >
+              {isExpanded ? 'Show less' : 'Read more'}
+            </button>
+          </Typography>
+        </div>
       </div>
     </div>
   )

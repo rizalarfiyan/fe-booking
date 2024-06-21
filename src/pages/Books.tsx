@@ -29,6 +29,7 @@ const Component: React.FC = () => {
           <Accordion type='multiple' className='w-full'>
             {/* TODO: update rating with backend */}
             <FilterRating />
+            {/* TODO: update select and unselect if the value is selected, open if query param has enable */}
             <FilterYearCategory filter={filter} />
           </Accordion>
         </div>

@@ -10,7 +10,7 @@ import { ScrollArea } from '@components/ScrollArea'
 import { Await, useSearchParams } from 'react-router-dom'
 import { Skeleton } from '@components/Skeleton'
 import { ErrorMessage } from '@components/ErrorMessage'
-import type { BookCategory, BookFilter } from '@/types/book'
+import type { IBookCategory, BookFilter } from '@/types/book'
 
 export interface FilterYearCategoryProps {
   filter: Promise<BookFilter>
@@ -92,7 +92,7 @@ const FilterYearCategory: React.FC<FilterYearCategoryProps> = ({ filter }) => {
                     onValueChange={onChangeCategory}
                   >
                     {(filter.category ?? []).map(
-                      ({ categoryId, name }: BookCategory) => {
+                      ({ categoryId, name }: IBookCategory) => {
                         const key = `category-${categoryId}`
                         return (
                           <div key={key} className='relative'>

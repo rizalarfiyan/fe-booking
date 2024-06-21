@@ -5,7 +5,7 @@ import { getAuthor } from '@utils/string'
 import { BookOpenText, Star, User } from 'lucide-react'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import type { IBookCard } from '@/types/data'
+import type { IBookCard } from '@/types/book'
 
 const CardBook: React.FC<IBookCard> = ({
   slug,
