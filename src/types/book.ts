@@ -14,6 +14,18 @@ export interface IBookCategory {
   slug: string
 }
 
+export interface IBookAll {
+  bookId: number
+  title: string
+  slug: string
+  image: string
+  rating: number
+  language: string
+  publishedAt: string
+  createdAt: string
+  deletedAt: null
+}
+
 export interface IBookStock {
   stock: number
   borrow: number

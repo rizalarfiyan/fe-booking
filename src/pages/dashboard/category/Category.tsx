@@ -1,15 +1,34 @@
 import React from 'react'
 import { Typography } from '@components/Typograpy'
 import type { ColumnDef } from '@tanstack/react-table'
-import type { IBaseResponseList } from '@/types/base'
+import type { IBaseResponse, IBaseResponseList } from '@/types/base'
 import alova from '@libs/alova'
 import type { ICategory } from '@/types/category'
 import Datatable, { ColumnHeader } from '@components/Datatable'
 import { Badge } from '@components/Badge'
 import { parseDate } from '@utils/date'
 import CreateCategory from '@pages/dashboard/category/CreateCategory'
-import DeleteCategory from '@pages/dashboard/category/DeleteCategory'
 import EditCategory from '@pages/dashboard/category/EditCategory'
+import DeleteAction from '@components/Datatable/DeleteAction'
+
+const deleteService = (id: number, isRestore = false) => {
+  return alova.Delete<IBaseResponse>(
+    `/v1/category/${id}`,
+    {
+      isRestore,
+    },
+    {
+      name: 'delete-category',
+    },
+  )
+}
+
+const getAllService = (params: any) => {
+  return alova.Get<IBaseResponseList>('/v1/category', {
+    params,
+    hitSource: /category/,
+  })
+}
 
 export const columns: ColumnDef<ICategory>[] = [
   {
@@ -50,19 +69,17 @@ export const columns: ColumnDef<ICategory>[] = [
       return (
         <div className='space-x-2'>
           {!isDeleted && <EditCategory categoryId={categoryId} />}
-          <DeleteCategory categoryId={categoryId} isRestore={isDeleted} />
+          <DeleteAction
+            id={categoryId}
+            isRestore={isDeleted}
+            api={deleteService}
+            name='category'
+          />
         </div>
       )
     },
   },
 ]
-
-const getAll = (params: any) => {
-  return alova.Get<IBaseResponseList>('/v1/category', {
-    params,
-    hitSource: /category/,
-  })
-}
 
 const Component: React.FC = () => {
   return (
@@ -71,7 +88,7 @@ const Component: React.FC = () => {
         Category
       </Typography>
       <Datatable
-        api={getAll}
+        api={getAllService}
         columns={columns}
         titleHeader={{
           name: 'Name',
