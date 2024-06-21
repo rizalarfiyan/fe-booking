@@ -83,9 +83,11 @@ const BookDetail: React.FC<BookDetailProps> = ({ book }) => {
           category.length === 0 ? (
             '-'
           ) : (
-            <div className='flex flex-wrap gap-1'>
+            <div className='flex flex-wrap gap-1.5'>
               {(category ?? []).map(({ name, categoryId }) => (
-                <Badge key={categoryId}>{name}</Badge>
+                <Link key={categoryId} to={`/books?categoryId=${categoryId}`}>
+                  <Badge>{name}</Badge>
+                </Link>
               ))}
             </div>
           ),

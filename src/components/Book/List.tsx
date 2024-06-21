@@ -7,6 +7,8 @@ import type { IBookCard } from '@/types/book'
 import type { IBaseResponseList } from '@/types/base'
 import { Skeleton } from '@components/Skeleton'
 import Paginator from '@components/Paginator'
+import { BookX } from 'lucide-react'
+import { Typography } from '@components/Typograpy'
 
 interface BookListProps {}
 
@@ -54,6 +56,7 @@ const BookList: React.FC<BookListProps> = () => {
   )
 
   const { page, totalPage } = data.data.metadata
+  const books = data.data.content
 
   if (loading) {
     return (
@@ -69,6 +72,22 @@ const BookList: React.FC<BookListProps> = () => {
             return <Skeleton key={idx} className='h-10 w-16' />
           })}
           <Skeleton className='h-10 w-28' />
+        </div>
+      </div>
+    )
+  }
+
+  if (books.length === 0) {
+    return (
+      <div className='flex min-h-96 items-center justify-center'>
+        <div className='space-y-2 text-center'>
+          <BookX className='mx-auto size-20 text-muted-foreground opacity-20' />
+          <Typography as='h1' variant='h2'>
+            Book Not Found
+          </Typography>
+          <Typography as='p' type='description'>
+            We can't find any book that you're looking for
+          </Typography>
         </div>
       </div>
     )
