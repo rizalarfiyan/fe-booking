@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import {
   Select,
   SelectContent,
@@ -8,17 +8,25 @@ import {
 } from '@components/Select'
 import { useSearchParams } from 'react-router-dom'
 import { BOOK_ORDER_BY, DEFAULT_BOOK_ORDER_BY } from '@/constants/books'
+import { validateArr } from '@utils/check'
 
 const FilterSorting: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const orderBy = searchParams.get('orderBy') ?? DEFAULT_BOOK_ORDER_BY
+  const queryOrderBy = searchParams.get('orderBy')
+  const orderBy = useMemo(() => {
+    return validateArr(
+      queryOrderBy,
+      BOOK_ORDER_BY.map((val) => val.slug),
+      DEFAULT_BOOK_ORDER_BY,
+    )
+  }, [queryOrderBy])
+
   const onChange = (val: string) => {
     setSearchParams((prev) => {
       prev.set('orderBy', val)
       return prev
     })
-    console.log('order by: ', val)
   }
 
   return (

@@ -18,7 +18,6 @@ const FilterRating: React.FC = () => {
       prev.set('rating', val)
       return prev
     })
-    console.log('rating change: ', val)
   }
 
   return (

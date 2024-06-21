@@ -2,8 +2,8 @@ import type { IBaseResponse } from '@/types/base'
 import { Accordion } from '@components/Accordion'
 import FilterRating from '@components/Filter/Rating'
 import FilterSorting from '@components/Filter/Sorting'
-import React from 'react'
-import { defer, useLoaderData } from 'react-router-dom'
+import React, { useMemo } from 'react'
+import { defer, useLoaderData, useSearchParams } from 'react-router-dom'
 import { TitleDescription } from '@components/TitleDescription'
 import alova from '@libs/alova'
 import type { BookFilter } from '@/types/book'
@@ -17,6 +17,18 @@ interface IPromiseFilter {
 
 const Component: React.FC = () => {
   const { filter } = useLoaderData() as IPromiseFilter
+  const [searchParams] = useSearchParams()
+  const hasRating = searchParams.has('rating')
+  const hasYear = searchParams.has('year')
+  const hasCategoryId = searchParams.has('categoryId')
+
+  const defaultOpened = useMemo(() => {
+    const opened = []
+    if (hasRating) opened.push('rating')
+    if (hasYear) opened.push('year')
+    if (hasCategoryId) opened.push('category')
+    return opened
+  }, [hasRating, hasYear, hasCategoryId])
 
   return (
     <div className='container mt-28 mb-20 w-full space-y-16'>
@@ -26,10 +38,13 @@ const Component: React.FC = () => {
       />
       <div className='flex flex-col items-center gap-6 1100w:flex-row 1100w:items-start'>
         <div className='w-full max-w-lg space-y-4 1100w:w-80'>
-          <Accordion type='multiple' className='w-full'>
+          <Accordion
+            type='multiple'
+            className='w-full'
+            defaultValue={defaultOpened}
+          >
             {/* TODO: update rating with backend */}
             <FilterRating />
-            {/* TODO: update select and unselect if the value is selected, open if query param has enable */}
             <FilterYearCategory filter={filter} />
           </Accordion>
         </div>

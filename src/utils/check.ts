@@ -12,3 +12,13 @@ export const hasRoleNested = (role: AuthRole, items: ItemSidebar[]) => {
   }
   return false
 }
+
+export const validateArr = <T>(
+  value: T | null | undefined,
+  arr: T[],
+  defaultValue: T,
+) => {
+  if (!value) return defaultValue
+  if (!arr.includes(value)) return defaultValue
+  return value
+}

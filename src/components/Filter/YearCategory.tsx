@@ -10,7 +10,7 @@ import { ScrollArea } from '@components/ScrollArea'
 import { Await, useSearchParams } from 'react-router-dom'
 import { Skeleton } from '@components/Skeleton'
 import { ErrorMessage } from '@components/ErrorMessage'
-import type { IBookCategory, BookFilter } from '@/types/book'
+import type { BookFilter, IBookCategory } from '@/types/book'
 
 export interface FilterYearCategoryProps {
   filter: Promise<BookFilter>
