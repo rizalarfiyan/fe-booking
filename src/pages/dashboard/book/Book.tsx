@@ -11,6 +11,7 @@ import { BookCopy, BookUser, Eye, Plus, Star } from 'lucide-react'
 import { Button } from '@components/Button'
 import { Link } from 'react-router-dom'
 import DeleteAction from '@components/Datatable/DeleteAction'
+import UpdateBookStock from '@pages/dashboard/book/UpdateBookStock'
 
 const deleteService = (id: number, isRestore = false) => {
   return alova.Delete<IBaseResponse>(
@@ -129,7 +130,7 @@ export const columns: ColumnDef<IBookAll>[] = [
       const { bookId, deletedAt } = row.original
       const isDeleted = !!deletedAt
       return (
-        <div className='space-x-2'>
+        <div className='space-x-2 whitespace-nowrap'>
           {!isDeleted && (
             <>
               <Button size='icon' variant='outline' className='size-8' asChild>
@@ -137,6 +138,7 @@ export const columns: ColumnDef<IBookAll>[] = [
                   <Eye className='size-4' />
                 </Link>
               </Button>
+              <UpdateBookStock bookId={bookId} />
             </>
           )}
           <DeleteAction

@@ -67,7 +67,7 @@ export const columns: ColumnDef<ICategory>[] = [
       const { categoryId, deletedAt } = row.original
       const isDeleted = !!deletedAt
       return (
-        <div className='space-x-2'>
+        <div className='space-x-2 whitespace-nowrap'>
           {!isDeleted && <EditCategory categoryId={categoryId} />}
           <DeleteAction
             id={categoryId}
