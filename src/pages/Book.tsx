@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { Await, defer, useLoaderData } from 'react-router-dom'
+import { Await, defer, useLoaderData, useRouteError } from 'react-router-dom'
 import type { IBookDetail } from '@/types/book'
 import BookDetail from '@components/Book/Detail'
 import { Skeleton } from '@components/Skeleton'
@@ -7,6 +7,8 @@ import { ErrorMessage } from '@components/ErrorMessage'
 import alova from '@libs/alova'
 import type { IBaseResponse } from '@/types/base'
 import BookRecommendation from '@components/Book/Recommendation'
+import { BookX } from 'lucide-react'
+import ErrorBoundaries from '@components/ErrorBoundaries'
 
 interface IPromiseBook {
   book: Promise<IBookDetail>
@@ -99,4 +101,21 @@ const loader = async ({ params }: LoaderProps) => {
   })
 }
 
-export { Component as default, loader }
+const ErrorBoundary = () => {
+  const err = useRouteError() as Error
+  if (err.message.endsWith('not found.')) {
+    return (
+      <ErrorBoundaries
+        icon={BookX}
+        title='Book Not Found'
+        description='The book you are looking for is not found.'
+        backTo='/books'
+        backMessage='Back to All Books'
+      />
+    )
+  }
+
+  return <ErrorBoundaries title={err.message} />
+}
+
+export { Component as default, loader, ErrorBoundary }
