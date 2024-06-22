@@ -18,17 +18,34 @@ import useHandleError from '@hooks/useHandleError'
 import type { IBaseResponseList } from '@/types/base'
 import { toast } from 'sonner'
 import React from 'react'
-import type { UseDisclosure } from '@hooks/useDislosure'
+import RichText from '@components/RichText/RichText'
+import FormAuthor from '@pages/dashboard/book/FormAuthor'
 
 const formSchema = z.object({
-  name: z.string().min(5, 'Name is required').max(50, 'Name is too long'),
-  slug: z.string().min(5, 'Slug is required').max(50, 'Slug is too long'),
+  isbn: z.string(),
+  sku: z.string(),
+  title: z.string().min(5).max(50),
+  slug: z.string().min(5).max(50),
+  pages: z.string().pipe(z.coerce.number().positive().int()),
+  weight: z.string().pipe(z.coerce.number().positive()),
+  height: z.string().pipe(z.coerce.number().positive()),
+  width: z.string().pipe(z.coerce.number().positive()),
+  language: z.string(),
+  publishedAt: z.date(),
+  description: z.array(z.any()),
+  categoryId: z.array(z.number().int().positive()),
+  authors: z
+    .array(
+      z.object({
+        value: z.string().min(5).max(50),
+      }),
+    )
+    .min(1, 'Minimum 1 author is required'),
 })
 
 export type FormRequest = z.infer<typeof formSchema>
 
 type FormBookProps = {
-  state: UseDisclosure
   api: AlovaMethodHandler<
     any,
     unknown,
@@ -50,7 +67,7 @@ interface EditFormBook {
   value: FormRequest
 }
 
-const FormBook: React.FC<FormBookProps> = ({ state, api, type, value }) => {
+const FormBook: React.FC<FormBookProps> = ({ api, type, value }) => {
   const navigate = useNavigate()
   const { handleError } = useHandleError(navigate)
 
@@ -59,60 +76,185 @@ const FormBook: React.FC<FormBookProps> = ({ state, api, type, value }) => {
   })
 
   const form = useForm<FormRequest>({
+    mode: 'onBlur',
     resolver: zodResolver(formSchema),
     defaultValues: value ?? {
-      name: '',
+      isbn: '',
+      sku: '',
+      title: '',
       slug: '',
+      pages: 0,
+      weight: 0,
+      height: 0,
+      width: 0,
+      language: '',
+      publishedAt: new Date(),
+      description: [],
+      categoryId: [],
+      authors: [],
     },
   })
 
   const disabled = !form.formState.isDirty || !form.formState.isValid
 
   function onSubmit(values: FormRequest) {
-    state.disable()
     send(values)
       .then((res) => {
         form.reset()
         toast.success(res.message)
-        state.close(true)
       })
       .catch((err) => handleError(err, form))
-      .finally(() => state.enable())
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className='mb-2 grid gap-3 py-4'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+        <div className='space-y-4'>
+          <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+            <FormField
+              control={form.control}
+              name='title'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Title</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Title' type='text' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='slug'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Slug</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Slug' type='text' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
+            <FormField
+              control={form.control}
+              name='isbn'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>ISBN</FormLabel>
+                  <FormControl>
+                    <Input placeholder='ISBN' type='text' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='sku'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>SKU</FormLabel>
+                  <FormControl>
+                    <Input placeholder='SKU' type='text' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='authors'
+              render={({ field: { value, onChange, ...field } }) => (
+                <FormItem>
+                  <FormLabel>Author</FormLabel>
+                  <div className='flex items-center justify-center gap-4'>
+                    <FormControl>
+                      <Input
+                        parentClassName='flex-1'
+                        placeholder='Author'
+                        type='text'
+                        disabled
+                        value={`${value.length} authors selected`}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormAuthor control={form.control} />
+                  </div>
+                  <FormMessage undefinedMessage='Invalid author' />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className='grid grid-cols-2 gap-4 md:grid-cols-4'>
+            <FormField
+              control={form.control}
+              name='pages'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Pages</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Pages' type='number' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='weight'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Weight</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Weight' type='number' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='width'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Width</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Width' type='number' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='height'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Height</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Height' type='number' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
-            name='name'
+            name='description'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-4 items-center gap-4'>
-                <FormLabel className='text-right'>Name</FormLabel>
+              <FormItem>
+                <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Input
-                    parentClassName='col-span-3'
-                    placeholder='Category 1'
-                    type='text'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='slug'
-            render={({ field }) => (
-              <FormItem className='grid grid-cols-4 items-center gap-4'>
-                <FormLabel className='text-right'>Slug</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder='category-1'
-                    type='text'
-                    parentClassName='col-span-3'
+                  <RichText
+                    id='description'
+                    initialValue={field.value}
+                    placeholder='Enter some description...'
+                    toolbox='minimalist'
                     {...field}
                   />
                 </FormControl>

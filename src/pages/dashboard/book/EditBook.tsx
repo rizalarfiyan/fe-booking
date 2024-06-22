@@ -7,7 +7,6 @@ const Component: React.FC = () => {
       <Typography as='h1' variant='h2'>
         Edit Book
       </Typography>
-      <div></div>
     </div>
   )
 }
