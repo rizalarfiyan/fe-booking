@@ -37,14 +37,22 @@ const FilterYearCategory: React.FC = () => {
 
   const onChangeCategory = (val: string) => {
     setSearchParams((prev) => {
-      prev.set('categoryId', val)
+      if (val === '0') {
+        prev.delete('categoryId')
+      } else {
+        prev.set('categoryId', val)
+      }
       return prev
     })
   }
 
   const onChangeYear = (val: string) => {
     setSearchParams((prev) => {
-      prev.set('year', val)
+      if (val === '0') {
+        prev.delete('year')
+      } else {
+        prev.set('year', val)
+      }
       return prev
     })
   }
@@ -66,10 +74,10 @@ const FilterYearCategory: React.FC = () => {
           <ScrollArea className='h-80 rounded-md' type='always'>
             <RadioGroup
               className='flex flex-wrap items-center justify-center bg-slate-50 p-3 pr-5 dark:bg-slate-900'
-              defaultValue={year}
+              defaultValue={year || '0'}
               onValueChange={onChangeYear}
             >
-              {years.map((year: number) => {
+              {[0, ...years].map((year: number) => {
                 const key = `year-${year}`
                 return (
                   <div key={year} className='relative'>
@@ -82,7 +90,7 @@ const FilterYearCategory: React.FC = () => {
                       htmlFor={key}
                       className='flex cursor-pointer flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-3 [&:has([data-state=checked])]:border-primary peer-data-[state=checked]:border-primary hover:bg-accent hover:text-accent-foreground'
                     >
-                      {year}
+                      {year === 0 ? 'All' : year}
                     </Label>
                   </div>
                 )
@@ -96,28 +104,30 @@ const FilterYearCategory: React.FC = () => {
         <AccordionContent>
           <ScrollArea className='h-96 rounded-md' type='always'>
             <RadioGroup
-              defaultValue={categoryId}
+              defaultValue={categoryId || '0'}
               className='flex flex-col bg-slate-50 p-3 pr-5 dark:bg-slate-900'
               onValueChange={onChangeCategory}
             >
-              {categories.map(({ categoryId, name }: IBookCategory) => {
-                const key = `category-${categoryId}`
-                return (
-                  <div key={key} className='relative'>
-                    <RadioGroupItem
-                      value={categoryId.toString()}
-                      id={key}
-                      className='peer sr-only'
-                    />
-                    <Label
-                      htmlFor={key}
-                      className='flex cursor-pointer flex-col justify-between rounded-md border-2 border-muted bg-popover p-3 [&:has([data-state=checked])]:border-primary peer-data-[state=checked]:border-primary hover:bg-accent hover:text-accent-foreground'
-                    >
-                      {name}
-                    </Label>
-                  </div>
-                )
-              })}
+              {[{ categoryId: 0, name: 'All', slug: 'all' }, ...categories].map(
+                ({ categoryId, name }: IBookCategory) => {
+                  const key = `category-${categoryId}`
+                  return (
+                    <div key={key} className='relative'>
+                      <RadioGroupItem
+                        value={categoryId.toString()}
+                        id={key}
+                        className='peer sr-only'
+                      />
+                      <Label
+                        htmlFor={key}
+                        className='flex cursor-pointer flex-col justify-between rounded-md border-2 border-muted bg-popover p-3 [&:has([data-state=checked])]:border-primary peer-data-[state=checked]:border-primary hover:bg-accent hover:text-accent-foreground'
+                      >
+                        {name}
+                      </Label>
+                    </div>
+                  )
+                },
+              )}
             </RadioGroup>
           </ScrollArea>
         </AccordionContent>
