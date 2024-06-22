@@ -7,7 +7,7 @@ import Datatable, { ColumnHeader } from '@components/Datatable'
 import { Badge } from '@components/Badge'
 import { parseDate } from '@utils/date'
 import type { IBookAll } from '@/types/book'
-import { BookCopy, BookUser, Eye, Plus, Star } from 'lucide-react'
+import { BookCopy, BookUser, Eye, Pencil, Plus, Star } from 'lucide-react'
 import { Button } from '@components/Button'
 import { Link } from 'react-router-dom'
 import DeleteAction from '@components/Datatable/DeleteAction'
@@ -139,6 +139,11 @@ export const columns: ColumnDef<IBookAll>[] = [
                 </Link>
               </Button>
               <UpdateBookStock bookId={bookId} />
+              <Button size='icon' variant='outline' className='size-8' asChild>
+                <Link to={`/dashboard/book/edit/${row.original.bookId}`}>
+                  <Pencil className='size-4' />
+                </Link>
+              </Button>
             </>
           )}
           <DeleteAction
@@ -165,9 +170,9 @@ const Component: React.FC = () => {
         titleHeader={{
           title: 'Title',
           rating: 'Rating',
-          publishedAt: 'Published At',
           stock: 'Stock',
           borrow: 'Borrow',
+          published_at: 'Published At',
         }}
         create={
           <Button

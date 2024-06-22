@@ -6,11 +6,11 @@ import type { ItemSidebarRole } from '@/types/dashboard'
 
 const SidebarItem: React.FC<ItemSidebarRole> = (props) => {
   const { href, title, icon, role, roles } = props
-  const currentPage = useLocation()
+  const { pathname } = useLocation()
 
   if (!hasRole(role, roles)) return
-
-  const isActive = currentPage.pathname === href
+  const isActive =
+    pathname === href || (props?.regex ? props.regex.test(pathname) : false)
   return (
     <SidebarItemButton icon={icon} isActive={isActive}>
       <Link to={href}>{title}</Link>
