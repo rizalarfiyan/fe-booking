@@ -44,17 +44,17 @@ export interface IBookDetail {
   bookId: number
   author: string[]
   description: string
-  height: string
   image: string
   isbn: string
   language: string
-  pages: string
   publishedAt: string
   sku: string
   slug: string
   title: string
-  weight: string
-  width: string
+  pages: number
+  height: number
+  weight: number
+  width: number
   rating: number
   category: IBookCategory[]
 }

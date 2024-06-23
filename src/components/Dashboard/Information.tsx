@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { getCurrentTier } from '@utils/dashboard'
 import { plural } from '@utils/string'
 import CardDashboardInformation from '@components/Card/DashboardInformation'
-import { parseDate } from '@utils/date'
+import { formatDate } from '@utils/date'
 import type { IDashboardInformation } from '@/types/data'
 
 interface DashboardInformationProps {
@@ -39,7 +39,7 @@ const DashboardInformation: React.FC<DashboardInformationProps> = ({
       {
         icon: CalendarDays,
         label: 'Return book',
-        value: parseDate(nearest.date, 'MM/DD/YYYY'),
+        value: formatDate(nearest.date, 'MM/DD/YYYY'),
         description: nearest.title,
       },
     ]

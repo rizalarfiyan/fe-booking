@@ -5,7 +5,7 @@ import type { IBaseResponse, IBaseResponseList } from '@/types/base'
 import alova from '@libs/alova'
 import Datatable, { ColumnHeader } from '@components/Datatable'
 import { Badge } from '@components/Badge'
-import { parseDate } from '@utils/date'
+import { formatDate } from '@utils/date'
 import type { IBookAll } from '@/types/book'
 import { BookCopy, BookUser, Eye, Pencil, Plus, Star } from 'lucide-react'
 import { Button } from '@components/Button'
@@ -118,7 +118,9 @@ export const columns: ColumnDef<IBookAll>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <Badge variant='secondary'>{parseDate(row.original.publishedAt)}</Badge>
+        <Badge variant='secondary'>
+          {formatDate(row.original.publishedAt)}
+        </Badge>
       )
     },
   },

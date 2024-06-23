@@ -13,7 +13,7 @@ import type { IHistoryBook } from '@/types/data'
 import { Card } from '@components/Card'
 import { Link } from 'react-router-dom'
 import { BOOK_HISTORY_TYPE } from '@/constants/books'
-import { parseDate } from '@utils/date'
+import { formatDate } from '@utils/date'
 import { DATETIME_FORMAT } from '@/constants/app'
 import type { VariantProps } from 'class-variance-authority'
 import type { BookHistoryType } from '@/types/book'
@@ -73,7 +73,7 @@ const DashboardTable: React.FC<DashboardTableProps> = ({ data }) => {
                   </TableCell>
                   <TableCell>
                     <Badge variant='outline' className='whitespace-nowrap'>
-                      {parseDate(borrowAt, DATETIME_FORMAT.date)}
+                      {formatDate(borrowAt, DATETIME_FORMAT.date)}
                     </Badge>
                   </TableCell>
                   <TableCell>
@@ -81,7 +81,7 @@ const DashboardTable: React.FC<DashboardTableProps> = ({ data }) => {
                       variant={state.isSuccess ? 'success' : 'outline'}
                       className='whitespace-nowrap'
                     >
-                      {parseDate(returnAt ?? '', DATETIME_FORMAT.date)}
+                      {formatDate(returnAt ?? '', DATETIME_FORMAT.date)}
                     </Badge>
                   </TableCell>
                   <TableCell>

@@ -6,7 +6,7 @@ import type { IBookDetail } from '@/types/book'
 import useAuth from '@hooks/useAuth'
 import { Link } from 'react-router-dom'
 import { truncate } from '@utils/string'
-import { parseDate } from '@utils/date'
+import { formatDate } from '@utils/date'
 import { DATETIME_FORMAT } from '@/constants/app'
 import { useRequest } from 'alova'
 import type { IBaseResponse } from '@/types/base'
@@ -59,7 +59,7 @@ const BookDetail: React.FC<BookDetailProps> = ({ book }) => {
       },
       {
         title: 'Publish Date',
-        value: parseDate(publishedAt, DATETIME_FORMAT.date),
+        value: formatDate(publishedAt, DATETIME_FORMAT.date),
       },
       {
         title: 'Language',

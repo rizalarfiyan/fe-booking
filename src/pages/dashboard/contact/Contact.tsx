@@ -5,7 +5,7 @@ import type { IBaseResponseList } from '@/types/base'
 import alova from '@libs/alova'
 import type { IContact } from '@/types/contact'
 import { getFullName } from '@utils/string'
-import { parseDate } from '@utils/date'
+import { formatDate } from '@utils/date'
 import { Badge } from '@components/Badge'
 import Datatable, { ColumnHeader } from '@components/Datatable'
 import ContactDetail from '@pages/dashboard/contact/ContactDetail'
@@ -58,7 +58,7 @@ export const columns: ColumnDef<IContact>[] = [
     cell: ({ row }) => {
       return (
         <Badge variant='secondary'>
-          {parseDate(row.original.submittedAt, DATETIME_FORMAT.datetime)}
+          {formatDate(row.original.submittedAt, DATETIME_FORMAT.datetime)}
         </Badge>
       )
     },

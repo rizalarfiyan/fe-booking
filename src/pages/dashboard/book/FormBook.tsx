@@ -29,37 +29,69 @@ import alova from '@libs/alova'
 import { toast } from 'sonner'
 import { DATETIME_FORMAT } from '@/constants/app'
 
-const formSchema = z.object({
-  isbn: z.string().min(6).max(50),
-  sku: z.string().min(6).max(50),
-  title: z.string().min(5).max(50),
-  slug: z.string().min(5).max(50),
-  pages: z.string().pipe(z.coerce.number().positive().int()),
-  weight: z.string().pipe(z.coerce.number().positive()),
-  height: z.string().pipe(z.coerce.number().positive()),
-  width: z.string().pipe(z.coerce.number().positive()),
-  language: z.string().min(2).max(20),
-  publishedAt: z.date(),
-  description: z.array(z.any()),
-  category: z
-    .array(
-      z.object({
-        value: z.string().or(z.number()),
-        label: z.string(),
-      }),
-    )
-    .min(1, 'Category 1 author is required'),
-  author: z
-    .array(
-      z.object({
-        value: z.string().min(5).max(50),
-      }),
-    )
-    .min(1, 'Minimum 1 author is required'),
-  image: z.instanceof(File).refine((file) => file.size < 1024 * 1024 * 2, {
-    message: 'Your resume must be less than 2MB.',
-  }),
-})
+const formSchema = z
+  .object({
+    isbn: z.string().min(6).max(50),
+    sku: z.string().min(6).max(50),
+    title: z.string().min(5).max(50),
+    slug: z.string().min(5).max(50),
+    pages: z
+      .string()
+      .pipe(z.coerce.number().positive().int())
+      .or(z.number().positive().int()),
+    weight: z
+      .string()
+      .pipe(z.coerce.number().positive())
+      .or(z.number().positive()),
+    height: z
+      .string()
+      .pipe(z.coerce.number().positive())
+      .or(z.number().positive()),
+    width: z
+      .string()
+      .pipe(z.coerce.number().positive())
+      .or(z.number().positive()),
+    language: z.string().min(2).max(20),
+    publishedAt: z.date(),
+    description: z.array(z.any()),
+    category: z
+      .array(
+        z.object({
+          value: z.string().or(z.number()),
+          label: z.string(),
+        }),
+      )
+      .min(1, 'Category 1 author is required'),
+    author: z
+      .array(
+        z.object({
+          value: z.string().min(5).max(50),
+        }),
+      )
+      .min(1, 'Minimum 1 author is required'),
+    type: z.enum(['create', 'edit']).optional(),
+    image: z.instanceof(File).optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.type === 'edit' && !data.image) return
+
+    if (!data.image || data.image.size === 0) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['image'],
+        message: 'Please upload an image',
+      })
+      return
+    }
+
+    if (data.image.size >= 1024 * 1024 * 2) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['image'],
+        message: 'Your resume must be less than 2MB.',
+      })
+    }
+  })
 
 export type FormRequest = z.infer<typeof formSchema>
 
@@ -102,20 +134,23 @@ const FormBook: React.FC<FormBookProps> = ({ api, type, value }) => {
   const form = useForm<FormRequest>({
     mode: 'onBlur',
     resolver: zodResolver(formSchema),
-    defaultValues: value ?? {
-      isbn: '',
-      sku: '',
-      title: '',
-      slug: '',
-      pages: 0,
-      weight: 0,
-      height: 0,
-      width: 0,
-      language: '',
-      publishedAt: new Date(),
-      description: [],
-      category: [],
-      author: [],
+    defaultValues: {
+      ...(value ?? {
+        isbn: '',
+        sku: '',
+        title: '',
+        slug: '',
+        pages: 0,
+        weight: 0,
+        height: 0,
+        width: 0,
+        language: '',
+        publishedAt: new Date(),
+        description: [],
+        category: [],
+        author: [],
+      }),
+      type,
     },
   })
 
@@ -131,8 +166,8 @@ const FormBook: React.FC<FormBookProps> = ({ api, type, value }) => {
     formData.append('weight', values.weight.toString())
     formData.append('height', values.height.toString())
     formData.append('width', values.width.toString())
-    formData.append('image', values.image)
     formData.append('language', values.language)
+    if (values.image) formData.append('image', values.image)
     formData.append(
       'publishedAt',
       formatDate(values.publishedAt, DATETIME_FORMAT.server),

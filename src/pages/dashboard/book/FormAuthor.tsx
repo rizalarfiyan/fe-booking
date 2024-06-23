@@ -20,11 +20,11 @@ import {
 import { Plus, PlusCircle, Trash2 } from 'lucide-react'
 import type { FormRequest } from '@pages/dashboard/book/FormBook'
 
-type FormCategoryProps = {
+type FormAuthorProps = {
   control: Control<FormRequest>
 }
 
-const FormCategory: React.FC<FormCategoryProps> = ({ control }) => {
+const FormAuthor: React.FC<FormAuthorProps> = ({ control }) => {
   const { fields, append, remove } = useFieldArray({
     name: 'author',
     control: control,
@@ -92,4 +92,4 @@ const FormCategory: React.FC<FormCategoryProps> = ({ control }) => {
   )
 }
 
-export default FormCategory
+export default FormAuthor

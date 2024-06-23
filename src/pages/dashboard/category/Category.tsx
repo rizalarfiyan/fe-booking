@@ -6,7 +6,7 @@ import alova from '@libs/alova'
 import type { ICategory } from '@/types/category'
 import Datatable, { ColumnHeader } from '@components/Datatable'
 import { Badge } from '@components/Badge'
-import { parseDate } from '@utils/date'
+import { formatDate } from '@utils/date'
 import CreateCategory from '@pages/dashboard/category/CreateCategory'
 import EditCategory from '@pages/dashboard/category/EditCategory'
 import DeleteAction from '@components/Datatable/DeleteAction'
@@ -55,7 +55,7 @@ export const columns: ColumnDef<ICategory>[] = [
     header: ({ column }) => <ColumnHeader column={column} title='Created At' />,
     cell: ({ row }) => {
       return (
-        <Badge variant='secondary'>{parseDate(row.original.createdAt)}</Badge>
+        <Badge variant='secondary'>{formatDate(row.original.createdAt)}</Badge>
       )
     },
   },
