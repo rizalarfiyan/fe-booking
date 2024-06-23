@@ -15,45 +15,39 @@ import { RotateCcw, Trash2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import useHandleError from '@hooks/useHandleError'
 import useDatatable from '@hooks/useDatatable'
-import { useRequest } from 'alova'
-import alova from '@libs/alova'
+import { type Method, useRequest } from 'alova'
 import { toast } from 'sonner'
 import type { IBaseResponse } from '@/types/base'
 import { useDisclosure } from '@hooks/useDislosure'
 
-export interface DeleteCategoryProps {
-  isRestore: boolean
-  categoryId: number
+export interface DeleteActionProps {
+  id: number
+  name: string
+  api: (
+    id: number,
+    isRestore: boolean,
+  ) => Method<any, unknown, IBaseResponse, unknown, any, Response, Headers>
+  isRestore?: boolean
 }
 
-const DeleteCategory: React.FC<DeleteCategoryProps> = ({
-  isRestore,
-  categoryId,
+const DeleteAction: React.FC<DeleteActionProps> = ({
+  id,
+  name,
+  api,
+  isRestore = false,
 }) => {
   const state = useDisclosure()
   const navigate = useNavigate()
   const { handleError } = useHandleError(navigate)
   const { refresh } = useDatatable()
 
-  const { loading, send } = useRequest(
-    () =>
-      alova.Delete<IBaseResponse>(
-        `/v1/category/${categoryId}`,
-        {
-          isRestore,
-        },
-        {
-          name: 'delete-category',
-        },
-      ),
-    {
-      immediate: false,
-    },
-  )
+  const { loading, send } = useRequest(api, {
+    immediate: false,
+  })
 
   const onContinue = () => {
     state.disable()
-    send()
+    send(id, isRestore)
       .then((res) => {
         refresh()
         toast.success(res.message)
@@ -88,7 +82,7 @@ const DeleteCategory: React.FC<DeleteCategoryProps> = ({
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This category will be {isRestore ? 'restore' : 'deleted'}. you can{' '}
+            This {name} will be {isRestore ? 'restore' : 'deleted'}. You can{' '}
             {!isRestore ? 'restore' : 'deleted'} it later.
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -105,4 +99,4 @@ const DeleteCategory: React.FC<DeleteCategoryProps> = ({
   )
 }
 
-export default DeleteCategory
+export default DeleteAction

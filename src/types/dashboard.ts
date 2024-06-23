@@ -5,6 +5,7 @@ export type ItemSidebar = {
   type: 'item'
   title: string
   href: string
+  regex?: RegExp
   icon?: LucideIcon
   roles?: AuthRole[]
 }

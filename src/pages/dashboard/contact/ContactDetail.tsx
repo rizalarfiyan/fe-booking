@@ -22,7 +22,7 @@ import alova from '@libs/alova'
 import type { IBaseResponse } from '@/types/base'
 import type { IContactDetail } from '@/types/contact'
 import { getFullName } from '@utils/string'
-import { parseDate } from '@utils/date'
+import { formatDate } from '@utils/date'
 import { DATETIME_FORMAT } from '@/constants/app'
 
 interface ContactDetailProps {
@@ -101,7 +101,7 @@ const ContactDetail: React.FC<ContactDetailProps> = ({ contactId }) => {
             </div>
             <div className='items-enter flex gap-2'>
               <CalendarDays className='size-5' />
-              <span>{parseDate(submittedAt, DATETIME_FORMAT.datetime)}</span>
+              <span>{formatDate(submittedAt, DATETIME_FORMAT.datetime)}</span>
             </div>
           </DialogDescription>
         </DialogHeader>

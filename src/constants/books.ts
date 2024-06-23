@@ -7,7 +7,7 @@ export const BOOK_ORDER_BY: ISlugTitle[] = [
   { slug: 'latest', title: 'Latest' },
 ]
 
-export const DEFAULT_BOOK_ORDER_BY = BOOK_ORDER_BY[0].slug
+export const DEFAULT_BOOK_ORDER_BY = BOOK_ORDER_BY[1].slug
 
 export const BOOK_HISTORY_TYPE = {
   READ: 'read',

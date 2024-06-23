@@ -1,25 +1,56 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { Button } from '@components/Button'
 import { Stars } from '@components/Star'
 import { Typography } from '@components/Typograpy'
-import type { IBookCard } from '@/types/data'
+import type { IBookDetail, IBookStock } from '@/types/book'
 import useAuth from '@hooks/useAuth'
 import { Link } from 'react-router-dom'
-import { truncate } from '@utils/string'
-import { parseDate } from '@utils/date'
+import { formatDate } from '@utils/date'
 import { DATETIME_FORMAT } from '@/constants/app'
+import { useRequest } from 'alova'
+import type { IBaseResponse } from '@/types/base'
+import alova from '@libs/alova'
+import { Skeleton } from '@components/Skeleton'
+import { Badge } from '@components/Badge'
+import BookDescription from '@components/Book/Description'
 
 interface BookDetailProps {
-  data: IBookCard
+  book: IBookDetail
 }
 
-const BookDetail: React.FC<BookDetailProps> = ({ data }) => {
-  const { authors, rating, title, image, description } = data
+const BookDetail: React.FC<BookDetailProps> = ({ book }) => {
+  const { author, rating, title, image, description } = book
   const { isLoggedIn } = useAuth()
 
-  // TODO: FIXME publish date format time
+  const {
+    data: {
+      data: { stock, borrowed },
+    },
+    loading,
+  } = useRequest(
+    alova.Get<IBaseResponse<IBookStock>>(`/v1/book/${book.bookId}/stock`),
+    {
+      force: true,
+      initialData: {
+        data: {
+          stock: 0,
+          borrowed: 0,
+        },
+      },
+    },
+  )
+
   const details = useMemo(() => {
-    const { pages, weight, height, width, isbn, publishedAt, language } = data
+    const {
+      pages,
+      weight,
+      height,
+      width,
+      isbn,
+      publishedAt,
+      language,
+      category,
+    } = book
     return [
       {
         title: 'ISBN',
@@ -27,7 +58,7 @@ const BookDetail: React.FC<BookDetailProps> = ({ data }) => {
       },
       {
         title: 'Publish Date',
-        value: parseDate(publishedAt, DATETIME_FORMAT.date),
+        value: formatDate(publishedAt, DATETIME_FORMAT.date),
       },
       {
         title: 'Language',
@@ -45,33 +76,40 @@ const BookDetail: React.FC<BookDetailProps> = ({ data }) => {
         title: 'Dimensions',
         value: height || width ? `${height} cm x ${width} cm` : null,
       },
+      {
+        title: 'Category',
+        value:
+          category.length === 0 ? (
+            '-'
+          ) : (
+            <div className='flex flex-wrap gap-1.5'>
+              {(category ?? []).map(({ name, categoryId }) => (
+                <Link key={categoryId} to={`/books?categoryId=${categoryId}`}>
+                  <Badge>{name}</Badge>
+                </Link>
+              ))}
+            </div>
+          ),
+      },
     ]
-  }, [data])
-
-  const [isExpanded, setIsExpanded] = useState(false)
-  const toggleDescription = () => {
-    setIsExpanded((prev) => !prev)
-  }
+  }, [book])
 
   return (
     <div className='space-y-10'>
       <div className='mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-12 md:flex-row'>
         <div className='aspect-[3/4] h-full w-full max-w-72 cursor-pointer overflow-hidden rounded-md bg-muted'>
-          <img className='h-full w-full object-fill' src={image} alt={title} />
+          <img className='h-full w-full object-cover' src={image} alt={title} />
         </div>
         <div className='w-full max-w-3xl'>
           <Typography as='h1' variant='h3'>
             {title}
           </Typography>
-          <Typography type='description'>by {authors.join(', ')}</Typography>
+          <Typography type='description'>by {author.join(', ')}</Typography>
           <div className='mt-2 flex items-center gap-2'>
             <Stars rating={rating} variant='primary' disabled />
             <Typography type='description'>{rating}</Typography>
           </div>
           <div className='mt-8 space-y-4'>
-            <Typography as='h3' variant='h4'>
-              Details
-            </Typography>
             <table className='w-full border-collapse'>
               <tbody>
                 {details.map(({ title, value }, idx) => {
@@ -84,12 +122,27 @@ const BookDetail: React.FC<BookDetailProps> = ({ data }) => {
                     </tr>
                   )
                 })}
+                {loading ? (
+                  <tr>
+                    <td className='w-1/3 pr-2 pb-2'>
+                      <Skeleton className='h-6 w-full' />
+                    </td>
+                    <td className='pb-2'>
+                      <Skeleton className='h-6 w-full' />
+                    </td>
+                  </tr>
+                ) : (
+                  <tr>
+                    <td className='w-1/3 align-top font-semibold'>
+                      <span>Available stock</span>
+                    </td>
+                    <td className='pl-2 align-top'>{stock - borrowed}</td>
+                  </tr>
+                )}
               </tbody>
             </table>
             {isLoggedIn ? (
-              <Button asChild>
-                <Link to='/dashboard'>Borrow Now</Link>
-              </Button>
+              <Button disabled={stock - borrowed === 0}>Borrow Now</Button>
             ) : (
               <Button asChild>
                 <Link to='/login'>Login</Link>
@@ -98,20 +151,13 @@ const BookDetail: React.FC<BookDetailProps> = ({ data }) => {
           </div>
         </div>
       </div>
-      <div className='space-y-2'>
-        <Typography as='h3' variant='h4'>
-          Description
-        </Typography>
-        <Typography className='text-justify leading-relaxed'>
-          {isExpanded ? description : truncate(description, 500)}
-          <button
-            type='button'
-            onClick={toggleDescription}
-            className='ml-2 font-semibold text-primary-600 dark:text-primary-500'
-          >
-            {isExpanded ? 'Show less' : 'Read more'}
-          </button>
-        </Typography>
+      <div className='space-y-4'>
+        <div className='space-y-2'>
+          <Typography as='h3' variant='h4'>
+            Description
+          </Typography>
+          <BookDescription description={description} />
+        </div>
       </div>
     </div>
   )

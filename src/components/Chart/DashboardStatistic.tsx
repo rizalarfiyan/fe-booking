@@ -11,7 +11,7 @@ import {
 } from 'recharts'
 import { Card, CardContent, CardHeader } from '@components/Card'
 import { DATETIME_FORMAT } from '@/constants/app'
-import { parseDate } from '@utils/date'
+import { formatDate } from '@utils/date'
 import { Typography } from '@components/Typograpy'
 import { plural } from '@utils/string'
 
@@ -45,7 +45,7 @@ const CardDashboardStatistic: React.FC<CardDashboardStatisticProps> = ({
             <XAxis
               dataKey='label'
               tickFormatter={(date) =>
-                parseDate(date, DATETIME_FORMAT.statistic)
+                formatDate(date, DATETIME_FORMAT.statistic)
               }
               fill='red'
               tick={{
@@ -64,7 +64,7 @@ const CardDashboardStatistic: React.FC<CardDashboardStatisticProps> = ({
                     <Card>
                       <CardContent className='space-y-1 p-2 px-3 text-center'>
                         <Typography className='font-semibold'>
-                          {parseDate(label, DATETIME_FORMAT.date)}
+                          {formatDate(label, DATETIME_FORMAT.date)}
                         </Typography>
                         <Typography>
                           Borrowed{' '}

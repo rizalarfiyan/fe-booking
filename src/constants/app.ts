@@ -8,4 +8,5 @@ export const DATETIME_FORMAT = {
   time: 'HH:mm:ss',
   datetime: 'DD MMMM YYYY HH:mm:ss',
   statistic: 'DD MMM',
+  server: 'YYYY-MM-DD',
 }

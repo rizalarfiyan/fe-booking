@@ -50,6 +50,7 @@ export const SIDEBAR_MENU: SidebarData[] = [
         type: 'item',
         title: 'Book',
         href: '/dashboard/book',
+        regex: /^\/dashboard\/book(\/(create|edit\/\d+)?)?(?:[#?].*)?$/g,
         icon: BookText,
         roles: [AUTH_ROLE.ADMIN],
       },
