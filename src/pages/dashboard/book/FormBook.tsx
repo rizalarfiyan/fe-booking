@@ -16,31 +16,49 @@ import { Button } from '@components/Button'
 import { type AlovaMethodHandler, useRequest } from 'alova'
 import useHandleError from '@hooks/useHandleError'
 import type { IBaseResponseList } from '@/types/base'
-import { toast } from 'sonner'
 import React from 'react'
 import RichText from '@components/RichText/RichText'
 import FormAuthor from '@pages/dashboard/book/FormAuthor'
+import { CalendarIcon } from 'lucide-react'
+import { cn } from '@utils/classes'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/Popover'
+import { Calendar } from '@components/Calendar'
+import { formatDate } from '@utils/date'
+import MultiSelect, { type Option } from '@components/MultiSelect'
+import alova from '@libs/alova'
+import { toast } from 'sonner'
+import { DATETIME_FORMAT } from '@/constants/app'
 
 const formSchema = z.object({
-  isbn: z.string(),
-  sku: z.string(),
+  isbn: z.string().min(6).max(50),
+  sku: z.string().min(6).max(50),
   title: z.string().min(5).max(50),
   slug: z.string().min(5).max(50),
   pages: z.string().pipe(z.coerce.number().positive().int()),
   weight: z.string().pipe(z.coerce.number().positive()),
   height: z.string().pipe(z.coerce.number().positive()),
   width: z.string().pipe(z.coerce.number().positive()),
-  language: z.string(),
+  language: z.string().min(2).max(20),
   publishedAt: z.date(),
   description: z.array(z.any()),
-  categoryId: z.array(z.number().int().positive()),
-  authors: z
+  category: z
+    .array(
+      z.object({
+        value: z.string().or(z.number()),
+        label: z.string(),
+      }),
+    )
+    .min(1, 'Category 1 author is required'),
+  author: z
     .array(
       z.object({
         value: z.string().min(5).max(50),
       }),
     )
     .min(1, 'Minimum 1 author is required'),
+  image: z.instanceof(File).refine((file) => file.size < 1024 * 1024 * 2, {
+    message: 'Your resume must be less than 2MB.',
+  }),
 })
 
 export type FormRequest = z.infer<typeof formSchema>
@@ -67,6 +85,12 @@ interface EditFormBook {
   value: FormRequest
 }
 
+const getAll = (params: any) => {
+  return alova.Get<IBaseResponseList>('/v1/category/dropdown', {
+    params,
+  })
+}
+
 const FormBook: React.FC<FormBookProps> = ({ api, type, value }) => {
   const navigate = useNavigate()
   const { handleError } = useHandleError(navigate)
@@ -90,18 +114,44 @@ const FormBook: React.FC<FormBookProps> = ({ api, type, value }) => {
       language: '',
       publishedAt: new Date(),
       description: [],
-      categoryId: [],
-      authors: [],
+      category: [],
+      author: [],
     },
   })
 
   const disabled = !form.formState.isDirty || !form.formState.isValid
 
   function onSubmit(values: FormRequest) {
-    send(values)
+    const formData = new FormData()
+    formData.append('isbn', values.isbn)
+    formData.append('sku', values.sku)
+    formData.append('title', values.title)
+    formData.append('slug', values.slug)
+    formData.append('pages', values.pages.toString())
+    formData.append('weight', values.weight.toString())
+    formData.append('height', values.height.toString())
+    formData.append('width', values.width.toString())
+    formData.append('image', values.image)
+    formData.append('language', values.language)
+    formData.append(
+      'publishedAt',
+      formatDate(values.publishedAt, DATETIME_FORMAT.server),
+    )
+    formData.append('description', JSON.stringify(values.description))
+    for (const category of values.category) {
+      formData.append('category[]', category.value.toString())
+    }
+    for (const author of values.author) {
+      formData.append('author[]', author.value)
+    }
+
+    send(formData)
       .then((res) => {
         form.reset()
         toast.success(res.message)
+        navigate('/dashboard/book', {
+          replace: true,
+        })
       })
       .catch((err) => handleError(err, form))
   }
@@ -167,7 +217,7 @@ const FormBook: React.FC<FormBookProps> = ({ api, type, value }) => {
             />
             <FormField
               control={form.control}
-              name='authors'
+              name='author'
               render={({ field: { value, onChange, ...field } }) => (
                 <FormItem>
                   <FormLabel>Author</FormLabel>
@@ -178,7 +228,7 @@ const FormBook: React.FC<FormBookProps> = ({ api, type, value }) => {
                         placeholder='Author'
                         type='text'
                         disabled
-                        value={`${value.length} authors selected`}
+                        value={`${value.length} author selected`}
                         {...field}
                       />
                     </FormControl>
@@ -243,6 +293,100 @@ const FormBook: React.FC<FormBookProps> = ({ api, type, value }) => {
               )}
             />
           </div>
+          <div className='grid grid-cols-2 gap-4 md:grid-cols-4'>
+            <FormField
+              control={form.control}
+              name='category'
+              render={({ field }) => (
+                <FormItem className='col-span-2'>
+                  <FormLabel>Category</FormLabel>
+                  <FormControl>
+                    <MultiSelect
+                      api={getAll}
+                      placeholder='Select categories...'
+                      value={field.value as Option[]}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='language'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Language</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Language' type='text' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='publishedAt'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Published At</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={'outline'}
+                          className={cn(
+                            'w-full pl-3 text-left font-normal',
+                            !field.value && 'text-muted-foreground',
+                          )}
+                        >
+                          {field.value ? (
+                            formatDate(field.value)
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className='w-auto p-0' align='start'>
+                      <Calendar
+                        mode='single'
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        initialFocus
+                        disabled={(date) =>
+                          date > new Date() || date < new Date('1900-01-01')
+                        }
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <FormField
+            control={form.control}
+            name='image'
+            render={({ field: { value, onChange, ...fieldProps } }) => (
+              <FormItem>
+                <FormLabel>Picture</FormLabel>
+                <FormControl>
+                  <Input
+                    {...fieldProps}
+                    placeholder='Image'
+                    type='file'
+                    accept='image/*'
+                    onChange={(event) => onChange(event.target.files?.[0])}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name='description'

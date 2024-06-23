@@ -7,3 +7,8 @@ export const parseDate = (date: string, format?: string): string => {
   if (!datetime.isValid()) return '-'
   return datetime.format(dateFormat)
 }
+
+export const formatDate = (date: Date, format?: string): string => {
+  const dateFormat = format ?? DATETIME_FORMAT.date
+  return dayjs(date).format(dateFormat)
+}

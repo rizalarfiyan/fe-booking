@@ -235,7 +235,7 @@ const RichText = React.forwardRef<HTMLDivElement, RichTextProps>(
               spellCheck
               readOnly={disabled}
               renderPlaceholder={({ children, attributes }) => (
-                <span className='pt-4' {...attributes}>
+                <span className='right-0 left-0 p-4' {...attributes}>
                   {children}
                 </span>
               )}

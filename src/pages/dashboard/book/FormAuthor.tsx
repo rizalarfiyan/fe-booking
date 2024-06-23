@@ -26,7 +26,7 @@ type FormCategoryProps = {
 
 const FormCategory: React.FC<FormCategoryProps> = ({ control }) => {
   const { fields, append, remove } = useFieldArray({
-    name: 'authors',
+    name: 'author',
     control: control,
   })
 
@@ -52,7 +52,7 @@ const FormCategory: React.FC<FormCategoryProps> = ({ control }) => {
               <div key={field.id} className='flex gap-4'>
                 <FormField
                   control={control}
-                  name={`authors.${index}.value`}
+                  name={`author.${index}.value`}
                   render={({ field }) => (
                     <FormItem className='flex-1'>
                       <FormControl>
