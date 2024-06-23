@@ -15,6 +15,7 @@ interface BookListProps {}
 const BookList: React.FC<BookListProps> = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
+  const rating = searchParams.get('rating') ?? undefined
   const queryPage = searchParams.get('page') ?? undefined
   const count = searchParams.get('count') ?? undefined
   const orderBy = searchParams.get('orderBy') ?? undefined
@@ -30,8 +31,9 @@ const BookList: React.FC<BookListProps> = () => {
       search,
       year,
       categoryId,
+      rating,
     }
-  }, [queryPage, count, orderBy, search, year, categoryId])
+  }, [queryPage, count, orderBy, search, year, categoryId, rating])
 
   const { data, loading } = useWatcher(
     () =>
@@ -40,6 +42,7 @@ const BookList: React.FC<BookListProps> = () => {
       }),
     [payload],
     {
+      force: true,
       immediate: true,
       initialData: {
         data: {
