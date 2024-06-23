@@ -52,12 +52,30 @@ const contacts: IContactInformation[] = [
 
 const formSchema = z.object({
   firstName: z
-    .string()
-    .min(3, { message: 'First name must be at least 3 characters.' }),
-  lastName: z.string().optional(),
-  email: z.string().email(),
+    .string({
+      required_error: 'First name is required.',
+    })
+    .min(3, { message: 'First name must be at least 3 characters.' })
+    .max(50, { message: 'First name must be at most 50 characters.' }),
+  lastName: z.optional(
+    z
+      .string({
+        required_error: 'Last name is required.',
+      })
+      .min(3, { message: 'Last name must be at least 3 characters.' })
+      .max(50, { message: 'Last name must be at most 50 characters.' }),
+  ),
+  email: z
+    .string({
+      required_error: 'Email is required.',
+    })
+    .email({
+      message: 'Email must be a valid email address.',
+    }),
   phone: z
-    .string()
+    .string({
+      required_error: 'Phone number is required.',
+    })
     .refine(
       (value) =>
         /^(\+62|62)?[\s-]?(0)?8[1-9]{1}\d{1}[\s-]?\d{4}[\s-]?\d{2,5}$/.test(
@@ -66,8 +84,11 @@ const formSchema = z.object({
       'Phone number must be a valid Indonesian phone number.',
     ),
   message: z
-    .string()
-    .min(10, { message: 'Message must be at least 10 characters.' }),
+    .string({
+      required_error: 'Message is required.',
+    })
+    .min(10, { message: 'Message must be at least 10 characters.' })
+    .max(1000, { message: 'Message must be at most 1000 characters.' }),
 })
 
 type FormRequest = z.infer<typeof formSchema>
@@ -88,6 +109,7 @@ const Component: React.FC = () => {
 
   const form = useForm<FormRequest>({
     resolver: zodResolver(formSchema),
+    mode: 'onBlur',
     defaultValues: {
       firstName: '',
       lastName: '',
