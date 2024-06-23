@@ -1,19 +1,18 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { Button } from '@components/Button'
 import { Stars } from '@components/Star'
 import { Typography } from '@components/Typograpy'
-import type { IBookDetail } from '@/types/book'
+import type { IBookDetail, IBookStock } from '@/types/book'
 import useAuth from '@hooks/useAuth'
 import { Link } from 'react-router-dom'
-import { truncate } from '@utils/string'
 import { formatDate } from '@utils/date'
 import { DATETIME_FORMAT } from '@/constants/app'
 import { useRequest } from 'alova'
 import type { IBaseResponse } from '@/types/base'
 import alova from '@libs/alova'
 import { Skeleton } from '@components/Skeleton'
-import type { IBookStock } from '@/types/book'
 import { Badge } from '@components/Badge'
+import BookDescription from '@components/Book/Description'
 
 interface BookDetailProps {
   book: IBookDetail
@@ -95,11 +94,6 @@ const BookDetail: React.FC<BookDetailProps> = ({ book }) => {
     ]
   }, [book])
 
-  const [isExpanded, setIsExpanded] = useState(false)
-  const toggleDescription = () => {
-    setIsExpanded((prev) => !prev)
-  }
-
   return (
     <div className='space-y-10'>
       <div className='mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-12 md:flex-row'>
@@ -162,16 +156,7 @@ const BookDetail: React.FC<BookDetailProps> = ({ book }) => {
           <Typography as='h3' variant='h4'>
             Description
           </Typography>
-          <Typography className='text-justify leading-relaxed'>
-            {isExpanded ? description : truncate(description, 500)}
-            <button
-              type='button'
-              onClick={toggleDescription}
-              className='ml-2 font-semibold text-primary-600 dark:text-primary-500'
-            >
-              {isExpanded ? 'Show less' : 'Read more'}
-            </button>
-          </Typography>
+          <BookDescription description={description} />
         </div>
       </div>
     </div>

@@ -1,3 +1,6 @@
+import { Node } from 'slate'
+import { slateDemoSlateToDomConfig, slateToHtml } from 'slate-serializers'
+
 export const getAuthor = (authors: string[]) => {
   const count = authors.length
   if (count === 1) return authors[0]
@@ -23,4 +26,9 @@ export const truncate = (text: string, length: number, separator = '...') => {
 
 export const plural = (count: number, str: string) => {
   return `${count} ${str}${count > 1 ? 's' : ''}`
+}
+
+export const parseSlate = (jsonSlate: any[], isFlat = false) => {
+  if (isFlat) return jsonSlate.map((n) => Node.string(n)).join('. ')
+  return slateToHtml(jsonSlate, slateDemoSlateToDomConfig)
 }
