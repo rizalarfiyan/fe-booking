@@ -23,7 +23,13 @@ import { useRequest } from 'alova'
 import { toast } from 'sonner'
 
 const formSchema = z.object({
-  email: z.string().email(),
+  email: z
+    .string({
+      required_error: 'Email is required.',
+    })
+    .email({
+      message: 'Invalid email address.',
+    }),
 })
 
 type FormRequest = z.infer<typeof formSchema>
@@ -42,6 +48,7 @@ const Component: React.FC = () => {
 
   const form = useForm<FormRequest>({
     resolver: zodResolver(formSchema),
+    mode: 'onBlur',
     defaultValues: {
       email: '',
     },

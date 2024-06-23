@@ -31,41 +31,161 @@ import { DATETIME_FORMAT } from '@/constants/app'
 
 const formSchema = z
   .object({
-    isbn: z.string().min(6).max(50),
-    sku: z.string().min(6).max(50),
-    title: z.string().min(5).max(50),
-    slug: z.string().min(5).max(50),
+    isbn: z
+      .string({
+        required_error: 'ISBN is required.',
+      })
+      .min(10, { message: 'ISBN must be at least 10 characters.' })
+      .max(13, { message: 'ISBN must be at most 13 characters.' }),
+    sku: z
+      .string({
+        required_error: 'SKU is required.',
+      })
+      .min(8, { message: 'SKU must be at least 8 characters.' })
+      .max(12, { message: 'SKU must be at most 12 characters.' }),
+    title: z
+      .string({
+        required_error: 'Title is required.',
+      })
+      .min(5, { message: 'Title must be at least 5 characters.' })
+      .max(50, { message: 'Title must be at most 50 characters.' }),
+    slug: z
+      .string({
+        required_error: 'Slug is required.',
+      })
+      .min(5, { message: 'Slug must be at least 5 characters.' })
+      .max(50, { message: 'Slug must be at most 50 characters.' }),
     pages: z
-      .string()
-      .pipe(z.coerce.number().positive().int())
-      .or(z.number().positive().int()),
+      .string({
+        required_error: 'Pages is required.',
+      })
+      .pipe(
+        z.coerce
+          .number({
+            message: 'Pages must be a number.',
+          })
+          .positive({
+            message: 'Pages must be a positive number.',
+          })
+          .int({
+            message: 'Pages must be an integer.',
+          })
+          .or(
+            z
+              .number({
+                message: 'Pages must be a number.',
+              })
+              .positive({
+                message: 'Pages must be a positive number.',
+              })
+              .int({
+                message: 'Pages must be an integer.',
+              }),
+          ),
+      ),
     weight: z
-      .string()
-      .pipe(z.coerce.number().positive())
-      .or(z.number().positive()),
+      .string({
+        required_error: 'Weight is required.',
+      })
+      .pipe(
+        z.coerce
+          .number({
+            message: 'Weight must be a number.',
+          })
+          .positive({
+            message: 'Weight must be a positive number.',
+          })
+          .or(
+            z
+              .number({
+                message: 'Weight must be a number.',
+              })
+              .positive({
+                message: 'Weight must be a positive number.',
+              }),
+          ),
+      ),
     height: z
-      .string()
-      .pipe(z.coerce.number().positive())
-      .or(z.number().positive()),
+      .string({
+        required_error: 'Height is required.',
+      })
+      .pipe(
+        z.coerce
+          .number({
+            message: 'Height must be a number.',
+          })
+          .positive({
+            message: 'Height must be a positive number.',
+          })
+          .or(
+            z
+              .number({
+                message: 'Height must be a number.',
+              })
+              .positive({
+                message: 'Height must be a positive number.',
+              }),
+          ),
+      ),
     width: z
-      .string()
-      .pipe(z.coerce.number().positive())
-      .or(z.number().positive()),
-    language: z.string().min(2).max(20),
-    publishedAt: z.date(),
+      .string({
+        required_error: 'Width is required.',
+      })
+      .pipe(
+        z.coerce
+          .number({
+            message: 'Width must be a number.',
+          })
+          .positive({
+            message: 'Width must be a positive number.',
+          })
+          .or(
+            z
+              .number({
+                message: 'Width must be a number.',
+              })
+              .positive({
+                message: 'Width must be a positive number.',
+              }),
+          ),
+      ),
+    language: z
+      .string({
+        required_error: 'Language is required.',
+      })
+      .min(2, { message: 'Language must be at least 2 characters.' })
+      .max(20, { message: 'Language must be at most 20 characters.' }),
+    publishedAt: z.date({
+      required_error: 'Published at is required.',
+    }),
     description: z.array(z.any()),
     category: z
       .array(
         z.object({
-          value: z.string().or(z.number()),
-          label: z.string(),
+          value: z
+            .string({
+              required_error: 'Category is required.',
+            })
+            .or(
+              z.number({
+                required_error: 'Category is required.',
+              }),
+            ),
+          label: z.string({
+            required_error: 'Category is required.',
+          }),
         }),
       )
-      .min(1, 'Category 1 author is required'),
+      .min(1, 'Category is required'),
     author: z
       .array(
         z.object({
-          value: z.string().min(5).max(50),
+          value: z
+            .string({
+              required_error: 'Author is required.',
+            })
+            .min(5)
+            .max(50),
         }),
       )
       .min(1, 'Minimum 1 author is required'),
