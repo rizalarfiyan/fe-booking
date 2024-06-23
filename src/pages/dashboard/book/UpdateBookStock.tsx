@@ -29,7 +29,7 @@ interface UpdateBookStockContentProps extends UpdateBookStockProps {
 
 const UpdateBookStockContent: React.FC<UpdateBookStockContentProps> = ({
   bookId,
-  data: { stock, borrow },
+  data: { stock, borrowed },
   state,
 }) => {
   const navigate = useNavigate()
@@ -80,7 +80,7 @@ const UpdateBookStockContent: React.FC<UpdateBookStockContentProps> = ({
           variant='outline'
           className='h-10 w-16 flex-grow'
           onClick={onDecrement}
-          disabled={value <= borrow}
+          disabled={value <= borrowed}
         >
           <Minus className='size-5' />
         </Button>
@@ -131,7 +131,7 @@ const UpdateBookStock: React.FC<UpdateBookStockProps> = ({ bookId }) => {
       initialData: {
         data: {
           stock: 0,
-          borrow: 0,
+          borrowed: 0,
         },
       },
     },

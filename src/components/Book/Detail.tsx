@@ -24,7 +24,7 @@ const BookDetail: React.FC<BookDetailProps> = ({ book }) => {
 
   const {
     data: {
-      data: { stock, borrow },
+      data: { stock, borrowed },
     },
     loading,
   } = useRequest(
@@ -34,7 +34,7 @@ const BookDetail: React.FC<BookDetailProps> = ({ book }) => {
       initialData: {
         data: {
           stock: 0,
-          borrow: 0,
+          borrowed: 0,
         },
       },
     },
@@ -136,13 +136,13 @@ const BookDetail: React.FC<BookDetailProps> = ({ book }) => {
                     <td className='w-1/3 align-top font-semibold'>
                       <span>Available stock</span>
                     </td>
-                    <td className='pl-2 align-top'>{stock - borrow}</td>
+                    <td className='pl-2 align-top'>{stock - borrowed}</td>
                   </tr>
                 )}
               </tbody>
             </table>
             {isLoggedIn ? (
-              <Button disabled={stock - borrow === 0}>Borrow Now</Button>
+              <Button disabled={stock - borrowed === 0}>Borrow Now</Button>
             ) : (
               <Button asChild>
                 <Link to='/login'>Login</Link>
