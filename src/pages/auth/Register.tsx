@@ -25,11 +25,43 @@ import { toast } from 'sonner'
 
 const formSchema = z
   .object({
-    firstName: z.string().min(3),
-    lastName: z.string().optional(),
-    email: z.string().email(),
-    password: z.string().min(5, 'Password is required'),
-    passwordConfirmation: z.string(),
+    firstName: z
+      .string({
+        required_error: 'First name is required.',
+      })
+      .min(3, { message: 'First name must be at least 3 characters.' })
+      .max(50, { message: 'First name must be at most 50 characters.' }),
+    lastName: z.optional(
+      z
+        .string({
+          required_error: 'Last name is required.',
+        })
+        .min(3, { message: 'Last name must be at least 3 characters.' })
+        .max(50, { message: 'Last name must be at most 50 characters.' }),
+    ),
+    email: z
+      .string({
+        required_error: 'Email is required.',
+      })
+      .email({
+        message: 'Invalid email address.',
+      }),
+    password: z
+      .string({
+        required_error: 'Password is required.',
+      })
+      .min(8, { message: 'Password must be at least 8 characters.' })
+      .max(32, { message: 'Password must be at most 32 characters.' }),
+    passwordConfirmation: z
+      .string({
+        required_error: 'Password confirmation is must same with password.',
+      })
+      .min(8, {
+        message: 'Password confirmation is must same with the password.',
+      })
+      .max(32, {
+        message: 'Password confirmation is must same with the password.',
+      }),
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: "Password don't match",
@@ -53,6 +85,7 @@ const Component: React.FC = () => {
 
   const form = useForm<FormRequest>({
     resolver: zodResolver(formSchema),
+    mode: 'onBlur',
     defaultValues: {
       firstName: '',
       lastName: '',

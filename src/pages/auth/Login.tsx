@@ -27,8 +27,18 @@ import type { IBaseResponse } from '@/types/base'
 import { toast } from 'sonner'
 
 const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(5, 'Password is required'),
+  email: z
+    .string({
+      required_error: 'Email is required.',
+    })
+    .email({
+      message: 'Invalid email address.',
+    }),
+  password: z
+    .string({
+      required_error: 'Password is required.',
+    })
+    .min(8, { message: 'Password is required' }),
   isRemember: z.boolean().default(false).optional(),
 })
 
@@ -50,6 +60,7 @@ const Component: React.FC = () => {
 
   const form = useForm<FormRequest>({
     resolver: zodResolver(formSchema),
+    mode: 'onBlur',
     defaultValues: {
       email: '',
       password: '',

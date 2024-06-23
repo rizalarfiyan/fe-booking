@@ -22,8 +22,18 @@ import useDatatable from '@hooks/useDatatable'
 import type { UseDisclosure } from '@hooks/useDislosure'
 
 const formSchema = z.object({
-  name: z.string().min(5, 'Name is required').max(50, 'Name is too long'),
-  slug: z.string().min(5, 'Slug is required').max(50, 'Slug is too long'),
+  name: z
+    .string({
+      required_error: 'Password is required.',
+    })
+    .min(5, 'Name is required')
+    .max(50, 'Name is too long'),
+  slug: z
+    .string({
+      required_error: 'Slug is required.',
+    })
+    .min(5, 'Slug is required')
+    .max(50, 'Slug is too long'),
 })
 
 export type FormRequest = z.infer<typeof formSchema>
@@ -67,6 +77,7 @@ const FormCategory: React.FC<FormCategoryProps> = ({
 
   const form = useForm<FormRequest>({
     resolver: zodResolver(formSchema),
+    mode: 'onBlur',
     defaultValues: value ?? {
       name: '',
       slug: '',

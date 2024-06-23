@@ -25,8 +25,22 @@ import useHandleError from '@hooks/useHandleError'
 
 const formSchema = z
   .object({
-    password: z.string().min(5, 'Password is required'),
-    passwordConfirmation: z.string(),
+    password: z
+      .string({
+        required_error: 'Password is required.',
+      })
+      .min(8, 'Password must be at least 8 characters.')
+      .max(32, 'Password must be at most 32 characters.'),
+    passwordConfirmation: z
+      .string({
+        required_error: 'Password confirmation is must same with password.',
+      })
+      .min(8, {
+        message: 'Password confirmation is must same with the password.',
+      })
+      .max(32, {
+        message: 'Password confirmation is must same with the password.',
+      }),
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: "Password don't match",
@@ -51,6 +65,7 @@ const Component: React.FC = () => {
 
   const form = useForm<FormRequest>({
     resolver: zodResolver(formSchema),
+    mode: 'onBlur',
     defaultValues: {
       password: '',
       passwordConfirmation: '',
