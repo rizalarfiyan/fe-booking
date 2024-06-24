@@ -4,6 +4,7 @@ import { Card, CardContent } from '@components/Card'
 import { Typography } from '@components/Typograpy'
 import { getOrdinal } from '@utils/number'
 import { plural } from '@utils/string'
+import { LEADERBOARD_MAX_RANK } from '@/constants/dashboard'
 
 interface CardLeaderboardProps {
   rank: number
@@ -20,7 +21,10 @@ const CardLeaderboard: React.FC<CardLeaderboardProps> = ({
     return [
       {
         icon: Trophy,
-        value: plural(rank, `${getOrdinal(rank)} place`),
+        value: plural(
+          rank,
+          `${rank >= LEADERBOARD_MAX_RANK ? '+' : getOrdinal(rank)} place`,
+        ),
         label: 'Rank',
       },
       {
@@ -30,7 +34,10 @@ const CardLeaderboard: React.FC<CardLeaderboardProps> = ({
       },
       {
         icon: Bolt,
-        value: plural(point, 'point'),
+        value: `${point.toLocaleString('id-ID', {
+          maximumFractionDigits: 3,
+          minimumFractionDigits: 0,
+        })} ${plural(point, 'point', false)}`,
         label: 'Total Points',
       },
     ]

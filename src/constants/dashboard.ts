@@ -13,7 +13,7 @@ export const TIERS: ITier[] = [
     description:
       'Just starting my book journey! Learning the ropes of this awesome book borrowing service. 📚✨',
     image: Rookie,
-    point: 1000,
+    point: 0,
   },
   {
     title: 'Pro',
@@ -51,3 +51,5 @@ export const TIERS: ITier[] = [
     point: 6000,
   },
 ]
+
+export const LEADERBOARD_MAX_RANK = 500

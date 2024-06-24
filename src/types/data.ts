@@ -7,17 +7,6 @@ export interface IContactInformation {
   description: string
 }
 
-export interface ILeaderboard {
-  id: number
-  first_name: string
-  last_name?: string
-  email: string
-  avatar: string
-  point: number
-  book: number
-  isMe?: boolean
-}
-
 export interface IDashboardInformation {
   total: number
   point: number

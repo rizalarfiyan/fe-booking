@@ -4,16 +4,18 @@ import { getAvatarName, getFullName, plural } from '@utils/string'
 import { Avatar, AvatarFallback, AvatarImage } from '@components/Avatar'
 import { Table, TableBody, TableCell, TableRow } from '@components/Table'
 import { Badge } from '@components/Badge'
-import type { ILeaderboard } from '@/types/data'
 import { Card } from '@components/Card'
 import { Bolt, BookOpenText } from 'lucide-react'
+import type { ILeaderboard } from '@/types/leaderboard'
 
 interface LeaderboardTableProps {
   leaderboards: ILeaderboard[]
+  userId: number
 }
 
 const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
   leaderboards,
+  userId,
 }) => {
   return (
     <Card>
@@ -21,10 +23,18 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
         <TableBody>
           {leaderboards.map(
             (
-              { first_name, last_name, avatar, isMe, email, point, book },
+              {
+                firstName,
+                lastName,
+                avatar,
+                email,
+                points,
+                bookCount,
+                ...data
+              },
               idx,
             ) => {
-              const fullName = getFullName(first_name, last_name)
+              const fullName = getFullName(firstName, lastName)
               return (
                 <TableRow key={idx}>
                   <TableCell>
@@ -36,7 +46,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                             {getAvatarName(fullName)}
                           </AvatarFallback>
                         </Avatar>
-                        {isMe && (
+                        {userId === data.userId && (
                           <Badge className='-bottom-2 absolute w-full justify-center rounded-sm'>
                             ME
                           </Badge>
@@ -63,13 +73,13 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                   <TableCell>
                     <Badge variant='outline'>
                       <BookOpenText className='mr-1 size-4' />
-                      <span>{plural(book, 'book')}</span>
+                      <span>{plural(bookCount, 'book')}</span>
                     </Badge>
                   </TableCell>
                   <TableCell>
                     <Badge variant='outline'>
                       <Bolt className='mr-1 size-4' />
-                      <span>{plural(point, 'pt')}</span>
+                      <span>{plural(points, 'pt')}</span>
                     </Badge>
                   </TableCell>
                 </TableRow>
