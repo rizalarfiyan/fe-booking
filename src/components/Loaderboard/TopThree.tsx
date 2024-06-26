@@ -2,25 +2,32 @@ import React from 'react'
 import { cn } from '@utils/classes'
 import { getOrdinal } from '@utils/number'
 import { Typography } from '@components/Typograpy'
-import { getAvatarName, getFullName, plural } from '@utils/string'
+import {
+  abbreviateNumber,
+  getAvatarName,
+  getFullName,
+  plural,
+} from '@utils/string'
 import { Avatar, AvatarFallback, AvatarImage } from '@components/Avatar'
 import { Badge } from '@components/Badge'
-import type { ILeaderboard } from '@/types/data'
 import { Crown } from 'lucide-react'
+import type { ILeaderboard } from '@/types/leaderboard'
 
 interface LeaderboardTopThreeProps {
   leaderboards: ILeaderboard[]
+  userId: number
 }
 
 const LeaderboardTopThree: React.FC<LeaderboardTopThreeProps> = ({
   leaderboards,
+  userId,
 }) => {
   return (
     <div className='flex h-96 w-full items-end justify-evenly rounded-xl bg-muted'>
       {[2, 1, 3].map((idx) => {
         const data = leaderboards?.[idx - 1]
-        const firstName = data?.first_name || 'No Name'
-        const fullName = getFullName(firstName, data?.last_name)
+        const firstName = data.firstName
+        const fullName = getFullName(firstName, data?.lastName)
         return (
           <div
             key={idx}
@@ -49,15 +56,21 @@ const LeaderboardTopThree: React.FC<LeaderboardTopThreeProps> = ({
               type='small-description'
               className='text-center text-slate-900'
             >
-              {plural(data?.point || 0, 'pt')}
+              {`${abbreviateNumber(data.points || 0)} ${plural(
+                data.points || 0,
+                'pt',
+                false,
+              )}`}
             </Typography>
             <div className='gap absolute top-[-90px] flex flex-col items-center gap-1'>
               <div className='relative'>
                 <Avatar className='size-14'>
                   <AvatarImage src={data?.avatar} alt={fullName} />
-                  <AvatarFallback>{getAvatarName(fullName)}</AvatarFallback>
+                  <AvatarFallback className='bg-slate-200 dark:bg-slate-700'>
+                    {getAvatarName(fullName)}
+                  </AvatarFallback>
                 </Avatar>
-                {data.isMe && (
+                {data.userId === userId && (
                   <Badge className='-bottom-1.5 absolute w-full justify-center rounded-sm'>
                     ME
                   </Badge>

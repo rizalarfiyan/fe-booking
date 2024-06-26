@@ -3,7 +3,8 @@ import React, { useMemo } from 'react'
 import { Card, CardContent } from '@components/Card'
 import { Typography } from '@components/Typograpy'
 import { getOrdinal } from '@utils/number'
-import { plural } from '@utils/string'
+import { formatNumber, plural } from '@utils/string'
+import { LEADERBOARD_MAX_RANK } from '@/constants/dashboard'
 
 interface CardLeaderboardProps {
   rank: number
@@ -20,17 +21,20 @@ const CardLeaderboard: React.FC<CardLeaderboardProps> = ({
     return [
       {
         icon: Trophy,
-        value: plural(rank, `${getOrdinal(rank)} place`),
+        value: plural(
+          rank,
+          `${rank >= LEADERBOARD_MAX_RANK ? '+' : getOrdinal(rank)} place`,
+        ),
         label: 'Rank',
       },
       {
         icon: BookOpenText,
-        value: plural(total, 'book'),
+        value: `${formatNumber(total)} ${plural(total, 'book', false)}`,
         label: 'Total Borrowed',
       },
       {
         icon: Bolt,
-        value: plural(point, 'point'),
+        value: `${formatNumber(point)} ${plural(point, 'point', false)}`,
         label: 'Total Points',
       },
     ]

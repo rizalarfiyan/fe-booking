@@ -24,11 +24,26 @@ export const truncate = (text: string, length: number, separator = '...') => {
   return text.slice(0, length) + separator
 }
 
-export const plural = (count: number, str: string) => {
-  return `${count} ${str}${count > 1 ? 's' : ''}`
+export const plural = (count: number, str: string, withCount = true) => {
+  return `${withCount ? `${count} ` : ''}${str}${count > 1 ? 's' : ''}`
 }
 
 export const parseSlate = (jsonSlate: any[], isFlat = false) => {
   if (isFlat) return jsonSlate.map((n) => Node.string(n)).join('. ')
   return slateToHtml(jsonSlate, slateDemoSlateToDomConfig)
+}
+
+export const abbreviateNumber = (num: number, digits = 2) => {
+  if (num < 1000) return num
+  const units = ['k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']
+  const floor = Math.floor(Math.abs(num).toString().length / 3)
+  const value = +(num / 1000 ** floor)
+  return value.toFixed(value > 1 ? digits : 2) + units[floor - 1]
+}
+
+export const formatNumber = (num: number) => {
+  return num.toLocaleString('id-ID', {
+    maximumFractionDigits: 3,
+    minimumFractionDigits: 0,
+  })
 }
