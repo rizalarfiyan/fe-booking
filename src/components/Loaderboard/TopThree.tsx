@@ -2,7 +2,12 @@ import React from 'react'
 import { cn } from '@utils/classes'
 import { getOrdinal } from '@utils/number'
 import { Typography } from '@components/Typograpy'
-import { formatNum, getAvatarName, getFullName, plural } from '@utils/string'
+import {
+  abbreviateNumber,
+  getAvatarName,
+  getFullName,
+  plural,
+} from '@utils/string'
 import { Avatar, AvatarFallback, AvatarImage } from '@components/Avatar'
 import { Badge } from '@components/Badge'
 import { Crown } from 'lucide-react'
@@ -51,7 +56,7 @@ const LeaderboardTopThree: React.FC<LeaderboardTopThreeProps> = ({
               type='small-description'
               className='text-center text-slate-900'
             >
-              {`${formatNum(data.points || 0, 2)} ${plural(
+              {`${abbreviateNumber(data.points || 0)} ${plural(
                 data.points || 0,
                 'pt',
                 false,

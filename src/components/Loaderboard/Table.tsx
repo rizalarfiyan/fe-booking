@@ -1,6 +1,11 @@
 import React from 'react'
 import { Typography } from '@components/Typograpy'
-import { getAvatarName, getFullName, plural } from '@utils/string'
+import {
+  abbreviateNumber,
+  getAvatarName,
+  getFullName,
+  plural,
+} from '@utils/string'
 import { Avatar, AvatarFallback, AvatarImage } from '@components/Avatar'
 import { Table, TableBody, TableCell, TableRow } from '@components/Table'
 import { Badge } from '@components/Badge'
@@ -73,13 +78,18 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({
                   <TableCell>
                     <Badge variant='outline'>
                       <BookOpenText className='mr-1 size-4' />
-                      <span>{plural(bookCount, 'book')}</span>
+                      <span>
+                        {abbreviateNumber(bookCount)}{' '}
+                        {plural(bookCount, 'book', false)}
+                      </span>
                     </Badge>
                   </TableCell>
                   <TableCell>
                     <Badge variant='outline'>
                       <Bolt className='mr-1 size-4' />
-                      <span>{plural(points, 'pt')}</span>
+                      <span>
+                        {abbreviateNumber(points)} {plural(points, 'pt', false)}
+                      </span>
                     </Badge>
                   </TableCell>
                 </TableRow>

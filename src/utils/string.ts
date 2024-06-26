@@ -33,10 +33,17 @@ export const parseSlate = (jsonSlate: any[], isFlat = false) => {
   return slateToHtml(jsonSlate, slateDemoSlateToDomConfig)
 }
 
-export const formatNum = (num: number, digits = 2) => {
+export const abbreviateNumber = (num: number, digits = 2) => {
   if (num < 1000) return num
   const units = ['k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']
   const floor = Math.floor(Math.abs(num).toString().length / 3)
   const value = +(num / 1000 ** floor)
   return value.toFixed(value > 1 ? digits : 2) + units[floor - 1]
+}
+
+export const formatNumber = (num: number) => {
+  return num.toLocaleString('id-ID', {
+    maximumFractionDigits: 3,
+    minimumFractionDigits: 0,
+  })
 }

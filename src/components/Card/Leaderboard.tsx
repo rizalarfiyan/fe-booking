@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { Card, CardContent } from '@components/Card'
 import { Typography } from '@components/Typograpy'
 import { getOrdinal } from '@utils/number'
-import { plural } from '@utils/string'
+import { formatNumber, plural } from '@utils/string'
 import { LEADERBOARD_MAX_RANK } from '@/constants/dashboard'
 
 interface CardLeaderboardProps {
@@ -29,15 +29,12 @@ const CardLeaderboard: React.FC<CardLeaderboardProps> = ({
       },
       {
         icon: BookOpenText,
-        value: plural(total, 'book'),
+        value: `${formatNumber(total)} ${plural(total, 'book', false)}`,
         label: 'Total Borrowed',
       },
       {
         icon: Bolt,
-        value: `${point.toLocaleString('id-ID', {
-          maximumFractionDigits: 3,
-          minimumFractionDigits: 0,
-        })} ${plural(point, 'point', false)}`,
+        value: `${formatNumber(point)} ${plural(point, 'point', false)}`,
         label: 'Total Points',
       },
     ]
