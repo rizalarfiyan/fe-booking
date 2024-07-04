@@ -3,7 +3,7 @@ import { Typography } from '@components/Typograpy'
 import type { IBookCard, IBookDetail } from '@/types/book'
 import React from 'react'
 import { Skeleton } from '@components/Skeleton'
-import { useRequest } from 'alova'
+import { useWatcher } from 'alova'
 import alova from '@libs/alova'
 import type { IBaseResponse } from '@/types/base'
 import CardBook from '@components/Card/Book'
@@ -12,16 +12,21 @@ interface BookRecommendationProps {
   book: IBookDetail
 }
 
-const BookRecommendation: React.FC<BookRecommendationProps> = ({ book }) => {
+const BookRecommendation: React.FC<BookRecommendationProps> = ({
+  book: { bookId },
+}) => {
   const {
     data: { data },
     loading,
-  } = useRequest(
-    alova.Get<IBaseResponse<IBookCard[]>>(
-      `/v1/book/${book.bookId}/recommendation`,
-    ),
+  } = useWatcher(
+    () =>
+      alova.Get<IBaseResponse<IBookCard[]>>(
+        `/v1/book/${bookId}/recommendation`,
+      ),
+    [bookId],
     {
       force: true,
+      immediate: true,
       initialData: {
         data: [],
       },

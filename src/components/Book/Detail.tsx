@@ -4,37 +4,54 @@ import { Stars } from '@components/Star'
 import { Typography } from '@components/Typograpy'
 import type { IBookDetail, IBookStock } from '@/types/book'
 import useAuth from '@hooks/useAuth'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { formatDate } from '@utils/date'
 import { DATETIME_FORMAT } from '@/constants/app'
-import { useRequest } from 'alova'
+import { useRequest, useWatcher } from 'alova'
 import type { IBaseResponse } from '@/types/base'
 import alova from '@libs/alova'
 import { Skeleton } from '@components/Skeleton'
 import { Badge } from '@components/Badge'
 import BookDescription from '@components/Book/Description'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@components/AlertDialog'
+import { useDisclosure } from '@hooks/useDislosure'
+import useHandleError from '@hooks/useHandleError'
+import { toast } from 'sonner'
 
 interface BookDetailProps {
   book: IBookDetail
 }
 
 const BookDetail: React.FC<BookDetailProps> = ({ book }) => {
-  const { author, rating, title, image, description } = book
+  const { bookId, author, rating, title, image, description } = book
   const { isLoggedIn } = useAuth()
 
   const {
     data: {
-      data: { stock, borrowed },
+      data: { stock, borrowed, hasBorrow },
     },
     loading,
-  } = useRequest(
-    alova.Get<IBaseResponse<IBookStock>>(`/v1/book/${book.bookId}/stock`),
+  } = useWatcher(
+    () => alova.Get<IBaseResponse<IBookStock>>(`/v1/book/${bookId}/stock`),
+    [bookId],
     {
       force: true,
+      immediate: true,
       initialData: {
         data: {
           stock: 0,
           borrowed: 0,
+          hasBorrow: false,
         },
       },
     },
@@ -94,6 +111,44 @@ const BookDetail: React.FC<BookDetailProps> = ({ book }) => {
     ]
   }, [book])
 
+  const state = useDisclosure()
+  const navigate = useNavigate()
+  const { handleError } = useHandleError(navigate)
+
+  const borrow = useRequest(
+    () =>
+      alova.Post<IBaseResponse>(
+        '/v1/history',
+        {
+          bookId,
+        },
+        {
+          name: 'create-history',
+        },
+      ),
+    {
+      immediate: false,
+    },
+  )
+
+  const onBorrow = () => {
+    state.disable()
+    borrow
+      .send()
+      .then((res) => {
+        toast.success(res.message)
+        state.close(true)
+        navigate('/dashboard')
+      })
+      .catch((err) => handleError(err))
+      .finally(() => state.enable())
+  }
+
+  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    state.open()
+  }
+
   return (
     <div className='space-y-10'>
       <div className='mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-12 md:flex-row'>
@@ -116,9 +171,14 @@ const BookDetail: React.FC<BookDetailProps> = ({ book }) => {
                   return (
                     <tr key={idx}>
                       <td className='w-1/3 align-top font-semibold'>
-                        <span>{title}:</span>
+                        <span>{title}</span>
                       </td>
-                      <td className='pl-2 align-top'>{value ?? '-'}</td>
+                      <td className='w-4 font-bold'>
+                        <span>:</span>
+                      </td>
+                      <td className='align-top'>
+                        <span>{value ?? '-'}</span>
+                      </td>
                     </tr>
                   )
                 })}
@@ -136,13 +196,51 @@ const BookDetail: React.FC<BookDetailProps> = ({ book }) => {
                     <td className='w-1/3 align-top font-semibold'>
                       <span>Available stock</span>
                     </td>
-                    <td className='pl-2 align-top'>{stock - borrowed}</td>
+                    <td className='w-4 font-bold'>
+                      <span>:</span>
+                    </td>
+                    <td className='align-top'>
+                      <span>{stock - borrowed}</span>
+                    </td>
                   </tr>
                 )}
               </tbody>
             </table>
-            {isLoggedIn ? (
-              <Button disabled={stock - borrowed === 0}>Borrow Now</Button>
+            {hasBorrow ? (
+              <Button asChild>
+                <Link to='/dashboard'>Go to Dashboard</Link>
+              </Button>
+            ) : isLoggedIn ? (
+              <AlertDialog
+                open={state.isOpen}
+                onOpenChange={() => state.close()}
+              >
+                <AlertDialogTrigger asChild>
+                  <Button disabled={stock - borrowed === 0} onClick={onClick}>
+                    Borrow Now
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you sure to borrow this book?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      <b>{`"${title}"`}</b>
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel disabled={borrow.loading}>
+                      Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction asChild>
+                      <Button onClick={onBorrow} isLoading={borrow.loading}>
+                        Continue
+                      </Button>
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             ) : (
               <Button asChild>
                 <Link to='/login'>Login</Link>
