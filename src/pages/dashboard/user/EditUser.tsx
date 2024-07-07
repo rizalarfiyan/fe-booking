@@ -67,7 +67,7 @@ const EditUser: React.FC<EditUserProps> = ({ id, role, status }) => {
 
   const { loading, send } = useRequest(
     (req) =>
-      alova.Post<IBaseResponse<any>, any>(`/v1/user/${id}`, req, {
+      alova.Put<IBaseResponse<any>, any>(`/v1/user/${id}`, req, {
         name: `edit-user-${id}`,
       }),
     {

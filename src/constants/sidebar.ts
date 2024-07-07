@@ -38,6 +38,7 @@ export const SIDEBAR_MENU: SidebarData[] = [
         title: 'Users',
         href: '/dashboard/users',
         icon: Users,
+        roles: [AUTH_ROLE.ADMIN],
       },
       {
         type: 'item',

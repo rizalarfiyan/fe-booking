@@ -67,7 +67,7 @@ export const columns: ColumnDef<IHistory>[] = [
       const { returnAt, returnedAt } = row.original
       return (
         <Badge variant={returnedAt ? 'success' : 'secondary'}>
-          {formatDate(returnAt || returnedAt)}
+          {formatDate(returnedAt || returnAt)}
         </Badge>
       )
     },
@@ -112,9 +112,11 @@ const Component: React.FC = () => {
         api={getAllService}
         columns={columns}
         titleHeader={{
-          name: 'Name',
-          slug: 'Slug',
-          created_at: 'Created At',
+          title: 'Title',
+          borrow_at: 'Borrow At',
+          returned_at: 'Returned At',
+          point: 'Point',
+          status: 'Status',
         }}
         create={<CreateCategory />}
       />
