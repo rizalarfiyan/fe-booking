@@ -78,6 +78,10 @@ const router = createBrowserRouter([
             lazy: lazyWrap(() => import('@pages/dashboard/contact/Contact')),
           },
           {
+            path: 'users',
+            lazy: lazyWrap(() => import('@pages/dashboard/user/User')),
+          },
+          {
             path: 'category',
             lazy: lazyWrap(() => import('@pages/dashboard/category/Category')),
           },

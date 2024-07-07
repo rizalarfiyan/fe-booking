@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   List,
   Trophy,
+  Users,
 } from 'lucide-react'
 import { AUTH_ROLE } from '@/constants/app'
 
@@ -32,6 +33,12 @@ export const SIDEBAR_MENU: SidebarData[] = [
     type: 'divide',
     title: 'Management',
     items: [
+      {
+        type: 'item',
+        title: 'Users',
+        href: '/dashboard/users',
+        icon: Users,
+      },
       {
         type: 'item',
         title: 'Borrow',
