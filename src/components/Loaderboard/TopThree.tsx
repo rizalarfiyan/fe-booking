@@ -26,8 +26,9 @@ const LeaderboardTopThree: React.FC<LeaderboardTopThreeProps> = ({
     <div className='flex h-96 w-full items-end justify-evenly rounded-xl bg-muted'>
       {[2, 1, 3].map((idx) => {
         const data = leaderboards?.[idx - 1]
-        const firstName = data.firstName
+        const firstName = data?.firstName ?? ''
         const fullName = getFullName(firstName, data?.lastName)
+        const points = data?.points ?? 0
         return (
           <div
             key={idx}
@@ -56,11 +57,7 @@ const LeaderboardTopThree: React.FC<LeaderboardTopThreeProps> = ({
               type='small-description'
               className='text-center text-slate-900'
             >
-              {`${abbreviateNumber(data.points || 0)} ${plural(
-                data.points || 0,
-                'pt',
-                false,
-              )}`}
+              {`${abbreviateNumber(points)} ${plural(points, 'pt', false)}`}
             </Typography>
             <div className='gap absolute top-[-90px] flex flex-col items-center gap-1'>
               <div className='relative'>
@@ -70,7 +67,7 @@ const LeaderboardTopThree: React.FC<LeaderboardTopThreeProps> = ({
                     {getAvatarName(fullName)}
                   </AvatarFallback>
                 </Avatar>
-                {data.userId === userId && (
+                {data?.userId === userId && (
                   <Badge className='-bottom-1.5 absolute w-full justify-center rounded-sm'>
                     ME
                   </Badge>

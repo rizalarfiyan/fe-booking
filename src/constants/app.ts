@@ -1,6 +1,6 @@
 export const AUTH_ROLE = {
   ADMIN: 'admin',
-  GUEST: 'guest',
+  GUEST: 'reader',
 } as const
 
 export const DATETIME_FORMAT = {

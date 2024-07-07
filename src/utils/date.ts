@@ -1,7 +1,11 @@
 import dayjs from 'dayjs'
 import { DATETIME_FORMAT } from '@/constants/app'
 
-export const formatDate = (date: string | Date, format?: string): string => {
+export const formatDate = (
+  date: string | Date | null,
+  format?: string,
+): string => {
+  if (!date) return '-'
   const dateFormat = format ?? DATETIME_FORMAT.date
   const datetime = dayjs(date)
   if (!datetime.isValid()) return '-'

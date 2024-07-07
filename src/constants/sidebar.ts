@@ -37,7 +37,6 @@ export const SIDEBAR_MENU: SidebarData[] = [
         title: 'Borrow',
         href: '/dashboard/borrow',
         icon: BookUser,
-        roles: [AUTH_ROLE.ADMIN],
       },
       {
         type: 'item',

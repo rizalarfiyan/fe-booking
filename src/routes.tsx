@@ -93,6 +93,10 @@ const router = createBrowserRouter([
             path: 'book/edit/:id',
             lazy: lazyWrap(() => import('@pages/dashboard/book/EditBook')),
           },
+          {
+            path: 'borrow',
+            lazy: lazyWrap(() => import('@pages/dashboard/borrow/History')),
+          },
         ],
       },
       {
