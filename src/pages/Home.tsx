@@ -70,6 +70,7 @@ const Component: React.FC = () => {
     alova.Get<IBaseResponseList<IBookCard>>('/v1/book/list', {
       params: {
         orderBy: 'popular',
+        limit: 12,
       },
     }),
     {
