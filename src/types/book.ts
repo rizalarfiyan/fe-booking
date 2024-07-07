@@ -29,6 +29,7 @@ export interface IBookAll {
 export interface IBookStock {
   stock: number
   borrowed: number
+  hasBorrow: boolean
 }
 
 export interface IBookCard {

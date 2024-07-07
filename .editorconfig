@@ -14,7 +14,7 @@ trim_trailing_whitespace = true
 indent_size = 4
 tab_width = 4
 
-[{*.ats,*.cts,*.mts,*.ts}]
+[{*.ats,*.cts,*.mts}]
 indent_size = 4
 tab_width = 4
 
