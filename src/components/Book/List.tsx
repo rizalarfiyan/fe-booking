@@ -17,7 +17,6 @@ const BookList: React.FC<BookListProps> = () => {
 
   const rating = searchParams.get('rating') ?? undefined
   const queryPage = searchParams.get('page') ?? undefined
-  const count = searchParams.get('count') ?? undefined
   const orderBy = searchParams.get('orderBy') ?? undefined
   const search = searchParams.get('search') ?? undefined
   const year = searchParams.get('year') ?? undefined
@@ -26,14 +25,14 @@ const BookList: React.FC<BookListProps> = () => {
   const payload = useMemo(() => {
     return {
       page: queryPage,
-      count,
+      count: 12,
       orderBy,
       search,
       year,
       categoryId,
       rating,
     }
-  }, [queryPage, count, orderBy, search, year, categoryId, rating])
+  }, [queryPage, orderBy, search, year, categoryId, rating])
 
   const { data, loading } = useWatcher(
     () =>
@@ -103,7 +102,7 @@ const BookList: React.FC<BookListProps> = () => {
           return <CardBook key={idx} {...book} />
         })}
       </div>
-      {totalPage > 8 && (
+      {totalPage > 0 && (
         <Paginator
           currentPage={page ?? 1}
           totalPages={totalPage}

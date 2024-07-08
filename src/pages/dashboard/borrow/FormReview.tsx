@@ -11,73 +11,71 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/Form'
-import { Input } from '@/components/Input'
 import { Button } from '@components/Button'
-import { type AlovaMethodHandler, useRequest } from 'alova'
+import { useRequest } from 'alova'
 import useHandleError from '@hooks/useHandleError'
 import type { IBaseResponseList } from '@/types/base'
 import { toast } from 'sonner'
 import React from 'react'
 import useDatatable from '@hooks/useDatatable'
 import type { UseDisclosure } from '@hooks/useDislosure'
+import alova from '@libs/alova'
+import { Stars } from '@components/Star'
+import RichText from '@components/RichText/RichText'
 
 const formSchema = z.object({
-  name: z.string().min(5, 'Name is required').max(50, 'Name is too long'),
-  slug: z.string().min(5, 'Slug is required').max(50, 'Slug is too long'),
+  rating: z.number(),
+  review: z.array(z.any()),
 })
 
 export type FormRequest = z.infer<typeof formSchema>
 
-type FormCategoryProps = {
+type FormHistoryProps = {
+  historyId: number
   state: UseDisclosure
-  api: AlovaMethodHandler<
-    any,
-    unknown,
-    IBaseResponseList,
-    unknown,
-    any,
-    Response,
-    Headers
-  >
-} & (CreateFormCategory | EditFormCategory)
-
-interface CreateFormCategory {
-  type: 'create'
-  value?: FormRequest
-}
-
-interface EditFormCategory {
-  type: 'edit'
   value: FormRequest
 }
 
-const FormCategory: React.FC<FormCategoryProps> = ({
+const FormReview: React.FC<FormHistoryProps> = ({
   state,
-  api,
-  type,
   value,
+  historyId,
 }) => {
   const navigate = useNavigate()
   const { handleError } = useHandleError(navigate)
   const { refresh } = useDatatable()
 
-  const { loading, send } = useRequest(api, {
-    immediate: false,
-  })
+  const { loading, send } = useRequest(
+    (data: any) => {
+      return alova.Post<IBaseResponseList>(
+        `/v1/history/review/${historyId}`,
+        data,
+        {
+          name: `review-history-${historyId}`,
+        },
+      )
+    },
+    {
+      immediate: false,
+    },
+  )
 
   const form = useForm<FormRequest>({
     resolver: zodResolver(formSchema),
     defaultValues: value ?? {
-      name: '',
-      slug: '',
+      rating: 0,
+      review: '',
     },
   })
 
   const disabled = !form.formState.isDirty || !form.formState.isValid
 
-  function onSubmit(values: FormRequest) {
+  function onSubmit({ review, rating }: FormRequest) {
     state.disable()
-    send(values)
+    send({
+      rating,
+      review: JSON.stringify(review),
+    })
       .then((res) => {
         refresh()
         form.reset()
@@ -94,16 +92,16 @@ const FormCategory: React.FC<FormCategoryProps> = ({
         <div className='mb-2 grid gap-3 py-4'>
           <FormField
             control={form.control}
-            name='name'
-            render={({ field }) => (
-              <FormItem className='grid grid-cols-4 items-center gap-4'>
-                <FormLabel className='text-right'>Name</FormLabel>
+            name='rating'
+            render={({ field: { value, onChange } }) => (
+              <FormItem>
+                <FormLabel>Rate the book</FormLabel>
                 <FormControl>
-                  <Input
-                    parentClassName='col-span-3'
-                    placeholder='Category 1'
-                    type='text'
-                    {...field}
+                  <Stars
+                    variant='primary'
+                    rating={value}
+                    size={42}
+                    onRatingChange={(rating) => onChange(rating)}
                   />
                 </FormControl>
                 <FormMessage />
@@ -112,15 +110,16 @@ const FormCategory: React.FC<FormCategoryProps> = ({
           />
           <FormField
             control={form.control}
-            name='slug'
+            name='review'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-4 items-center gap-4'>
-                <FormLabel className='text-right'>Slug</FormLabel>
+              <FormItem>
+                <FormLabel>Review</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder='category-1'
-                    type='text'
-                    parentClassName='col-span-3'
+                  <RichText
+                    id='review'
+                    initialValue={field.value}
+                    placeholder='Enter some review...'
+                    toolbox='format'
                     {...field}
                   />
                 </FormControl>
@@ -131,7 +130,7 @@ const FormCategory: React.FC<FormCategoryProps> = ({
         </div>
         <DialogFooter>
           <Button type='submit' isLoading={loading} disabled={disabled}>
-            {type === 'edit' ? 'Update' : 'Create'}
+            Update
           </Button>
         </DialogFooter>
       </form>
@@ -139,4 +138,4 @@ const FormCategory: React.FC<FormCategoryProps> = ({
   )
 }
 
-export default FormCategory
+export default FormReview
