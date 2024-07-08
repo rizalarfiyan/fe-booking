@@ -6,38 +6,38 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/Dialog'
-import { Pencil } from 'lucide-react'
+import { Star } from 'lucide-react'
 import { Button } from '@components/Button'
 import { useRequest } from 'alova'
 import alova from '@libs/alova'
 import type { IBaseResponse } from '@/types/base'
 import { useDisclosure } from '@hooks/useDislosure'
 import React from 'react'
-import type { ICategoryDetail } from '@/types/category'
-import FormCategory from '@pages/dashboard/category/FormCategory'
 import { Spinner } from '@components/Spinner'
+import type { IReviewHistory } from '@/types/history'
+import FormReview from '@pages/dashboard/borrow/FormReview'
 
-interface EditCategoryProps {
-  categoryId: number
+interface ReviewHistoryProps {
+  historyId: number
 }
 
-const EditCategory: React.FC<EditCategoryProps> = ({ categoryId }) => {
+const ReviewHistory: React.FC<ReviewHistoryProps> = ({ historyId }) => {
   const {
     send: service,
     loading,
     data,
     abort,
   } = useRequest(
-    alova.Get<IBaseResponse<ICategoryDetail>>(`/v1/category/${categoryId}`, {
-      hitSource: [`edit-category-${categoryId}`],
-    }),
+    alova.Get<IBaseResponse<IReviewHistory>>(
+      `/v1/history/review/${historyId}`,
+      {
+        hitSource: [`review-history-${historyId}`],
+      },
+    ),
     {
       immediate: false,
       initialData: {
-        data: {
-          name: '',
-          slug: '',
-        },
+        data: {},
       },
     },
   )
@@ -65,14 +65,14 @@ const EditCategory: React.FC<EditCategoryProps> = ({ categoryId }) => {
           className='size-8'
           onClick={onClick}
         >
-          <Pencil className='size-4' />
+          <Star className='size-4' />
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className='flex items-center gap-2'>
-            <Pencil className='size-6' />
-            Edit Category
+            <Star className='size-6' />
+            My Review
           </DialogTitle>
           <DialogDescription>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
@@ -84,18 +84,12 @@ const EditCategory: React.FC<EditCategoryProps> = ({ categoryId }) => {
             <Spinner />
           </div>
         ) : (
-          <FormCategory
+          <FormReview
+            historyId={historyId}
             state={state}
-            type='edit'
-            value={data.data}
-            api={(req: any) => {
-              return alova.Put<IBaseResponse, any>(
-                `/v1/category/${categoryId}`,
-                req,
-                {
-                  name: `edit-category-${categoryId}`,
-                },
-              )
+            value={{
+              rating: data.data.rating ?? 0,
+              review: JSON.parse(data.data.review ?? '[]'),
             }}
           />
         )}
@@ -104,4 +98,4 @@ const EditCategory: React.FC<EditCategoryProps> = ({ categoryId }) => {
   )
 }
 
-export default EditCategory
+export default ReviewHistory

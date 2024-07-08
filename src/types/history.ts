@@ -9,3 +9,11 @@ export interface IHistory {
   borrowAt: string | null
   returnedAt: string | null
 }
+
+export interface IReviewHistory {
+  historyId: number
+  rating: number
+  review: string
+  createdAt: string
+  updatedAt: string
+}
