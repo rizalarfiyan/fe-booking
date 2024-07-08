@@ -46,14 +46,17 @@ const fakeStatistics = async () => {
   ) {
     statistics.push({
       label: date.format(DATETIME_FORMAT.date),
-      value: Math.floor(Math.random() * 100),
+      value: 0,
     })
   }
+
+  statistics.reverse()
+  statistics[statistics.length - 1].value = 2
 
   return await new Promise((resolve) => {
     setTimeout(() => {
       resolve(statistics)
-    }, 2000)
+    }, 150)
   })
 }
 
