@@ -41,6 +41,13 @@ export interface IBookCard {
   author: string[]
 }
 
+export interface IBookReview {
+  firstName: string
+  lastName: string
+  rating: number
+  review: string
+}
+
 export interface IBookDetail {
   bookId: number
   author: string[]

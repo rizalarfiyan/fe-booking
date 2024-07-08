@@ -9,6 +9,7 @@ import type { IBaseResponse } from '@/types/base'
 import BookRecommendation from '@components/Book/Recommendation'
 import { BookX } from 'lucide-react'
 import ErrorBoundaries from '@components/ErrorBoundaries'
+import BookReview from '@components/Book/Review'
 
 interface IPromiseBook {
   book: Promise<IBookDetail>
@@ -77,6 +78,7 @@ const Component: React.FC = () => {
             return (
               <>
                 <BookDetail book={book} />
+                <BookReview book={book} />
                 <BookRecommendation book={book} />
               </>
             )

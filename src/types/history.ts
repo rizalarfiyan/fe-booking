@@ -17,3 +17,17 @@ export interface IReviewHistory {
   createdAt: string
   updatedAt: string
 }
+
+export interface IHistoryCard {
+  point: number
+  total: number
+  month: number
+  borrow: {
+    count: number
+    max: number
+  }
+  nearest: {
+    title: string
+    date: string
+  }
+}

@@ -49,6 +49,8 @@ interface DatatableProps {
   defaultOrderType?: 'asc' | 'desc'
   titleHeader?: Record<string, string>
   create?: React.ReactElement
+  hideHeader?: boolean
+  hideFooter?: boolean
 }
 
 const Datatable: React.FC<DatatableProps> = ({
@@ -58,6 +60,8 @@ const Datatable: React.FC<DatatableProps> = ({
   defaultOrderType = 'asc',
   titleHeader = {},
   create,
+  hideHeader = false,
+  hideFooter = false,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -143,15 +147,17 @@ const Datatable: React.FC<DatatableProps> = ({
   return (
     <DatatableContext.Provider value={contextValue}>
       <div className='w-full'>
-        <div className='mb-4 flex items-center justify-center gap-2'>
-          <div className='w-full'>
-            <Search />
+        {!hideHeader && (
+          <div className='mb-4 flex items-center justify-center gap-2'>
+            <div className='w-full'>
+              <Search />
+            </div>
+            <div className='flex w-full items-center justify-end gap-2'>
+              {create}
+              <ViewOptions table={table} titleHeader={titleHeader} />
+            </div>
           </div>
-          <div className='flex w-full items-center justify-end gap-2'>
-            {create}
-            <ViewOptions table={table} titleHeader={titleHeader} />
-          </div>
-        </div>
+        )}
         <div className='rounded-md border'>
           <Table>
             <TableHeader>
@@ -205,49 +211,51 @@ const Datatable: React.FC<DatatableProps> = ({
             </TableBody>
           </Table>
         </div>
-        <div className='flex flex-wrap items-center justify-center gap-4 space-x-2 py-4 xl:justify-between'>
-          <div className='flex items-center space-x-2'>
-            <p className='whitespace-nowrap font-medium text-sm'>
-              Rows per page
-            </p>
-            <Select
-              value={`${perPage}`}
-              onValueChange={(value) => {
-                setSearchParams((prev) => {
-                  prev.set('count', value)
-                  return prev
-                })
-              }}
-            >
-              <SelectTrigger className='h-8 w-[4.5rem]'>
-                <SelectValue placeholder={perPage} />
-              </SelectTrigger>
-              <SelectContent side='top'>
-                {[10, 20, 30, 40, 50].map((pageSize) => (
-                  <SelectItem key={pageSize} value={`${pageSize}`}>
-                    {pageSize}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+        {!hideFooter && (
+          <div className='flex flex-wrap items-center justify-center gap-4 space-x-2 py-4 xl:justify-between'>
+            <div className='flex items-center space-x-2'>
+              <p className='whitespace-nowrap font-medium text-sm'>
+                Rows per page
+              </p>
+              <Select
+                value={`${perPage}`}
+                onValueChange={(value) => {
+                  setSearchParams((prev) => {
+                    prev.set('count', value)
+                    return prev
+                  })
+                }}
+              >
+                <SelectTrigger className='h-8 w-[4.5rem]'>
+                  <SelectValue placeholder={perPage} />
+                </SelectTrigger>
+                <SelectContent side='top'>
+                  {[10, 20, 30, 40, 50].map((pageSize) => (
+                    <SelectItem key={pageSize} value={`${pageSize}`}>
+                      {pageSize}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className='flex text-muted-foreground text-sm'>
+              Page {page} of {totalPage} ({total} items)
+            </div>
+            <div className='flex justify-end'>
+              <Paginator
+                currentPage={page ?? 1}
+                totalPages={totalPage}
+                onPageChange={(pageNumber) =>
+                  setSearchParams((prev) => {
+                    prev.set('page', `${pageNumber}`)
+                    return prev
+                  })
+                }
+                showPreviousNext
+              />
+            </div>
           </div>
-          <div className='flex text-muted-foreground text-sm'>
-            Page {page} of {totalPage} ({total} items)
-          </div>
-          <div className='flex justify-end'>
-            <Paginator
-              currentPage={page ?? 1}
-              totalPages={totalPage}
-              onPageChange={(pageNumber) =>
-                setSearchParams((prev) => {
-                  prev.set('page', `${pageNumber}`)
-                  return prev
-                })
-              }
-              showPreviousNext
-            />
-          </div>
-        </div>
+        )}
       </div>
     </DatatableContext.Provider>
   )
