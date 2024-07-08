@@ -6,7 +6,6 @@ import alova from '@libs/alova'
 import Datatable, { ColumnHeader } from '@components/Datatable'
 import { Badge, type badgeVariants } from '@components/Badge'
 import { formatDate } from '@utils/date'
-import CreateCategory from '@pages/dashboard/category/CreateCategory'
 import type { IHistory } from '@/types/history'
 import { DATETIME_FORMAT } from '@/constants/app'
 import { BOOK_HISTORY_TYPE } from '@/constants/books'
@@ -118,7 +117,6 @@ const Component: React.FC = () => {
           point: 'Point',
           status: 'Status',
         }}
-        create={<CreateCategory />}
       />
     </div>
   )
