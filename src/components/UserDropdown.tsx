@@ -52,16 +52,16 @@ const UserDropdown = () => {
               Dashboard
             </DropdownMenuItem>
           </Link>
-          <Link to={`/profile/${user.userId}`}>
-            <DropdownMenuItem className='cursor-pointer'>
-              View Profile
-            </DropdownMenuItem>
-          </Link>
-          <Link to='/dashboard/change-password'>
-            <DropdownMenuItem className='cursor-pointer'>
-              Change Password
-            </DropdownMenuItem>
-          </Link>
+          {/*<Link to={`/profile/${user.userId}`}>*/}
+          {/*  <DropdownMenuItem className='cursor-pointer'>*/}
+          {/*    View Profile*/}
+          {/*  </DropdownMenuItem>*/}
+          {/*</Link>*/}
+          {/*<Link to='/dashboard/change-password'>*/}
+          {/*  <DropdownMenuItem className='cursor-pointer'>*/}
+          {/*    Change Password*/}
+          {/*  </DropdownMenuItem>*/}
+          {/*</Link>*/}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={onLogout}>Log out</DropdownMenuItem>
