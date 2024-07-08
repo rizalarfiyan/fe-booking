@@ -80,7 +80,7 @@ const DatatableAction: React.FC<DatatableActionProps> = ({ history }) => {
           api={returnService}
         />
       )}
-      {!isAdmin && status === BOOK_HISTORY_TYPE.SUCCESS && (
+      {status === BOOK_HISTORY_TYPE.SUCCESS && (
         <ReviewHistory historyId={historyId} />
       )}
     </div>
